@@ -1,3 +1,3 @@
-# Lab_0
+# SUAI Programming Labs
 
-SUAI project - Labs
+A repository for learning C and the basics of git using SUAI labs
