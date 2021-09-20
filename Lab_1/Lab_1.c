@@ -4,14 +4,15 @@
 #include <stdlib.h>
 
 void main() {
-    int n, max = 0;
+    long int n, max = 0;
 
     for (int i = 0; i < 10; i++) {
-        scanf("%d", &n);
+        scanf("%ld", &n);
+
         if (abs(n) > max) {
             max = n;
         }
     }
 
-    printf("%d", max);
+    printf("%ld", max);
 }
