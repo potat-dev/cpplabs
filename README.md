@@ -6,10 +6,9 @@ A repository for learning C and the basics of git using SUAI labs
 
 * Lab 0
 * Lab 1
+* Lab 2
 
 # In Progress:
-
-* Lab 2
 
 # Next Labs:
 
