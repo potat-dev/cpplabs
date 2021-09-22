@@ -8,30 +8,21 @@
 #define WORDS_LEN 3
 #define STR_LIMIT (WORDS_LEN + 1) * WORDS_LIMIT
 
-// int is_char(int c) {
-//   return ((65 <= c && c <= 90) || (97 <= c && c <= 122)
-//      || (128 <= c && c <= 175) || (224 <= c && c <= 239)) ? 1 : 0;
-// }
-
-// int strlen(char s[]) {
-//    int c = 0;
-//    while (s[c] != '\0') c++;
-//    return c;
-// }
-
 void main() {
   char words[WORDS_LIMIT][WORDS_LEN + 1];
   char str[STR_LIMIT];
   
-  fgets(str, STR_LIMIT, stdin); // считываем строку вместе с пробелами --- работает!
+  fgets(str, STR_LIMIT, stdin);
 
   int word = 0, k = 0;
-  for (int i = 0; i <= strlen(str); i++) {
-    if (str[i] == ' ' || str[i] == '\0') {
+  for (int i = 0; i <= strlen(str); i++) { // тут юзать getchar()
+    if (str[i] == ' ' || str[i] == '\0' || str[i] == '\n') {
       words[word][k] = '\0';
-      word++;
+      if (str[i] != '\n') {
+        word++;
+      } else { break; }
       k = 0;
-    }  else {
+    } else {
       words[word][k] = str[i];
       k++;
     }
@@ -39,10 +30,10 @@ void main() {
 
   printf("Dublicates:\n");
 
-  for (int w = 0; w <= word; w++) {
+  for (int w = 0; w <= word + 1; w++) {
     int count = 1;
 
-    for (int i = 0; i <= word; i++) {
+    for (int i = 0; i <= word + 1; i++) {
       if (strcmp(words[i], words[w]) == 0 && strcmp(words[i], "\0") != 0 && w != i) {
         strcpy(words[i],"\0");
         count++;
@@ -55,41 +46,13 @@ void main() {
   }
 }
 
-// char dublicates[WORDS_LIMIT][WORDS_LEN + 1](char** arr) {
-
+// int is_char(int c) {
+//   return ((65 <= c && c <= 90) || (97 <= c && c <= 122)
+//      || (128 <= c && c <= 175) || (224 <= c && c <= 239)) ? 1 : 0;
 // }
 
-// void main() {
-//   char words[5][WORDS_LEN + 1];
-//   int n = 5;
-
-//   for (int i = 0; i < n; i++) {
-//     scanf("%03c", words[i]);
-//     words[i][4] = '\0';
-//   }
-
-//   for (int i = 0; i < n; i++) {
-//     printf("%s\n", words[i]);
-//   } 
-// }
-
-// int main()
-// {
-//     int i;
-  
-//     // Lets say we have 3 words
-//     int n = 3;
-  
-//     // Declaration of 2-D char array
-//     char array[n][20];
-  
-//     // Initialization of 2-D char array
-//     for (i = 0; i < 3; i++)
-//         scanf("%s", array[i]);
-  
-//     // print the words
-//     for (i = 0; i < 3; i++)
-//         printf("%s\n", array[i]);
-  
-//     return 0;
+// int strlen(char s[]) {
+//    int c = 0;
+//    while (s[c] != '\0') c++;
+//    return c;
 // }
