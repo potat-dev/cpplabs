@@ -2,6 +2,7 @@
 // Вывести различные слова вместе с количеством их появления в строке
 
 #include <stdio.h>
+#include <string.h>
 
 #define WORDS_LIMIT 50
 #define WORDS_LEN 20
@@ -30,10 +31,16 @@ void main() {
     }
   }
 
-  for (int i = 0; i <= word; i++) {
-      printf("\n%s", words[i]);
+  for (int w = 0; w <= word + 1; w++) {
+      int count = 1;
+
+      for (int i = 0; i <= word + 1; i++) {
+        if (strcmp(words[i], words[w]) == 0 && strcmp(words[i], "\0") != 0 && w != i) {
+          strcpy(words[i],"\0");
+          count++;
+        }
+      }
+      
+    printf("%s - %d times\n", words[w], count);
   }
-
-    // добавить подсчет слов
-
 }
