@@ -3,7 +3,8 @@
 #include <stdio.h>
 
 void main() {
-    int a, b, c;
-    scanf("%d %d %d", &a, &b, &c);
-    printf("%d", a * b);
+    float a, b, c;
+    printf("Input a, b, c: ");
+    scanf("%f %f %f", &a, &b, &c);
+    printf("c * b / a = %f\n", c * b / a);
 }
