@@ -10,7 +10,7 @@ void main() {
         scanf("%ld", &n);
 
         if (abs(n) > max) {
-            max = n;
+            max = abs(n);
         }
     }
 
