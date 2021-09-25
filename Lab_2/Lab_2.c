@@ -23,10 +23,12 @@ void strcopy(char *dest, const char *src) { // аналог функции strcp
 }
 
 void main() {
-  char words[WORDS_LIMIT][WORDS_LEN + 1];
-  char str[STR_LIMIT];
-  
+  char words[WORDS_LIMIT][WORDS_LEN + 1] = {0};
+  char str[STR_LIMIT] = {0};
+
+  printf("Enter string of 3-letter words:\n");
   fgets(str, STR_LIMIT, stdin);
+  printf("\n");
 
   int word = 0, k = 0;
   for (int i = 0; i <= len(str); i++) { // тут юзать getchar()
@@ -42,31 +44,26 @@ void main() {
     }
   }
 
-  printf("Dublicates:\n");
+  printf("Dublicates: ");
 
+  int flag = 0;
   for (int w = 0; w <= word + 1; w++) {
     int count = 1;
 
     for (int i = 0; i <= word + 1; i++) {
       if (strcmp(words[i], words[w]) == 0 && strcmp(words[i], "\0") != 0 && w != i) {
-        strcopy(words[i], "\0"); // strcpy(words[i],"\0");
+        strcopy(words[i], "\0");
         count++;
       }
     }
-
+    
     if (count > 1) {
+      if (!flag) {
+        flag = 1;
+        printf("\n");
+      }
       printf("%s - %d times\n", words[w], count);
     }
   }
+  if (!flag) printf("not found :(\n");
 }
-
-// int is_char(int c) {
-//   return ((65 <= c && c <= 90) || (97 <= c && c <= 122)
-//      || (128 <= c && c <= 175) || (224 <= c && c <= 239)) ? 1 : 0;
-// }
-
-// int strlen(char s[]) {
-//    int c = 0;
-//    while (s[c] != '\0') c++;
-//    return c;
-// }
