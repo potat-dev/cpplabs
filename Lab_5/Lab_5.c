@@ -1,45 +1,48 @@
-// Р’РІРµСЃС‚Рё СЃС‚СЂРѕРєСѓ. Р—Р°РјРµРЅРёС‚СЊ Р·РЅР°РєРё РїСЂРµРїРёРЅР°РЅРёСЏ РЅР° СЃРѕРєСЂР°С‰РµРЅРёСЏ
-// ('.' - С‚С‡Рє, ',' - Р·РїС‚, '?' - РІРїСЂ, ':' - РґС‚С‡)
+// Ввести строку. Заменить знаки препинания на сокращения
+// ('.' - тчк, ',' - зпт, '?' - впр, ':' - дтч)
 
-#define USE_RUS 0 // 1 - yes
+#define USE_RUS 1 // 1 - yes
 
 #include <stdio.h>
 #include <stdlib.h>
+#if USE_RUS == 1
+#include <locale.h>
+#endif
 
 #define length(x) (sizeof(x) / sizeof((x)[0]))
 int len = 0;
 
 char *readstr() {
   len = 0;
-  int capacity = 1;                       // РµРјРєРѕСЃС‚СЊ РґРёРЅР°РјРёС‡РµСЃРєРѕР№ СЃС‚СЂРѕРєРё
-  char *s = (char *)malloc(sizeof(char)); // РґРёРЅР°РјРёС‡РµСЃРєР°СЏ РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР°
+  int capacity = 1;                       // емкость динамической строки
+  char *s = (char *)malloc(sizeof(char)); // динамическая пустая строка
   char c = getchar();
   while (c != '\n') {
     s[(len)++] = c;
-    if (len >= capacity) {                             // РµСЃР»Рё СЂРµР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ Р±РѕР»СЊС€Рµ СЂР°Р·РјРµСЂР° РєРѕРЅС‚РµР№РЅРµСЂР°, С‚Рѕ СѓРІРµР»РёС‡РёРј РµРіРѕ СЂР°Р·РјРµСЂ
-      capacity *= 2;                                   // СѓРІРµР»РёС‡РёРІР°РµРј РµРјРєРѕСЃС‚СЊ РІ РґРІР° СЂР°Р·Р°
-      s = (char *)realloc(s, capacity * sizeof(char)); // СЃРѕР·РґР°С‘Рј РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ СЃ СѓРІРµР»РёС‡РµРЅРЅРѕР№ РµРјРєРѕСЃС‚СЊСЋ
+    if (len >= capacity) {                             // если реальный размер больше размера контейнера, то увеличим его размер
+      capacity *= 2;                                   // увеличиваем емкость в два раза
+      s = (char *)realloc(s, capacity * sizeof(char)); // создаём новую строку с увеличенной емкостью
     } c = getchar(); }
   s[len] = '\0';
-  return s; // РІРѕР·РІСЂР°С‰Р°РµРј СѓРєР°Р·Р°С‚РµР»СЊ
+  return s; // возвращаем указатель
 }
 
 void print_char(char ch) {
   switch (ch) {
   case '.':
-    printf(USE_RUS == 1 ? "РўР§Рљ" : "DOT");
+    printf(USE_RUS == 1 ? "ТЧК" : "DOT");
     break;
   case ',':
-    printf(USE_RUS == 1? "Р—РџРў" : "COMMA");
+    printf(USE_RUS == 1? "ЗПТ" : "COMMA");
     break;
   case '!':
-    printf(USE_RUS == 1 ? "Р’РЎРљР›" : "EXCLM");
+    printf(USE_RUS == 1 ? "ВСКЛ" : "EXCLM");
     break;
   case '?':
-    printf(USE_RUS == 1 ? "Р’РџР РЎ" : "QSTN");
+    printf(USE_RUS == 1 ? "ВПРС" : "QSTN");
     break;
   case ':':
-    printf(USE_RUS == 1 ? "Р”Р’РўР§" : "COLON");
+    printf(USE_RUS == 1 ? "ДВТЧ" : "COLON");
     break;
   default:
     printf("%c", ch);
@@ -48,9 +51,14 @@ void print_char(char ch) {
 }
 
 void main() {
-  printf(USE_RUS == 1 ? "Р’РІРµРґРёС‚Рµ СЃС‚СЂРѕРєСѓ:\n" : "Input string:\n");
-  char *str = readstr(); // СЃС‡РёС‚С‹РІР°РµРј РґРёРЅР°РјРёС‡РµСЃРєСѓСЋ СЃС‚СЂРѕРєСѓ
-  printf(USE_RUS == 1 ? "\nРЎС‚СЂРѕРєР° РїРѕСЃР»Рµ Р·Р°РјРµРЅС‹:\n" : "\nString after replace:\n");
+  #if USE_RUS == 1
+  setlocale(LC_ALL, "Russian");
+  system("chcp 1251");
+  #endif
+
+  printf(USE_RUS == 1 ? "Введите строку:\n" : "Input string:\n");
+  char *str = readstr(); // считываем динамическую строку
+  printf(USE_RUS == 1 ? "\nСтрока после замены:\n" : "\nString after replace:\n");
   for (int i = 0; i < len; i++) print_char(str[i]);
   free(str);
 }
