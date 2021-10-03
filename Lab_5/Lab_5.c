@@ -1,11 +1,12 @@
 // Ввести строку. Заменить знаки препинания на сокращения
 // ('.' - тчк, ',' - зпт, '?' - впр, ':' - дтч)
 
+#define USE_RUS 0 // 1 - yes
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #define length(x) (sizeof(x) / sizeof((x)[0]))
-
 int len = 0;
 
 char *readstr() {
@@ -26,16 +27,19 @@ char *readstr() {
 void print_char(char ch) {
   switch (ch) {
   case '.':
-    printf("DOT");
+    printf(USE_RUS == 1 ? "ТЧК" : "DOT");
     break;
   case ',':
-    printf("COMMA");
+    printf(USE_RUS == 1? "ЗПТ" : "COMMA");
+    break;
+  case '!':
+    printf(USE_RUS == 1 ? "ВСКЛ" : "EXCLM");
     break;
   case '?':
-    printf("QUESTION");
+    printf(USE_RUS == 1 ? "ВПРС" : "QSTN");
     break;
   case ':':
-    printf("COLON");
+    printf(USE_RUS == 1 ? "ДВТЧ" : "COLON");
     break;
   default:
     printf("%c", ch);
@@ -44,9 +48,9 @@ void print_char(char ch) {
 }
 
 void main() {
-  printf("Input string:\n");
+  printf(USE_RUS == 1 ? "Введите строку:\n" : "Input string:\n");
   char *str = readstr(); // считываем динамическую строку
-  printf("\nString after replace:\n");
+  printf(USE_RUS == 1 ? "\nСтрока после замены:\n" : "\nString after replace:\n");
   for (int i = 0; i < len; i++) print_char(str[i]);
   free(str);
 }
