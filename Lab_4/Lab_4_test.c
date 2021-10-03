@@ -84,3 +84,72 @@ void main() {
   }
   free(str); // освобождаем динамическую память
 }
+
+// выше была жалкая попытка оптимизации работы программы
+// а ниже будет много неиспользованного говнокода, который мне жаль удалять
+
+
+///// shitty code ////////
+// int strcmp(const char* s1, const char* s2)
+// {
+//     while (*s1 && (*s1 == *s2))
+//         s1++, s2++;
+//     return *(const unsigned char*)s1 - *(const unsigned char*)s2;
+// }
+
+// int strcmp(const char *str1, const char *str2)
+// {
+//     int s1;
+//     int s2;
+//     do {
+//         s1 = *str1++;
+//         s2 = *str2++;
+//         if (s1 == 0)
+//             break;
+//     } while (s1 == s2);
+//     return (s1 < s2) ? -1 : (s1 > s2);
+// }
+
+// void sort_words(char *words[], int *counts[], int count) {
+//     char x[WORDS_LEN];
+//     int y;
+//     for (int i = 0; i<count; i++)
+//     {
+//         for (int j = i + 1; j<count; j++)
+//         {
+//             if (strcmp(words[i], words[j]) < 0)
+//             {
+//               strcopy(x, words[j]);
+//               strcopy(words[j], words[i]);
+//               strcopy(words[i], x);
+//               strcopy(y, counts[j]);
+//               strcopy(counts[j], counts[i]);
+//               strcopy(counts[i], y);
+//             }
+//         }
+//     }
+// }
+
+// int strcmp(char s1[], char s2[]) { // аналог функции strcmp в string.h
+//   for (int i = 0; ; i++) {
+//     if (s1[i] != s2[i]) return 1; // строки не совпадают
+//     if (s1[i] == '\0')  return 0; // строки совпадают
+// } }
+
+// char x[WORDS_LEN];
+// int y;
+// for (int i = 0; i<=curr_w; i++)
+// {
+//     for (int j = i + 1; j<=curr_w; j++)
+//     {
+//         if (strcmp(words[i], words[j]) < 0)
+//         {
+//           strcopy(x, words[j]);
+//           strcopy(words[j], words[i]);
+//           strcopy(words[i], x);
+//           y = counts[j];
+//           counts[j] = counts[i];
+//           counts[i] = y;
+//         }
+//     }
+// }
