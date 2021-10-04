@@ -21,8 +21,8 @@ A repository for learning C and the basics of git using SUAI labs
 
 # In Progress:
 
-* no
+* Lab 6
 
 # Next Labs:
 
-* Lab 6
+* ( labs from semester 2 )
