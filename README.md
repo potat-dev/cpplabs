@@ -2,7 +2,7 @@
 
 A repository for learning C and the basics of git using SUAI labs
 
-# Labs Ready: ![Progress](https://progress-bar.dev/6/?scale=7&suffix=%20%2F%207)
+# Labs Ready: ![Progress](https://progress-bar.dev/7/?scale=7&suffix=%20%2F%207)
 
 * Lab 0
 * Lab 1
