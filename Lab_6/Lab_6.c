@@ -28,7 +28,6 @@ void strcopy(char *dest, const char *src) {
   while (*src++);
 }
 
-
 void main() {
   char words[WORDS_LIMIT][WORDS_LEN] = {'\0'};
   char word[WORDS_LEN] ={'\0'};
@@ -55,7 +54,7 @@ void main() {
         strcopy(word, words[i]);
         strcopy(words[i], words[j]);
         strcopy(words[j], word);
-  }
+      }
 
   printf("Sorted alphabetically:\n----------------------\n");
   for (int i = 0; i < words_count; i++) if (strcmp(words[i], "\0") != 0)
@@ -86,7 +85,7 @@ void main() {
         t = counts[i];
         counts[i] = counts[j];
         counts[j] = t;
-  }
+      }
 
   printf("\n\nSorted by count of vowels:\n--------------------------\n");
   for (int i = 0; i < words_count; i++) if (strcmp(words[i], "\0") != 0)

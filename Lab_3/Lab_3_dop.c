@@ -14,35 +14,30 @@ int size; // глобальная переменная
 // 2 - генерация случайного массива
 
 void insert(int size, int *arr, int index, int value) {
-    if (index >= 0 && index < size) {
-        for (int i = size - 1; i > index; i--) {
-            arr[i] = arr[i - 1];
-        }
-        arr[index] = value;
-    } else {
-        printf("Index out of range\n");
-        exit(EXIT_FAILURE);
-    }
+  if (index >= 0 && index < size) {
+    for (int i = size - 1; i > index; i--) arr[i] = arr[i - 1];
+    arr[index] = value;
+  } else {
+    printf("Index out of range\n");
+    exit(EXIT_FAILURE);
+  }
 }
 
 void arr_init(int length, int* arr) {
-    switch (ARR_INIT) {
-        case 0:
-            printf("Enter %d integers:\n", length);
-            for (int i = 0; i < length; i++) scanf("%d", &arr[i]);
-            printf("\n");
-            break;
-        case 1:
-            for(int i = 0; i < size; i++) arr[i] = i;
-            break;
-        case 2:
-            srand(time(NULL)); // инициализируем генератор случайных чисел
-            for (int i = 0; i < size; i++) arr[i] = rand() % 100;
-            break;
-        default:
-            printf("Invalid Configuration\nChange ARR_INIT to correct");
-            exit(EXIT_FAILURE);
-    }
+  switch (ARR_INIT) {
+    case 0:
+      printf("Enter %d integers:\n", length);
+      for (int i = 0; i < length; i++) scanf("%d", &arr[i]);
+      printf("\n"); break;
+    case 1:
+      for(int i = 0; i < size; i++) arr[i] = i; break;
+    case 2:
+      srand(time(NULL)); // инициализируем генератор случайных чисел
+      for (int i = 0; i < size; i++) arr[i] = rand() % 100; break;
+    default:
+      printf("Invalid Configuration\nChange ARR_INIT to correct");
+      exit(EXIT_FAILURE);
+  }
 }
 
 void main() {
@@ -51,22 +46,18 @@ void main() {
 
     int arr[size];
     arr_init(len(arr), arr); // инициализируем массив
+    
     printf("Original array:\n[ ");
     for(int i = 0; i < size; i++) printf("%d ", arr[i]);
     printf("]\n");
 
     int max = 0;
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size; i++)
       if (arr[i] > max) max = arr[i];
-    }
 
     printf("\nArray after insert:\n[ ");
-    for (int i = 0; i < size; i++) {
-      if (arr[i] == max) {
-        printf("%d 0 ", arr[i]);
-      } else {
-        printf("%d ", arr[i]);
-      }
-    }
+    for (int i = 0; i < size; i++)
+      if (arr[i] == max) printf("%d 0 ", arr[i]);
+      else printf("%d ", arr[i]);
     printf("]\n");
 }

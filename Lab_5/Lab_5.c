@@ -1,7 +1,10 @@
 // Ввести строку. Заменить знаки препинания на сокращения
 // ('.' - тчк, ',' - зпт, '?' - впр, ':' - дтч)
 
-#define USE_RUS 1 // 1 - yes
+
+#define USE_RUS 1  // 1 - yes
+// If cyrillic symbols are broken: ctrl + shift + P
+// -> Change file rncoding -> Reopen with encoding -> Windows 1251
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,24 +32,12 @@ char *readstr() {
 
 void print_char(char ch) {
   switch (ch) {
-  case '.':
-    printf(USE_RUS == 1 ? "ТЧК" : "DOT");
-    break;
-  case ',':
-    printf(USE_RUS == 1? "ЗПТ" : "COMMA");
-    break;
-  case '!':
-    printf(USE_RUS == 1 ? "ВСКЛ" : "EXCLM");
-    break;
-  case '?':
-    printf(USE_RUS == 1 ? "ВПРС" : "QSTN");
-    break;
-  case ':':
-    printf(USE_RUS == 1 ? "ДВТЧ" : "COLON");
-    break;
-  default:
-    printf("%c", ch);
-    break;
+    case '.': printf(USE_RUS == 1 ? "ТЧК" : "DOT"); break;
+    case ',': printf(USE_RUS == 1? "ЗПТ" : "COMMA"); break;
+    case '!': printf(USE_RUS == 1 ? "ВСКЛ" : "EXCLM"); break;
+    case '?': printf(USE_RUS == 1 ? "ВПРС" : "QSTN"); break;
+    case ':': printf(USE_RUS == 1 ? "ДВТЧ" : "COLON"); break;
+    default: printf("%c", ch); break;
   }
 }
 

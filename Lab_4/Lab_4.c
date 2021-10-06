@@ -28,7 +28,6 @@ void strcopy(char *dest, const char *src) { // аналог функции strcp
   while (*src++);
 }
 
-
 void main() {
   char words[WORDS_LIMIT][WORDS_LEN + 1] = {0};
   char str[STR_LIMIT] = {0};
@@ -38,26 +37,19 @@ void main() {
   printf("\nWords:\n--------\n");
 
   int word = 0, k = 0;
-  for (int i = 0; i <= len(str); i++) {
+  for (int i = 0; i <= len(str); i++)
     if (str[i] == ' ' || str[i] == '\0' || str[i] == '\n') {
       words[word][k] = '\0';
-      if (str[i] != '\n') {
-        word++;
-      } else { break; }
+      if (str[i] != '\n') word++; else break;
       k = 0;
-    } else if (is_char(str[i])) {
-      words[word][k] = str[i];
-      k++;
-  } }
+    } else if (is_char(str[i])) { words[word][k] = str[i]; k++; }
 
   int flag = 0;
   for (int w = 0; w <= word + 1; w++) {
     int count = 1;
-
-    for (int i = 0; i <= word + 1; i++) {
-      if (strcmp(words[i], words[w]) == 0 && w != i && strcmp(words[i], "\0") != 0) {
-        strcopy(words[i], "\0");
-        count++; } }
+    for (int i = 0; i <= word + 1; i++)
+      if (strcmp(words[i], words[w]) == 0 && w != i && strcmp(words[i], "\0") != 0)
+        { strcopy(words[i], "\0"); count++; }
     if (strcmp(words[w], "\0") != 0) printf("%s - %d times\n", words[w], count);
   }
 }
