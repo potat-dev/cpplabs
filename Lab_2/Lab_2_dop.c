@@ -33,40 +33,26 @@ void main() {
   printf("\n");
 
   int word = 0, k = 0;
-  for (int i = 0; i <= len(str); i++) { // тут юзать getchar()
+  for (int i = 0; i <= len(str); i++)
     if (str[i] == ' ' || str[i] == '\0' || str[i] == '\n') {
       words[word][k] = '\0';
-      if (str[i] != '\n') {
-        word++;
-      } else { break; }
+      if (str[i] != '\n') word++; else break;
       k = 0;
-    } else {
-      words[word][k] = str[i];
-      k++;
-    }
-  }
+    } else { words[word][k] = str[i]; k++; }
 
   printf("Without duplicates: ");
-
   for (int w = 0; w <= word + 1; w++) {
     int count = 1;
-
-    for (int i = 0; i <= word + 1; i++) {
-      if (strcmp(words[i], words[w]) == 0 && strcmp(words[i], "\0") != 0 && w != i) {
-        strcopy(words[i], "\0");
-        count++;
-    } }
-    
+    for (int i = 0; i <= word + 1; i++)
+      if (strcmp(words[i], words[w]) == 0 && strcmp(words[i], "\0") != 0 && w != i)
+        { strcopy(words[i], "\0"); count++; }
     if (count > 1) strcopy(words[w], "\0");
   }
 
   int flag = 0;
-  for (int i = 0; i <= word; i++) {
-    if (strcmp(words[i], "\0") != 0) {
-      flag = 1;
-      printf("%s ", words[i]);
-    }
-  }
+  for (int i = 0; i <= word; i++)
+    if (strcmp(words[i], "\0") != 0)
+      { printf("%s ", words[i]); flag = 1; }
 
   if (!flag) printf("*all words has duplicates :|\n");
 }

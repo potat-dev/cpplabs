@@ -35,14 +35,9 @@ void main() {
   int word = 0, k = 0;
   for (int i = 0; i <= len(str); i++)
     if (str[i] == ' ' || str[i] == '\0' || str[i] == '\n') {
-      words[word][k] = '\0';
-      word++;
-      k = 0;
+      words[word][k] = '\0'; word++; k = 0;
       if (str[i] == '\n') break;
-    } else {
-      words[word][k] = str[i];
-      k++;
-  }
+    } else { words[word][k] = str[i]; k++; }
 
   // counting words
   int curr_w = 0, flag = 0;

@@ -34,9 +34,7 @@ void main() {
   for (int i = 0; i <= len(str); i++) { // тут юзать getchar()
     if (str[i] == ' ' || str[i] == '\0' || str[i] == '\n') {
       words[word][k] = '\0';
-      if (str[i] != '\n') {
-        word++;
-      } else { break; }
+      if (str[i] != '\n') word++; else break;
       k = 0;
     } else {
       words[word][k] = str[i];
@@ -45,25 +43,17 @@ void main() {
   }
 
   printf("Dublicates: ");
-
   int flag = 0;
   for (int w = 0; w <= word + 1; w++) {
     int count = 1;
-
-    for (int i = 0; i <= word + 1; i++) {
-      if (strcmp(words[i], words[w]) == 0 && strcmp(words[i], "\0") != 0 && w != i) {
-        strcopy(words[i], "\0");
-        count++;
-      }
-    }
-    
+    for (int i = 0; i <= word + 1; i++)
+      if (strcmp(words[i], words[w]) == 0 && strcmp(words[i], "\0") != 0 && w != i)
+        { strcopy(words[i], "\0"); count++; }
     if (count > 1) {
-      if (!flag) {
-        flag = 1;
-        printf("\n");
-      }
+      if (!flag) { flag = 1; printf("\n"); }
       printf("%s - %d times\n", words[w], count);
     }
   }
+
   if (!flag) printf("not found :(\n");
 }
