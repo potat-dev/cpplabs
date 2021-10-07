@@ -22,8 +22,15 @@ A repository for learning C and the basics of git using SUAI labs
 
 # In Progress:
 
-* relax
+* chill & relax
 
 # Next Labs:
 
-* ( labs from semester 2 )
+* Lab 7
+* Lab 8
+* Lab 9
+* Lab 10
+* Lab 11
+* Lab 12
+* Lab 13
+* Lab 14
