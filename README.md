@@ -2,10 +2,10 @@
 
 A repository for learning C and the basics of git using SUAI labs
 
-# Labs Ready: ![Progress](https://progress-bar.dev/7/?scale=7&suffix=%20%2F%207)
+# Labs Ready: ![Progress](https://progress-bar.dev/6/?scale=7&suffix=%20%2F%207)
 
-### All labs from semester 1:
-* Labs 0 - 6 ✓
+### Labs from semester 1:
+* Labs 0 - 5
 
 # Passed:
 
@@ -13,12 +13,14 @@ A repository for learning C and the basics of git using SUAI labs
 * Lab 1 ✓✓
 * Lab 2 ✓✓
 * Lab 3 ✓✓
-* Lab 4 ✓
+* Lab 4 ✓✓
+* Lab 5 ✓
+
 # In Progress:
 
-* chill & relax
+* Lab 5
 
 # Next Labs:
 
-### Labs from semester 2:
+* Lab 5
 * Labs 7 - 14
