@@ -5,7 +5,6 @@
 #include <stdlib.h>
 
 // #define lower(ch) ((65 <= ch) && (ch >= 90)) ? ch : ch+32
-// not working
 char lower(char ch) {
   if ((65 <= ch) && (ch >= 90)) {
     return ch + 32;
@@ -54,7 +53,7 @@ void main() {
     for (int w = 0; w < W_COUNT; w++) {
       int flag = 0;
       for (int c = 0; c < lenght(words[w]); c++) {
-        if (str[i + c] == words[w][c]) flag++;
+        if (lower(str[i + c]) == lower(words[w][c])) flag++;
       }
       if (flag == lenght(words[w])) {
         printf("%c", punct[w]);
