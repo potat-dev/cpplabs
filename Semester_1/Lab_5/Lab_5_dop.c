@@ -1,20 +1,20 @@
 // Ввести строку. Заменить знаки препинания на сокращения
 // ('.' - тчк, ',' - зпт, '?' - впр, ':' - дтч)
+// доп: обратная задача, заменить сокращения на символы
+// * учитывать любой регистр
 
 #include <stdio.h>
 #include <stdlib.h>
 
-// #define lower(ch) ((65 <= ch) && (ch >= 90)) ? ch : ch+32
-char lower(char ch) {
-  if ((65 <= ch) && (ch >= 90)) {
-    return ch + 32;
-  } else {
-    return ch;
-  }
+#define W_COUNT 5
+const char words[W_COUNT][6] = {"DOT", "COMMA", "EXCLM", "QSTN", "COLON"};
+const char punct[W_COUNT] = {'.', ',', '!', '?', ':'};
+
+char lower(int c) {
+  return c > 64 && c < 91 ? c + 32 : c;
 }
 
 int len = 0;
-
 char *readstr() {
   len = 0;
   int capacity = 1;
@@ -38,9 +38,6 @@ int lenght(const char *s) {
   return count;
 }
 
-#define W_COUNT 5
-const char words[W_COUNT][6] = {"DOT", "COMMA", "EXCLM", "QSTN", "COLON"};
-const char punct[W_COUNT] = {'.', ',', '!', '?', ':'};
 
 void main() {
   printf("Input string:\n");
