@@ -26,8 +26,6 @@ typedef struct list {
   size_t size;
 } list;
 
-
-// инициализация списка
 void init(list *l) {
   l->head = NULL;
   l->size = 0;
@@ -40,14 +38,25 @@ void destroy(list *l) {
   while (curr != NULL) {
     prev = curr;
     curr = curr->next;
+    word = prev->word;
+    free(word->arr);
+    free(word);
     free(prev);
   }
 }
 
-void push_back(list *l, const char *arr) {
+void push_back(list *l, char *arr, size_t size, int capacity) {
   node *n, *curr;
+  word *w;
+
   n = (node*)malloc(sizeof(node));
-  n->word->arr = arr;
+  w = (word*)malloc(sizeof(word));
+
+  w->arr = arr;
+  w->size = size;
+  w->capacity = capacity;
+
+  n->word = w;
   n->next = NULL;
 
   if(l->head == NULL) {
@@ -64,7 +73,24 @@ void push_back(list *l, const char *arr) {
   l->size++;
 }
 
+struct word *get(list *l, int i) {
+  int count = 0;
+  node *curr = l->head;
+  word *result = curr->word;
+  while (count++ != i) {
+    curr = curr->next;
+    result = curr->word;
+  }
+  return result;
+};
+
 void print_list(list *l) {
+  for (size_t i = 0; i < l->size; i++) {
+    word *temp = get(l, i);
+    printf("%d -- %s\n", i, temp->arr);
+    printf("------------------------");
+  }
+
   node *curr = l->head;
   while (curr != NULL) {
     printf("%s\n", curr->word->arr);
@@ -73,21 +99,11 @@ void print_list(list *l) {
   printf("\n");
 }
 
+int is_char(int ch) {
+  return (int) ((128 <= ch && ch <= 175) || (65 <= ch && ch <= 90) ||
+                (224 <= ch && ch <= 239) || (97 <= ch && ch <= 122));
+}
 
 void main() {
-  list main_list;
-  init(&main_list);
-
-  char *s = (char*)malloc(10*sizeof(char));
-  fgets(s, 10, stdin);
-
-  push_back(&main_list, &s);
-
-  s = (char*)malloc(10*sizeof(char));
-  fgets(s, 10, stdin);
-
-  push_back(&main_list, &s);
-
-  print_list(&main_list);
-  destroy(&main_list);
+  
 }
