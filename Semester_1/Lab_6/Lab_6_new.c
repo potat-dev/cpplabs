@@ -1,67 +1,77 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct word
-{
+// list -> содержит указатель на начало связанного списка node
+// node -> содержит ссылку на word и ссылки на пред/след элемент
+// word -> содержит массив char и длину/кол-во глассных в слове
+
+typedef struct word {
+  char *arr;
   int len;
-  char *word;
+  int vowels;
 } word;
 
-typedef struct node_t
-{
-  int value;
-  struct node_t *prev;
-  struct node_t *next;
-} node_t;
+// если структура содержит ссылку сама на себя
+// то нудно эту ссылку оформлять как
+// struct struct_name *point
+typedef struct node {
+  word *word;
+  struct node *prev;
+  struct node *next;
+} node;
 
-typedef struct
-{
-  node_t *head;
+typedef struct list {
   size_t size;
-} list_t;
+  node *head;
+} list;
 
-void init(list_t *l)
-{
+
+// инициализация списка
+void init(list *l) {
   l->head = NULL;
   l->size = 0;
 }
 
-void destroy(list_t *l)
-{
-  node_t *cur = l->head;
-  node_t *prev = NULL;
-  while (cur != NULL)
-  {
-    prev = cur;
-    cur = cur->next;
+void destroy(list *l) {
+  node *curr = l->head;
+  node *prev = NULL;
+  while (curr != NULL) {
+    prev = curr;
+    curr = curr->next;
     free(prev);
   }
 }
 
-void push_back(list_t *l, int val)
-{
-  node_t *n, *cur;
-  n = (node_t *)malloc(sizeof(node_t));
-  n->value = val;
+void push_back(list *l, const char *arr) {
+  node *n, *curr;
+  n = (node*)malloc(sizeof(node));
+  n->word->arr = arr;
   n->next = NULL;
-  if (l->head == NULL)
-  {
+
+  if(l->head == NULL) {
     n->prev = NULL;
     l->head = n;
-  }
-  else
-  {
-    cur = l->head;
-    while (cur->next != NULL)
-      cur = cur->next;
-    cur->next = n;
-    n->prev = cur;
+  } else {
+    curr = l->head;
+    while (curr->next != NULL) {
+      curr = curr->next;
+    }
+    curr->next = n;
+    n->prev = curr;
   }
   l->size++;
 }
 
+void print_list(list *l) {
+  node *curr = l->head;
+  while (curr != NULL) {
+    printf("%s\n", curr->word->arr);
+    curr = curr->next;
+  }
+  printf("\n");
+}
 
-int main(int argc, char *argv[])
-{
-  return EXIT_SUCCESS;
+
+void main() {
+  
 }
