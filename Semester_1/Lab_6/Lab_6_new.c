@@ -7,22 +7,23 @@
 
 typedef struct word {
   char *arr;
-  int len;
-  int vowels;
+  int size;
+  int capacity;
+  int vowels; // гласные
 } word;
 
 // если структура содержит ссылку сама на себя
 // то нудно эту ссылку оформлять как
 // struct struct_name *point
 typedef struct node {
-  word *word;
+  struct word *word;
   struct node *prev;
   struct node *next;
 } node;
 
 typedef struct list {
+  node  *head;
   size_t size;
-  node *head;
 } list;
 
 
@@ -34,6 +35,7 @@ void init(list *l) {
 
 void destroy(list *l) {
   node *curr = l->head;
+  word *word = NULL;
   node *prev = NULL;
   while (curr != NULL) {
     prev = curr;
@@ -73,5 +75,19 @@ void print_list(list *l) {
 
 
 void main() {
-  
+  list main_list;
+  init(&main_list);
+
+  char *s = (char*)malloc(10*sizeof(char));
+  fgets(s, 10, stdin);
+
+  push_back(&main_list, &s);
+
+  s = (char*)malloc(10*sizeof(char));
+  fgets(s, 10, stdin);
+
+  push_back(&main_list, &s);
+
+  print_list(&main_list);
+  destroy(&main_list);
 }
