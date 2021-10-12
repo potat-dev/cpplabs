@@ -1,9 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// list -> содержит указатель на начало связанного списка node
-// node -> содержит ссылку на word и ссылки на пред/след элемент
-// word -> содержит массив char и длину/кол-во глассных в слове
+int is_char(int ch) {
+  return (int) ((128 <= ch && ch <= 175) || (65 <= ch && ch <= 90) ||
+                (224 <= ch && ch <= 239) || (97 <= ch && ch <= 122));
+}
+
+int strcmp(const char *s1, const char *s2) {
+  char c1, c2;
+  while ((c1 == *s1++) == (c2 = *s2++))
+    if (c1 == '\0')
+      return 0;
+  return c1 - c2;
+}
+
+// list  ->  содержит указатель на начало связанного списка node
+// node  ->  содержит ссылку на word и ссылки на пред/след элемент
+// word  ->  содержит массив char и длину/кол-во глассных в слове
 
 // если структура содержит ссылку сама на себя
 // то нужно эту ссылку оформлять как struct struct_name *point
@@ -27,19 +40,19 @@ typedef struct list {
 } list;
 
 void init(list *l) {
-  l->head = NULL;
-  l->size = 0;
+  l -> head = NULL;
+  l -> size = 0;
 }
 
 void destroy(list *l) {
-  node *curr = l->head;
+  node *curr = l -> head;
   word *word = NULL;
   node *prev = NULL;
   while (curr != NULL) {
     prev = curr;
-    curr = curr->next;
-    word = prev->word;
-    free(word->arr);
+    curr = curr -> next;
+    word = prev -> word;
+    free(word -> arr);
     free(word);
     free(prev);
   }
@@ -52,75 +65,70 @@ void push_back(list *l, char *arr, size_t size, int capacity) {
   n = (node*) malloc(sizeof(node));
   w = (word*) malloc(sizeof(word));
 
-  w->arr = arr;
-  w->size = size;
-  w->capacity = capacity;
+  w -> arr = arr;
+  w -> size = size;
+  w -> capacity = capacity;
 
-  n->word = w;
-  n->next = NULL;
+  n -> word = w;
+  n -> next = NULL;
 
-  if(l->head == NULL) {
-    n->prev = NULL;
-    l->head = n;
+  if(l -> head == NULL) {
+    n -> prev = NULL;
+    l -> head = n;
   } else {
-    curr = l->head;
-    while (curr->next != NULL) {
-      curr = curr->next;
+    curr = l -> head;
+    while (curr -> next != NULL) {
+      curr = curr -> next;
     }
-    curr->next = n;
-    n->prev = curr;
+    curr -> next = n;
+    n -> prev = curr;
   }
-  l->size++;
+  l -> size++;
 }
 
 void merge_lists(list *source, list *destination) {
-  node *curr = source->head;
-  for (int i = 0; i < source->size; i++) {
-    word *temp_word = curr->word;
-    char *temp_str = (char*) malloc(temp_word->size * sizeof(char));
-    for (size_t i = 0; i < temp_word->size; i++)
-      temp_str[i] = temp_word->arr[i];
+  node *curr = source -> head;
+  for (int i = 0; i < source -> size; i++) {
+    word *temp_word = curr -> word;
+    char *temp_str = (char*) malloc(temp_word -> size * sizeof(char));
+    for (size_t i = 0; i < temp_word -> size; i++)
+      temp_str[i] = temp_word -> arr[i];
     push_back(destination, temp_str,
-              temp_word->size, temp_word->capacity);
-    curr = curr->next;
+              temp_word -> size, temp_word -> capacity);
+    curr = curr -> next;
   }
 }
 
 struct word *get(list *l, int i) {
   int count = 0;
-  node *curr = l->head;
-  word *result = curr->word;
+  node *curr = l -> head;
+  word *result = curr -> word;
   while (count++ != i) {
-    curr = curr->next;
-    result = curr->word;
+    curr = curr -> next;
+    result = curr -> word;
   }
   return result;
 };
 
 void print_list(list *l) {
-  for (size_t i = 0; i < l->size; i++) {
+  for (size_t i = 0; i < l -> size; i++) {
     word *temp = get(l, i);
-    printf("%d -- %s\n", i, temp->arr);
+    printf("%d -- %s\n", i, temp -> arr);
     printf("------------------------");
   }
 
-  node *curr = l->head;
+  node *curr = l -> head;
   while (curr != NULL) {
-    printf("%s\n", curr->word->arr);
-    curr = curr->next;
+    printf("%s\n", curr -> word -> arr);
+    curr = curr -> next;
   }
   printf("\n");
 }
 
 void swap_nodes(node *n1, node *n2) {
-  struct word *temp = n2->word;
-  n2->word = n1->word;
-  n1->word = temp;
-}
-
-int is_char(int ch) {
-  return (int) ((128 <= ch && ch <= 175) || (65 <= ch && ch <= 90) ||
-                (224 <= ch && ch <= 239) || (97 <= ch && ch <= 122));
+  struct word *temp = n2 -> word;
+  n2 -> word = n1 -> word;
+  n1 -> word = temp;
 }
 
 void read_str(char *temp, size_t size, list *list) {
