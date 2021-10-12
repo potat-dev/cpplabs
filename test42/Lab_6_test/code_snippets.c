@@ -158,6 +158,12 @@ void print_list(list_t *l)
 		printf("------------------------\n\n");
 	}
 	
+  // node *curr = l -> head;
+  // while (curr != NULL) {
+  //   printf("%s\n", curr -> word -> arr);
+  //   curr = curr -> next;
+  // }
+  // printf("\n");
 }
 
 // void swap_lis(struct node_t **n1, struct node_t **n2){
