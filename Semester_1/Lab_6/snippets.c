@@ -1,19 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int is_char(int ch) {
-  return (int) ((128 <= ch && ch <= 175) || (65 <= ch && ch <= 90) ||
-                (224 <= ch && ch <= 239) || (97 <= ch && ch <= 122));
-}
-
-int strcmp(char *s1, char *s2) {
-  char c1, c2;
-  while ((c1 == *s1++) == (c2 = *s2++))
-    if (c1 == '\0')
-      return 0;
-  return c1 - c2;
-}
-
 // list  ->  содержит указатель на начало связанного списка node
 // node  ->  содержит ссылку на word и ссылки на пред/след элемент
 // word  ->  содержит массив char и длину/кол-во глассных в слове
@@ -59,16 +46,13 @@ void destroy(list *l) {
 }
 
 void push_back(list *l, char *arr, size_t size, int capacity) {
-  node *n, *curr;
-  word *w;
-
-  n = (node*) malloc(sizeof(node));
-  w = (word*) malloc(sizeof(word));
+  word *w = (word*) malloc(sizeof(word));
+  node *n = (node*) malloc(sizeof(node));
+  node *curr;
 
   w -> arr = arr;
   w -> size = size;
   w -> capacity = capacity;
-
   n -> word = w;
   n -> next = NULL;
 
@@ -77,9 +61,8 @@ void push_back(list *l, char *arr, size_t size, int capacity) {
     l -> head = n;
   } else {
     curr = l -> head;
-    while (curr -> next != NULL) {
+    while (curr -> next != NULL)
       curr = curr -> next;
-    }
     curr -> next = n;
     n -> prev = curr;
   }
@@ -113,24 +96,58 @@ struct word *get(list *l, int i) {
 struct node *get_node(list *l, int i) {
   int count = 0;
   node *curr = l -> head;
-  while (count++ != i) {
+  while (count++ != i)
     curr = curr -> next;
-  }
   return curr;
 };
 
 void print_list(list *l) {
-  for (size_t i = 0; i < l -> size; i++) {
+  for (size_t i = 0; i < l->size; i++) {
     word *temp = get(l, i);
-    printf("%d -- %s\n", i, temp -> arr);
-    printf("---------------------\n");
+    printf("%d -- %s\n", i, temp->arr);
+    printf("----------------------\n");
   }
+}
+
+int is_char(int ch) {
+  return (int)
+  ((97 <= ch && ch <= 122) ||
+  (128 <= ch && ch <= 175) ||
+  (224 <= ch && ch <= 239) ||
+  (65  <= ch && ch <= 90));
+}
+
+int strcmp(char *s1, char *s2) {
+  char c1, c2;
+  while ((c1 == *s1++) == (c2 = *s2++))
+    if (c1 == '\0')
+      return 0;
+  return c1 - c2;
 }
 
 void swap_nodes(node *n1, node *n2) {
   struct word *temp = n2 -> word;
   n2 -> word = n1 -> word;
   n1 -> word = temp;
+}
+
+int compare_words(word *w1, word *w2, int reverse) {
+  int min_size = w1->size < w2->size ? w1->size : w2->size;
+  for (int i = 0; i < min_size; i++)
+    if (w1->arr[i] != w2->arr[i])
+      return reverse ^ (w1->arr[i] > w2->arr[i]);
+  return reverse;
+} // 0 - ok // 1 - need reverse
+
+void sort_list(list *list, int reverse) {
+  for (int i = 0; i < list->size; i++) {
+    for (int j = i+1; j < list->size; j++) {
+      struct node *node1 = get_node(list, i);
+      struct node *node2 = get_node(list, j);
+      if (compare_words(node1->word, node2->word, reverse))
+        swap_nodes(node1, node2);
+    }
+  }
 }
 
 void parse_str(char *temp, size_t size, list *list) {
