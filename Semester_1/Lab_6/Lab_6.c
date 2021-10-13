@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-// подключаем функции
 #include "snippets.c"
 
-#define REVERSE_ORDER 0
+#define ORDER NORMAL
 
 void main() {
   FILE *file;
-  if ((file = fopen("input.txt", "r")) == NULL)
+  if ((file = fopen("input/large.txt", "r")) == NULL)
     { printf("Error opening file!"); exit(1); }
 
   fseek(file, 0, SEEK_END);
@@ -24,7 +23,13 @@ void main() {
   parse_str(str, fsize, &words);
   free(str);
 
-  sort_list(&words, REVERSE_ORDER);
+  printf("\n----- ALPHABET SORT -----\n\n");
+  sort_list(&words, ALPHABET, ORDER);
   print_list(&words);
+
+  printf("\n------ VOWELS SORT ------\n\n");
+  sort_list(&words, VOWELS, ORDER);
+  print_list(&words);
+
   destroy(&words);
 }

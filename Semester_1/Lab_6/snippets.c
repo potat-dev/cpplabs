@@ -1,18 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// конфиг сортировки
+#define NORMAL   0
+#define REVERSE  1
+#define ALPHABET 0
+#define LENGTH   1
+#define VOWELS   2
+
 // list  ->  содержит указатель на начало связанного списка node
 // node  ->  содержит ссылку на word и ссылки на пред/след элемент
 // word  ->  содержит массив char и длину/кол-во глассных в слове
-
-// если структура содержит ссылку сама на себя
-// то нужно эту ссылку оформлять как struct struct_name *point
 
 typedef struct word {
   char *arr;
   int size;
   int capacity;
-  int vowels; // гласные
+  int vowels;
 } word;
 
 typedef struct node {
@@ -45,14 +49,26 @@ void destroy(list *l) {
   }
 }
 
-void push_back(list *l, char *arr, size_t size, int capacity) {
+int vowels_count(char *str) {
+  int count = 0;
+  for (int i = 0; str[i] != '\0'; i++)
+    if ((str[i] == 'a')
+    ||  (str[i] == 'e')
+    ||  (str[i] == 'i')
+    ||  (str[i] == 'o')
+    ||  (str[i] == 'u')) count++;
+  return count;
+}
+
+void push_back(list *l, char *str, size_t size, int capacity) {
   word *w = (word*) malloc(sizeof(word));
   node *n = (node*) malloc(sizeof(node));
   node *curr;
 
-  w -> arr = arr;
+  w -> arr = str;
   w -> size = size;
   w -> capacity = capacity;
+  w -> vowels = vowels_count(str);
   n -> word = w;
   n -> next = NULL;
 
@@ -82,7 +98,7 @@ void merge_lists(list *source, list *destination) {
   }
 }
 
-struct word *get(list *l, int i) {
+struct word *get_word(list *l, int i) {
   int count = 0;
   node *curr = l -> head;
   word *result = curr -> word;
@@ -103,7 +119,7 @@ struct node *get_node(list *l, int i) {
 
 void print_list(list *l) {
   for (size_t i = 0; i < l->size; i++) {
-    word *temp = get(l, i);
+    word *temp = get_word(l, i);
     printf("%d -- %s\n", i, temp->arr);
     printf("----------------------\n");
   }
@@ -137,18 +153,7 @@ int compare_words(word *w1, word *w2, int reverse) {
     if (w1->arr[i] != w2->arr[i])
       return reverse ^ (w1->arr[i] > w2->arr[i]);
   return reverse;
-} // 0 - ok // 1 - need reverse
-
-void sort_list(list *list, int reverse) {
-  for (int i = 0; i < list->size; i++) {
-    for (int j = i+1; j < list->size; j++) {
-      struct node *node1 = get_node(list, i);
-      struct node *node2 = get_node(list, j);
-      if (compare_words(node1->word, node2->word, reverse))
-        swap_nodes(node1, node2);
-    }
-  }
-}
+} // 0; 1 - ok; reverse
 
 void parse_str(char *temp, size_t size, list *list) {
   int capacity = 1, len = 0;
@@ -168,6 +173,30 @@ void parse_str(char *temp, size_t size, list *list) {
         capacity = 1; len = 0;
         str = (char*) malloc(sizeof(char));
       }
+    }
+  }
+}
+
+void sort_list(list *list, int sort_type, int reverse) {
+  for (int i = 0; i < list->size; i++) {
+    for (int j = i+1; j < list->size; j++) {
+      struct node *node1 = get_node(list, i);
+      struct node *node2 = get_node(list, j);
+      int swap = 0;
+      switch (sort_type) {
+        case ALPHABET:
+          swap = compare_words(node1->word, node2->word, reverse);
+          break;
+        case LENGTH:
+          swap = reverse ^ (node1->word->size > node2->word->size);
+          break;
+        case VOWELS:
+          swap = reverse ^ (node1->word->vowels > node2->word->vowels);
+          break;
+        default:
+          printf("Invalid sorting configuration!"); exit(1);
+      }
+      if (swap) swap_nodes(node1, node2);
     }
   }
 }
