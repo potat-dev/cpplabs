@@ -27,9 +27,5 @@ void main() {
   sort_list(&words, ALPHABET, ORDER);
   print_list(&words);
 
-  printf("\n------ VOWELS SORT ------\n\n");
-  sort_list(&words, VOWELS, ORDER);
-  print_list(&words);
-
   destroy(&words);
 }
