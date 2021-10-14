@@ -10,7 +10,7 @@ void main() {
     { printf("Error opening file!"); exit(1); }
 
   fseek(file, 0, SEEK_END);
-  size_t fsize = ftell(file); // get file size
+  size_t fsize = ftell(file);
   fseek(file, 0, SEEK_SET);
 
   char *str = (char*) malloc(fsize * sizeof(char));
@@ -23,13 +23,9 @@ void main() {
   parse_str(str, fsize, &words);
   free(str);
 
-  printf("\n----- ALPHABET SORT -----\n\n");
-  sort_list(&words, ALPHABET, ORDER);
+  printf("\n----- DOUBLE SORT -----\n\n");
+  double_sort(&words, LENGTH, ALPHABET, ORDER);
   print_list(&words);
-
-  printf("\n------ VOWELS SORT ------\n\n");
-  sort_list(&words, VOWELS, ORDER);
-  print_list(&words);
-
+  // yeee! it works
   destroy(&words);
 }

@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// конфиг сортировки
+// TODO:
+// find function
+// remove function
+
+// конфиги
 #define NORMAL   0
 #define REVERSE  1
 #define ALPHABET 0
@@ -147,14 +151,6 @@ void swap_nodes(node *n1, node *n2) {
   n1 -> word = temp;
 }
 
-int compare_words(word *w1, word *w2, int reverse) {
-  int min_size = w1->size < w2->size ? w1->size : w2->size;
-  for (int i = 0; i < min_size; i++)
-    if (w1->arr[i] != w2->arr[i])
-      return reverse ^ (w1->arr[i] > w2->arr[i]);
-  return reverse;
-} // 0; 1 - ok; reverse
-
 void parse_str(char *temp, size_t size, list *list) {
   int capacity = 1, len = 0;
   char *str = (char*) malloc(sizeof(char));
@@ -164,9 +160,9 @@ void parse_str(char *temp, size_t size, list *list) {
       if (len >= capacity)
         str = (char*) realloc(str, (capacity *= 2) * sizeof(char));
       if (size - i == 1)
-        goto last_char;
+        goto word_end;
     } else {
-      last_char:
+      word_end:
       if (len) {
         str[len] = '\0';
         push_back(list, str, len, capacity);
@@ -177,6 +173,20 @@ void parse_str(char *temp, size_t size, list *list) {
   }
 }
 
+// новая функция сравнения слов
+int compare_words(word *w1, word *w2, int order) {
+  //  1 - порядок правильный
+  //  0 - слова идентичны
+  // -1 - порядок неправильный
+  int min_size = w1->size < w2->size ? w1->size : w2->size;
+  for (int i = 0; i < min_size; i++)
+    if (w1->arr[i] != w2->arr[i])
+      return order ^ (w1->arr[i] > w2->arr[i]) ? -1 : 1;
+  if (w1->size == w2->size) return 0;
+  else return order ^ (w1->size > w2->size) ? -1 : 1;
+}
+
+// обычная сортировка
 void sort_list(list *list, int sort_type, int reverse) {
   for (int i = 0; i < list->size; i++) {
     for (int j = i+1; j < list->size; j++) {
@@ -185,7 +195,7 @@ void sort_list(list *list, int sort_type, int reverse) {
       int swap = 0;
       switch (sort_type) {
         case ALPHABET:
-          swap = compare_words(node1->word, node2->word, reverse);
+          swap = compare_words(node1->word, node2->word, reverse) < 0;
           break;
         case LENGTH:
           swap = reverse ^ (node1->word->size > node2->word->size);
@@ -197,6 +207,50 @@ void sort_list(list *list, int sort_type, int reverse) {
           printf("Invalid sorting configuration!"); exit(1);
       }
       if (swap) swap_nodes(node1, node2);
+    }
+  }
+}
+
+// проверяет, нужно ли менять слова местами
+int need_swap(word *w1, word *w2, int sort_type, int reverse) {
+  //  1 - порядок правильный
+  //  0 - слова идентичны
+  // -1 - порядок неправильный
+  switch (sort_type) {
+    case ALPHABET:
+      return compare_words(w1, w2, reverse);
+    case LENGTH:
+      if (w1->size == w2->size) return 0;
+      else return (reverse ^ (w1->size > w2->size)) ? -1 : 1;
+    case VOWELS:
+      if (w1->vowels == w2->vowels) return 0;
+      else return (reverse ^ (w1->vowels > w1->vowels)) ? -1 : 1;
+    default:
+      printf("Invalid sorting configuration!"); exit(1);
+  }
+}
+
+// двойная сортировка
+void double_sort(list *list, int sort_1, int sort_2, int order) {
+  for (int i = 0; i < list->size; i++) {
+    for (int j = i+1; j < list->size; j++) {
+      struct node *node1 = get_node(list, i);
+      struct node *node2 = get_node(list, j);
+      int swap = need_swap(node1->word, node2->word, sort_1, order);
+      switch (sort_1) {
+        case ALPHABET:
+          if (swap >= 0)
+            swap = need_swap(node1->word, node2->word, sort_2, order);
+          break;
+        case LENGTH:
+        case VOWELS:
+          if (!swap)
+            swap = need_swap(node1->word, node2->word, sort_2, order);
+          break;
+        default:
+          printf("Invalid sorting configuration!"); exit(1);
+      }
+      if (swap < 0) swap_nodes(node1, node2);
     }
   }
 }
