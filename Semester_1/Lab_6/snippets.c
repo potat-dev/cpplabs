@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// конфиг сортировки
+// TODO:
+// find function
+// remove function
+
+// конфиги
 #define NORMAL   0
 #define REVERSE  1
 #define ALPHABET 0
@@ -147,29 +151,6 @@ void swap_nodes(node *n1, node *n2) {
   n1 -> word = temp;
 }
 
-// новая функция сравнения слов
-//  1 - порядок правильный
-//  0 - слова идентичны
-// -1 - порядок неправильный
-int compare_words_new(word *w1, word *w2, int reverse) {
-  int min_size = w1->size < w2->size ? w1->size : w2->size;
-  for (int i = 0; i < min_size; i++)
-    if (w1->arr[i] != w2->arr[i])
-      return reverse ^ (w1->arr[i] > w2->arr[i]) ? 1 : -1;
-  return 0;
-} 
-
-// сравнение слов
-// 0 - не надо менять слова местами
-// 1 - нужно свапнуть
-int compare_words(word *w1, word *w2, int reverse) {
-  int min_size = w1->size < w2->size ? w1->size : w2->size;
-  for (int i = 0; i < min_size; i++)
-    if (w1->arr[i] != w2->arr[i])
-      return reverse ^ (w1->arr[i] > w2->arr[i]);
-  return reverse;
-}
-
 void parse_str(char *temp, size_t size, list *list) {
   int capacity = 1, len = 0;
   char *str = (char*) malloc(sizeof(char));
@@ -192,6 +173,19 @@ void parse_str(char *temp, size_t size, list *list) {
   }
 }
 
+// новая функция сравнения слов
+int compare_words(word *w1, word *w2, int order) {
+  //  1 - порядок правильный
+  //  0 - слова идентичны
+  // -1 - порядок неправильный
+  int min_size = w1->size < w2->size ? w1->size : w2->size;
+  for (int i = 0; i < min_size; i++)
+    if (w1->arr[i] != w2->arr[i])
+      return order ^ (w1->arr[i] > w2->arr[i]) ? -1 : 1;
+  if (w1->size == w2->size) return 0;
+  else return order ^ (w1->size > w2->size) ? -1 : 1;
+}
+
 // обычная сортировка
 void sort_list(list *list, int sort_type, int reverse) {
   for (int i = 0; i < list->size; i++) {
@@ -201,7 +195,7 @@ void sort_list(list *list, int sort_type, int reverse) {
       int swap = 0;
       switch (sort_type) {
         case ALPHABET:
-          swap = compare_words(node1->word, node2->word, reverse) > 0;
+          swap = compare_words(node1->word, node2->word, reverse) < 0;
           break;
         case LENGTH:
           swap = reverse ^ (node1->word->size > node2->word->size);
@@ -218,89 +212,45 @@ void sort_list(list *list, int sort_type, int reverse) {
 }
 
 // проверяет, нужно ли менять слова местами
-// TODO: сделать возврат значачений -1; 0: 1
-//  1 - порядок правильный
-//  0 - слова идентичны
-// -1 - порядок неправильный
-int need_swap(node *n1, node *n2, int sort_type, int reverse) {
-  int swap;
+int need_swap(word *w1, word *w2, int sort_type, int reverse) {
+  //  1 - порядок правильный
+  //  0 - слова идентичны
+  // -1 - порядок неправильный
   switch (sort_type) {
-        case ALPHABET:
-          swap = compare_words(n1->word, n2->word, reverse);
-          break;
-        case LENGTH:
-          swap = reverse ^ (n1->word->size > n2->word->size);
-          break;
-        case VOWELS:
-          swap = reverse ^ (n1->word->vowels > n2->word->vowels);
-          break;
-        default:
-          printf("Invalid sorting configuration!"); exit(1);
-      }
+    case ALPHABET:
+      return compare_words(w1, w2, reverse);
+    case LENGTH:
+      if (w1->size == w2->size) return 0;
+      else return (reverse ^ (w1->size > w2->size)) ? -1 : 1;
+    case VOWELS:
+      if (w1->vowels == w2->vowels) return 0;
+      else return (reverse ^ (w1->vowels > w1->vowels)) ? -1 : 1;
+    default:
+      printf("Invalid sorting configuration!"); exit(1);
+  }
 }
 
-// двойнаая сортировка
-// НЕ РАБОТАЕТ
-void double_sort(list *list, int sort_1, int sort_2, int reverse) {
+// двойная сортировка
+void double_sort(list *list, int sort_1, int sort_2, int order) {
   for (int i = 0; i < list->size; i++) {
     for (int j = i+1; j < list->size; j++) {
       struct node *node1 = get_node(list, i);
       struct node *node2 = get_node(list, j);
-      // дописать это
-      // need_swap_1 = compare_words(sort_1);
-      // need_swap_2 = compare_words(sort_2);
-      int swap = 0;
+      int swap = need_swap(node1->word, node2->word, sort_1, order);
       switch (sort_1) {
         case ALPHABET:
-          if (strcmp(node1->word->arr, node2->word->arr) == 0) { }
-          swap = compare_words(node1->word, node2->word, reverse);
+          if (swap >= 0)
+            swap = need_swap(node1->word, node2->word, sort_2, order);
           break;
         case LENGTH:
-          swap = reverse ^ (node1->word->size > node2->word->size);
-          break;
         case VOWELS:
-          swap = reverse ^ (node1->word->vowels > node2->word->vowels);
+          if (!swap)
+            swap = need_swap(node1->word, node2->word, sort_2, order);
           break;
         default:
           printf("Invalid sorting configuration!"); exit(1);
       }
-
-      switch (sort_1) {
-        case ALPHABET:
-          swap = compare_words(node1->word, node2->word, reverse);
-          break;
-        case LENGTH:
-          if (node1->word->size == node2->word->size) ;
-          else swap = reverse ^ (node1->word->size > node2->word->size);
-          break;
-        case VOWELS:
-          if (node1->word->vowels == node2->word->vowels) goto level_2;
-          else swap = reverse ^ (node1->word->vowels > node2->word->vowels);
-          break;
-        default:
-          printf("Invalid sorting configuration!"); exit(1);
-      }
-
-      level_2:
-      if (sort_1 != sort_2) {
-        switch (sort_2) {
-          case ALPHABET:
-            swap = compare_words(node1->word, node2->word, reverse);
-            break;
-          case LENGTH:
-            swap = reverse ^ (node1->word->size > node2->word->size);
-            break;
-          case VOWELS:
-            swap = reverse ^ (node1->word->vowels > node2->word->vowels);
-            break;
-          default:
-            printf("Invalid sorting configuration!"); exit(1);
-        }
-      } else {
-        printf("Sort types cannot be equal!"); exit(1);
-      }
-      
-      if (swap) swap_nodes(node1, node2);
+      if (swap < 0) swap_nodes(node1, node2);
     }
   }
 }
