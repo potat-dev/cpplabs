@@ -1,21 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//// туду тудуду: ////
+///// туду тудуду: /////
 // вставка (инсерт)
 // удаление по индексу
 // удаление диапазона
 // поиск
 // поиск с оффсетом
 // поиск с конца
+// поменять 1; 0; -1 на -1; 0; 1
+// поменять везде l на list
 
 // конфиги
-#define NORMAL     0
-#define REVERSE    1
-#define ALPHABET   0
-#define LENGTH     1
-#define VOWELS     2
-#define CONSONANTS 3
+#define NORMAL   0
+#define REVERSE  1
+#define ALPHABET 0
+#define LENGTH   1
+#define VOWELS   2
+#define CONSNTS  3
 
 // list  ->  содержит указатель на начало связанного списка node
 // node  ->  содержит ссылку на word и ссылки на пред/след элемент
@@ -26,7 +28,7 @@ typedef struct word {
   int size;
   int capacity;
   int vowels;
-  int consonants;
+  int consnts;
 } word;
 
 typedef struct node {
@@ -45,17 +47,19 @@ void init(list *l) {
   l -> size = 0;
 }
 
-void destroy(list *l) {
-  node *curr = l -> head;
-  word *word = NULL;
+void destroy_node(node *node) {
+  free(node->word->arr);
+  free(node->word);
+  free(node);
+}
+
+void destroy(list *list) {
+  node *curr = list->head;
   node *prev = NULL;
   while (curr != NULL) {
     prev = curr;
-    curr = curr -> next;
-    word = prev -> word;
-    free(word -> arr);
-    free(word);
-    free(prev);
+    curr = curr->next;
+    destroy_node(prev);
   }
 }
 
@@ -70,6 +74,11 @@ int vowels_count(char *str) {
   return count;
 }
 
+void upd_word(word *w) {
+  w->vowels = vowels_count(w->arr);
+  w->consnts = w->size - w->vowels;
+}
+
 void push_back(list *l, char *str, size_t size, int capacity) {
   word *w = (word*) malloc(sizeof(word));
   node *n = (node*) malloc(sizeof(node));
@@ -79,7 +88,7 @@ void push_back(list *l, char *str, size_t size, int capacity) {
   w -> size = size;
   w -> capacity = capacity;
   w -> vowels = vowels_count(str);
-  w -> consonants = size - w -> vowels;
+  w -> consnts = size - (w -> vowels);
   n -> word = w;
   n -> next = NULL;
 
@@ -210,8 +219,8 @@ void sort_list(list *list, int sort_type, int reverse) {
         case VOWELS:
           swap = reverse ^ (node1->word->vowels > node2->word->vowels);
           break;
-        case CONSONANTS:
-          swap = reverse ^ (node1->word->consonants > node2->word->consonants);
+        case CONSNTS:
+          swap = reverse ^ (node1->word->consnts > node2->word->consnts);
           break;
         default:
           printf("Invalid sorting configuration!");
@@ -235,13 +244,28 @@ int need_swap(word *w1, word *w2, int sort_type, int reverse) {
     case VOWELS:
       if (w1->vowels == w2->vowels) return 0;
       else return (reverse ^ (w1->vowels > w1->vowels)) ? -1 : 1;
-    case CONSONANTS:
-      if (w1->consonants == w2->consonants) return 0;
-      else return (reverse ^ (w1->consonants > w1->consonants)) ? -1 : 1;
+    case CONSNTS:
+      if (w1->consnts == w2->consnts) return 0;
+      else return (reverse ^ (w1->consnts > w1->consnts)) ? -1 : 1;
     default:
       printf("Invalid sorting configuration!");
   }
 }
+
+
+// новая обычная сортировка
+// НЕ РАБОТАЕТ, ПОЧИНИТЬ! 
+void sort_list1(list *list, int sort_type, int reverse) {
+  for (int i = 0; i < list->size; i++) {
+    for (int j = i+1; j < list->size; j++) {
+      struct node *node1 = get_node(list, i);
+      struct node *node2 = get_node(list, j);
+      if (need_swap(node1->word, node2->word, sort_type, reverse) < 0)
+        swap_nodes(node1, node2);
+    }
+  }
+}
+
 
 // двойная сортировка
 void double_sort(list *list, int sort_1, int sort_2, int order) {
@@ -257,7 +281,7 @@ void double_sort(list *list, int sort_1, int sort_2, int order) {
           break;
         case LENGTH:
         case VOWELS:
-        case CONSONANTS:
+        case CONSNTS:
           if (!swap)
             swap = need_swap(node1->word, node2->word, sort_2, order);
           break;
