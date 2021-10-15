@@ -1,3 +1,7 @@
+// По символьному файлу составить два линейных списка слов,
+// упорядоченных по алфавиту и по количеству гласных букв
+// вывести оба списка
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "snippets.c"
@@ -6,7 +10,7 @@
 
 void main() {
   FILE *file;
-  if ((file = fopen("input/large.txt", "r")) == NULL)
+  if ((file = fopen("input/medium.txt", "r")) == NULL)
     { printf("Error opening file!"); exit(1); }
 
   fseek(file, 0, SEEK_END);
@@ -23,9 +27,15 @@ void main() {
   parse_str(str, fsize, &words);
   free(str);
 
-  printf("\n----- DOUBLE SORT -----\n\n");
-  double_sort(&words, LENGTH, ALPHABET, ORDER);
+  printf("\n=== ALPHABET SORT ===");
+  printf("\n---------------------\n");
+  sort_list(&words, ALPHABET, ORDER);
   print_list(&words);
-  // yeee! it works
+
+  printf("\n==== VOWELS SORT ====");
+  printf("\n---------------------\n");
+  sort_list(&words, VOWELS, ORDER);
+  print_list(&words);  
+
   destroy(&words);
 }

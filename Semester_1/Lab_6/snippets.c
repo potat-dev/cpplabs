@@ -125,7 +125,7 @@ void print_list(list *l) {
   for (size_t i = 0; i < l->size; i++) {
     word *temp = get_word(l, i);
     printf("%d -- %s\n", i, temp->arr);
-    printf("----------------------\n");
+    printf("---------------------\n");
   }
 }
 
@@ -204,7 +204,7 @@ void sort_list(list *list, int sort_type, int reverse) {
           swap = reverse ^ (node1->word->vowels > node2->word->vowels);
           break;
         default:
-          printf("Invalid sorting configuration!"); exit(1);
+          printf("Invalid sorting configuration!");
       }
       if (swap) swap_nodes(node1, node2);
     }
@@ -226,7 +226,7 @@ int need_swap(word *w1, word *w2, int sort_type, int reverse) {
       if (w1->vowels == w2->vowels) return 0;
       else return (reverse ^ (w1->vowels > w1->vowels)) ? -1 : 1;
     default:
-      printf("Invalid sorting configuration!"); exit(1);
+      printf("Invalid sorting configuration!");
   }
 }
 
@@ -248,7 +248,7 @@ void double_sort(list *list, int sort_1, int sort_2, int order) {
             swap = need_swap(node1->word, node2->word, sort_2, order);
           break;
         default:
-          printf("Invalid sorting configuration!"); exit(1);
+          printf("Invalid sorting configuration!");
       }
       if (swap < 0) swap_nodes(node1, node2);
     }
