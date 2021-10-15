@@ -79,6 +79,10 @@ void upd_word(word *w) {
   w->consnts = w->size - w->vowels;
 }
 
+char lower(int ch) {
+	return ch > 64 && ch < 91 ? ch + 32 : ch;
+}
+
 void push_back(list *l, char *str, size_t size, int capacity) {
   word *w = (word*) malloc(sizeof(word));
   node *n = (node*) malloc(sizeof(node));
@@ -189,6 +193,8 @@ void parse_str(char *temp, size_t size, list *list) {
   }
 }
 
+//// СОРТИРОВКА ////
+
 // новая функция сравнения слов
 int compare_words(word *w1, word *w2, int order) {
   //  1 - порядок правильный
@@ -200,34 +206,6 @@ int compare_words(word *w1, word *w2, int order) {
       return order ^ (w1->arr[i] > w2->arr[i]) ? -1 : 1;
   if (w1->size == w2->size) return 0;
   else return order ^ (w1->size > w2->size) ? -1 : 1;
-}
-
-// обычная сортировка
-void sort_list(list *list, int sort_type, int reverse) {
-  for (int i = 0; i < list->size; i++) {
-    for (int j = i+1; j < list->size; j++) {
-      struct node *node1 = get_node(list, i);
-      struct node *node2 = get_node(list, j);
-      int swap = 0;
-      switch (sort_type) {
-        case ALPHABET:
-          swap = compare_words(node1->word, node2->word, reverse) < 0;
-          break;
-        case LENGTH:
-          swap = reverse ^ (node1->word->size > node2->word->size);
-          break;
-        case VOWELS:
-          swap = reverse ^ (node1->word->vowels > node2->word->vowels);
-          break;
-        case CONSNTS:
-          swap = reverse ^ (node1->word->consnts > node2->word->consnts);
-          break;
-        default:
-          printf("Invalid sorting configuration!");
-      }
-      if (swap) swap_nodes(node1, node2);
-    }
-  }
 }
 
 // проверяет, нужно ли менять слова местами
@@ -243,19 +221,17 @@ int need_swap(word *w1, word *w2, int sort_type, int reverse) {
       else return (reverse ^ (w1->size > w2->size)) ? -1 : 1;
     case VOWELS:
       if (w1->vowels == w2->vowels) return 0;
-      else return (reverse ^ (w1->vowels > w1->vowels)) ? -1 : 1;
+      else return (reverse ^ (w1->vowels > w2->vowels)) ? -1 : 1;
     case CONSNTS:
       if (w1->consnts == w2->consnts) return 0;
-      else return (reverse ^ (w1->consnts > w1->consnts)) ? -1 : 1;
+      else return (reverse ^ (w1->consnts > w2->consnts)) ? -1 : 1;
     default:
       printf("Invalid sorting configuration!");
   }
 }
 
-
-// новая обычная сортировка
-// НЕ РАБОТАЕТ, ПОЧИНИТЬ! 
-void sort_list1(list *list, int sort_type, int reverse) {
+// обычная сортировка
+void sort_list(list *list, int sort_type, int reverse) {
   for (int i = 0; i < list->size; i++) {
     for (int j = i+1; j < list->size; j++) {
       struct node *node1 = get_node(list, i);
@@ -265,7 +241,6 @@ void sort_list1(list *list, int sort_type, int reverse) {
     }
   }
 }
-
 
 // двойная сортировка
 void double_sort(list *list, int sort_1, int sort_2, int order) {

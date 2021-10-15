@@ -29,12 +29,12 @@ void main() {
 
   printf("\n=== ALPHABET SORT ===");
   printf("\n---------------------\n");
-  sort_list(&words, ALPHABET, ORDER);
+  sort_list1(&words, ALPHABET, ORDER);
   print_list(&words);
 
   printf("\n==== VOWELS SORT ====");
   printf("\n---------------------\n");
-  sort_list(&words, VOWELS, ORDER);
+  sort_list1(&words, VOWELS, ORDER);
   print_list(&words);  
 
   destroy(&words);
