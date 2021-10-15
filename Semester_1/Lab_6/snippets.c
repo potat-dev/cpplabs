@@ -1,16 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// TODO:
-// find function
-// remove function
+//// туду тудуду: ////
+// вставка (инсерт)
+// удаление по индексу
+// удаление диапазона
+// поиск
+// поиск с оффсетом
+// поиск с конца
 
 // конфиги
-#define NORMAL   0
-#define REVERSE  1
-#define ALPHABET 0
-#define LENGTH   1
-#define VOWELS   2
+#define NORMAL     0
+#define REVERSE    1
+#define ALPHABET   0
+#define LENGTH     1
+#define VOWELS     2
+#define CONSONANTS 3
 
 // list  ->  содержит указатель на начало связанного списка node
 // node  ->  содержит ссылку на word и ссылки на пред/след элемент
@@ -21,6 +26,7 @@ typedef struct word {
   int size;
   int capacity;
   int vowels;
+  int consonants;
 } word;
 
 typedef struct node {
@@ -73,6 +79,7 @@ void push_back(list *l, char *str, size_t size, int capacity) {
   w -> size = size;
   w -> capacity = capacity;
   w -> vowels = vowels_count(str);
+  w -> consonants = size - w -> vowels;
   n -> word = w;
   n -> next = NULL;
 
@@ -203,6 +210,9 @@ void sort_list(list *list, int sort_type, int reverse) {
         case VOWELS:
           swap = reverse ^ (node1->word->vowels > node2->word->vowels);
           break;
+        case CONSONANTS:
+          swap = reverse ^ (node1->word->consonants > node2->word->consonants);
+          break;
         default:
           printf("Invalid sorting configuration!");
       }
@@ -225,6 +235,9 @@ int need_swap(word *w1, word *w2, int sort_type, int reverse) {
     case VOWELS:
       if (w1->vowels == w2->vowels) return 0;
       else return (reverse ^ (w1->vowels > w1->vowels)) ? -1 : 1;
+    case CONSONANTS:
+      if (w1->consonants == w2->consonants) return 0;
+      else return (reverse ^ (w1->consonants > w1->consonants)) ? -1 : 1;
     default:
       printf("Invalid sorting configuration!");
   }
@@ -237,13 +250,14 @@ void double_sort(list *list, int sort_1, int sort_2, int order) {
       struct node *node1 = get_node(list, i);
       struct node *node2 = get_node(list, j);
       int swap = need_swap(node1->word, node2->word, sort_1, order);
-      switch (sort_1) {
+      switch (sort_1) { // оптимизировать
         case ALPHABET:
           if (swap >= 0)
             swap = need_swap(node1->word, node2->word, sort_2, order);
           break;
         case LENGTH:
         case VOWELS:
+        case CONSONANTS:
           if (!swap)
             swap = need_swap(node1->word, node2->word, sort_2, order);
           break;
