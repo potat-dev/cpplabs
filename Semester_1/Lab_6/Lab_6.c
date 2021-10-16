@@ -10,12 +10,12 @@
 
 void main() {
   FILE *file;
-  if ((file = fopen("input/medium.txt", "r")) == NULL)
-    { printf("Error opening file!"); exit(1); }
+  if ((file = fopen("input/med1ium.txt", "r")) == NULL)
+    perror("Error opening file");
 
-  fseek(file, 0, SEEK_END);
-  size_t fsize = ftell(file);
-  fseek(file, 0, SEEK_SET);
+  fseek(file, 0, SEEK_END);   ////
+  size_t fsize = ftell(file); ////
+  fseek(file, 0, SEEK_SET);   ////
 
   char *str = (char*) malloc(fsize * sizeof(char));
   for (size_t i = 0; i < fsize; i++)
@@ -29,12 +29,12 @@ void main() {
 
   printf("\n=== ALPHABET SORT ===");
   printf("\n---------------------\n");
-  sort_list1(&words, ALPHABET, ORDER);
+  sort_list(&words, ALPHABET, ORDER);
   print_list(&words);
 
   printf("\n==== VOWELS SORT ====");
   printf("\n---------------------\n");
-  sort_list1(&words, VOWELS, ORDER);
+  sort_list(&words, VOWELS, ORDER);
   print_list(&words);  
 
   destroy(&words);

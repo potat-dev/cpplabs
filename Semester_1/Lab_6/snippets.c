@@ -8,8 +8,8 @@
 // поиск
 // поиск с оффсетом
 // поиск с конца
-// поменять 1; 0; -1 на -1; 0; 1
 // поменять везде l на list
+// [done] -- file struct
 
 // конфиги
 #define NORMAL   0
@@ -18,6 +18,36 @@
 #define LENGTH   1
 #define VOWELS   2
 #define CONSNTS  3
+
+
+typedef struct file {
+  char *str;
+  int size;
+} file;
+
+size_t file_size(FILE *file) {
+  fseek(file, 0, SEEK_END);
+	size_t fsize = ftell(file);
+	fseek(file, 0, SEEK_SET);
+	return fsize;
+}
+
+file *read_file(char *path) {
+  FILE *f = fopen(path, "r");
+  if (f == NULL)
+    perror("Error opening file");
+  // read string from file
+  size_t fsize = file_size(f);
+  char *str = (char*) malloc(fsize * sizeof(char));
+  for (size_t i = 0; i < fsize; i++)
+    str[i] = fgetc(f);
+  fclose(f);
+  // create file structure
+  file *temp_file = (file*) malloc(sizeof(file));
+  temp_file -> str = str;
+  temp_file -> size = fsize;
+  return temp_file;
+}
 
 // list  ->  содержит указатель на начало связанного списка node
 // node  ->  содержит ссылку на word и ссылки на пред/след элемент
@@ -79,20 +109,24 @@ void upd_word(word *w) {
   w->consnts = w->size - w->vowels;
 }
 
+struct word *make_word(char *str, int size, int capacity) {
+  word *temp = (word*)malloc(sizeof(word));
+  temp->arr = str;
+  temp->size = size;
+  temp->capacity = capacity;
+  upd_word(temp);
+  return temp;
+}
+
 char lower(int ch) {
 	return ch > 64 && ch < 91 ? ch + 32 : ch;
 }
 
 void push_back(list *l, char *str, size_t size, int capacity) {
-  word *w = (word*) malloc(sizeof(word));
+  word *w = make_word(str, size, capacity);
   node *n = (node*) malloc(sizeof(node));
   node *curr;
 
-  w -> arr = str;
-  w -> size = size;
-  w -> capacity = capacity;
-  w -> vowels = vowels_count(str);
-  w -> consnts = size - (w -> vowels);
   n -> word = w;
   n -> next = NULL;
 
