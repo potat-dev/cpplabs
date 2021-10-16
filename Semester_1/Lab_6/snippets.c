@@ -5,8 +5,8 @@
 // вставка (инсерт)
 // удаление по индексу
 // удаление диапазона
-// поиск
-// поиск с оффсетом
+// [done] -- поиск
+// [done] -- поиск с оффсетом
 // поиск с конца
 // поменять везде l на list
 // [done] -- file struct
@@ -93,6 +93,12 @@ void destroy(list *list) {
   }
 }
 
+int strlen(char *str) {
+  int count = 0;
+  for (int i = 0; str[i] != '\0'; i++) count++;
+  return count;
+}
+
 int vowels_count(char *str) {
   int count = 0;
   for (int i = 0; str[i] != '\0'; i++)
@@ -109,10 +115,10 @@ void upd_word(word *w) {
   w->consnts = w->size - w->vowels;
 }
 
-struct word *make_word(char *str, int size, int capacity) {
+struct word *make_word(char *str, int capacity) {
   word *temp = (word*)malloc(sizeof(word));
   temp->arr = str;
-  temp->size = size;
+  temp->size = strlen(str);
   temp->capacity = capacity;
   upd_word(temp);
   return temp;
@@ -122,8 +128,8 @@ char lower(int ch) {
 	return ch > 64 && ch < 91 ? ch + 32 : ch;
 }
 
-void push_back(list *l, char *str, size_t size, int capacity) {
-  word *w = make_word(str, size, capacity);
+void push_back(list *l, char *str, int capacity) {
+  word *w = make_word(str, capacity);
   node *n = (node*) malloc(sizeof(node));
   node *curr;
 
@@ -150,8 +156,7 @@ void merge_lists(list *source, list *destination) {
     char *temp_str = (char*) malloc(temp_word -> size * sizeof(char));
     for (size_t i = 0; i < temp_word -> size; i++)
       temp_str[i] = temp_word -> arr[i];
-    push_back(destination, temp_str,
-              temp_word -> size, temp_word -> capacity);
+    push_back(destination, temp_str, temp_word -> capacity);
     curr = curr -> next;
   }
 }
@@ -176,6 +181,7 @@ struct node *get_node(list *l, int i) {
 };
 
 void print_list(list *l) {
+  printf("---------------------\n");
   for (size_t i = 0; i < l->size; i++) {
     word *temp = get_word(l, i);
     printf("%d -- %s\n", i, temp->arr);
@@ -219,7 +225,7 @@ void parse_str(char *temp, size_t size, list *list) {
       word_end:
       if (len) {
         str[len] = '\0';
-        push_back(list, str, len, capacity);
+        push_back(list, str, capacity);
         capacity = 1; len = 0;
         str = (char*) malloc(sizeof(char));
       }
@@ -227,7 +233,14 @@ void parse_str(char *temp, size_t size, list *list) {
   }
 }
 
-//// СОРТИРОВКА ////
+list *parse_file(file *file) {
+  list *temp_list = (list*) malloc(sizeof(list));
+  init(temp_list);
+  parse_str(file->str, file->size, temp_list);
+  free(file->str);
+  free(file);
+  return temp_list;
+}
 
 // новая функция сравнения слов
 int compare_words(word *w1, word *w2, int order) {
@@ -241,6 +254,18 @@ int compare_words(word *w1, word *w2, int order) {
   if (w1->size == w2->size) return 0;
   else return order ^ (w1->size > w2->size) ? -1 : 1;
 }
+
+
+// return first index 
+int find_word(list *l, int offset, char *str) {
+  word *tmp = make_word(str, 0);
+  for (int i = offset; i < l->size; i++)
+    if (compare_words(get_word(l, i), tmp, NORMAL) == 0)
+      return i;
+  return -1;
+}
+
+//// СОРТИРОВКА ////
 
 // проверяет, нужно ли менять слова местами
 int need_swap(word *w1, word *w2, int sort_type, int reverse) {

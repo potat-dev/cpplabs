@@ -2,40 +2,26 @@
 // упорядоченных по алфавиту и по количеству гласных букв
 // вывести оба списка
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "snippets.c"
-
 #define ORDER NORMAL
 
 void main() {
-  FILE *file;
-  if ((file = fopen("input/med1ium.txt", "r")) == NULL)
-    perror("Error opening file");
-
-  fseek(file, 0, SEEK_END);   ////
-  size_t fsize = ftell(file); ////
-  fseek(file, 0, SEEK_SET);   ////
-
-  char *str = (char*) malloc(fsize * sizeof(char));
-  for (size_t i = 0; i < fsize; i++)
-    str[i] = fgetc(file);
-  fclose(file);
-
-  list words;
-  init(&words);
-  parse_str(str, fsize, &words);
-  free(str);
+  file *file = read_file("input/medium.txt");
+  list *words = parse_file(file);
 
   printf("\n=== ALPHABET SORT ===");
   printf("\n---------------------\n");
-  sort_list(&words, ALPHABET, ORDER);
-  print_list(&words);
+  sort_list(words, ALPHABET, ORDER);
+  print_list(words);
+
+  printf("\n\n%d\n", find_word(words, 0, "ultrices"));
 
   printf("\n==== VOWELS SORT ====");
   printf("\n---------------------\n");
-  sort_list(&words, VOWELS, ORDER);
-  print_list(&words);  
+  sort_list(words, VOWELS, ORDER);
+  print_list(words);  
 
-  destroy(&words);
+  printf("\n\n%d\n", find_word(words, 0, "ultrices"));
+
+  destroy(words);
 }
