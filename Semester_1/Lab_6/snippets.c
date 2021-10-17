@@ -2,13 +2,13 @@
 #include <stdlib.h>
 
 ///// туду тудуду: /////
-// вставка (инсерт)
-// удаление по индексу
-// удаление диапазона
+// [done] -- вставка (инсерт)
+// [done] -- удаление по индексу
+// [done] -- удаление диапазона
 // [done] -- поиск
 // [done] -- поиск с оффсетом
 // [done] -- поиск с конца
-// поменять везде l на list
+// [done] -- поменять везде l на list
 // [done] -- file struct
 
 // конфиги
@@ -18,7 +18,6 @@
 #define LENGTH   1
 #define VOWELS   2
 #define CONSNTS  3
-
 
 typedef struct file {
   char *str;
@@ -72,9 +71,9 @@ typedef struct list {
   size_t size;
 } list;
 
-void init(list *l) {
-  l -> head = NULL;
-  l -> size = 0;
+void init(list *list) {
+  list -> head = NULL;
+  list -> size = 0;
 }
 
 void destroy_word(word *word) {
@@ -132,7 +131,7 @@ char lower(int ch) {
 	return ch > 64 && ch < 91 ? ch + 32 : ch;
 }
 
-void push_back(list *l, char *str, int capacity) {
+void push_back(list *list, char *str, int capacity) {
   word *w = make_word(str, capacity);
   node *n = (node*) malloc(sizeof(node));
   node *curr;
@@ -140,17 +139,17 @@ void push_back(list *l, char *str, int capacity) {
   n -> word = w;
   n -> next = NULL;
 
-  if(l -> head == NULL) {
+  if(list -> head == NULL) {
     n -> prev = NULL;
-    l -> head = n;
+    list -> head = n;
   } else {
-    curr = l -> head;
+    curr = list -> head;
     while (curr -> next != NULL)
       curr = curr -> next;
     curr -> next = n;
     n -> prev = curr;
   }
-  l -> size++;
+  list -> size++;
 }
 
 void merge_lists(list *source, list *destination) {
@@ -165,29 +164,29 @@ void merge_lists(list *source, list *destination) {
   }
 }
 
-struct word *get_word(list *l, int i) {
+struct word *get_word(list *list, int index) {
   int count = 0;
-  node *curr = l -> head;
+  node *curr = list -> head;
   word *result = curr -> word;
-  while (count++ != i) {
+  while (count++ != index) {
     curr = curr -> next;
     result = curr -> word;
   }
   return result;
 };
 
-struct node *get_node(list *l, int i) {
+struct node *get_node(list *list, int index) {
   int count = 0;
-  node *curr = l -> head;
-  while (count++ != i)
+  node *curr = list -> head;
+  while (count++ != index)
     curr = curr -> next;
   return curr;
 };
 
-void print_list(list *l) {
+void print_list(list *list) {
   printf("---------------------\n");
-  for (size_t i = 0; i < l -> size; i++) {
-    word *temp = get_word(l, i);
+  for (size_t i = 0; i < list -> size; i++) {
+    word *temp = get_word(list, i);
     printf("%d -- %s\n", i, temp -> arr);
     printf("---------------------\n");
   }
@@ -207,6 +206,15 @@ int strcmp(char *s1, char *s2) {
     if (c1 == '\0')
       return 0;
   return c1 - c2;
+}
+
+void edit_word(list *list, int index, char *str, int cap) {
+  node *temp = get_node(list, index);
+  word *word = temp -> word;
+  word -> arr = str;
+  word -> size = strlen(str);
+  word -> capacity = cap;
+  upd_word(word);
 }
 
 void swap_nodes(node *n1, node *n2) {
@@ -259,20 +267,31 @@ int compare_words(word *w1, word *w2, int order) {
   else return order ^ (w1 -> size > w2 -> size) ? -1 : 1;
 }
 
-// return first/last index 
-int find_word(list *l, char *str, int offset, int order) {
+void insert(list *list, node *curr, char *str, int cap) {
+  node *temp_node = (node*) malloc(sizeof(node));
+  word *temp_word = make_word(str, cap);
+  temp_node -> word = temp_word;
+  temp_node -> next = curr -> next;
+  temp_node -> prev = curr;
+  curr -> next -> prev = temp_node;
+  curr -> next = temp_node;
+  list -> size++;
+}
+
+// поиск слова (с начала / с конца / с оффсетом)
+int find_word(list *list, char *str, int offset, int order) {
   word *tmp = make_word(str, 0);
   switch (order) {
     case NORMAL:
-      for (int i = offset; i < l -> size; i++)
-        if (compare_words(get_word(l, i), tmp, NORMAL) == 0) {
+      for (int i = offset; i < list -> size; i++)
+        if (compare_words(get_word(list, i), tmp, NORMAL) == 0) {
           destroy_word(tmp);
           return i;
         }
       break;
     case REVERSE:
-      for (int i = l -> size - offset - 1; i >= 0; i--)
-        if (compare_words(get_word(l, i), tmp, NORMAL) == 0) {
+      for (int i = list -> size - offset - 1; i >= 0; i--)
+        if (compare_words(get_word(list, i), tmp, NORMAL) == 0) {
           destroy_word(tmp);
           return i;
         }
@@ -282,7 +301,32 @@ int find_word(list *l, char *str, int offset, int order) {
   return -1;
 }
 
-//// СОРТИРОВКА ////
+void remove_node(list *list, int index) {
+  node *curr = get_node(list, index);
+  if (curr -> prev != NULL) curr -> prev -> next = curr -> next;
+  if (curr -> next != NULL) curr -> next -> prev = curr -> prev;
+  if (index == 0)
+    if (list -> head -> next != NULL)
+      list -> head = list -> head -> next;
+    else
+      list -> head = NULL;
+  destroy_node(curr);
+  list->size--;
+}
+
+void remove_nodes(list *list, int start, int end) {
+  for (int i = start; i < end; i++) // [start, end)
+  remove_node(list, i);
+}
+
+void remove_duplicates(list *list) {
+  for (int i = 0; i < list -> size; i++) {
+    int index;
+    node *curr = get_node(list, i);
+    while ((index = find_word(list, curr -> word -> arr, i + 1, NORMAL)) != -1)
+      remove_node(list, index);
+  }
+}
 
 // проверяет, нужно ли менять слова местами
 int need_swap(word *w1, word *w2, int sort_type, int reverse) {
