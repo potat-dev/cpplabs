@@ -1,16 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-///// туду тудуду: /////
-// [done] -- вставка (инсерт)
-// [done] -- удаление по индексу
-// [done] -- удаление диапазона
-// [done] -- поиск
-// [done] -- поиск с оффсетом
-// [done] -- поиск с конца
-// [done] -- поменять везде l на list
-// [done] -- file struct
-
 // конфиги
 #define NORMAL   0
 #define REVERSE  1
@@ -317,10 +307,11 @@ void remove_node(list *list, int index) {
 void remove_nodes(list *list, int start, int end) {
   for (int i = start; i < end; i++) // [start, end)
   remove_node(list, i);
+  list -> size -= (end - start);
 }
 
 void remove_duplicates(list *list) {
-  for (int i = 0; i < list -> size; i++) {
+  for (int i = 0; i < list -> size - 1; i++) {
     int index;
     node *curr = get_node(list, i);
     while ((index = find_word(list, curr -> word -> arr, i + 1, NORMAL)) != -1)
