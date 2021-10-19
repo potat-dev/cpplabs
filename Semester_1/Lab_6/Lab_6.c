@@ -9,7 +9,7 @@ void main() {
   file *file = read_file("input/medium.txt");
   list *words = parse_file(file);
 
-  printf("\n--- ALPHABET SORT ---");
+  printf("\n--- ALPHABET SORT ---\n");
   sort_list(words, ALPHABET, ORDER);
   print_list(words);
 
@@ -18,7 +18,7 @@ void main() {
         find_word(words, "a", 0, NORMAL),
         find_word(words, "a", 0, REVERSE));
 
-  printf("\n---- VOWELS SORT ----");
+  printf("\n---- VOWELS SORT ----\n");
   sort_list(words, VOWELS, ORDER);
   print_list(words);  
 
@@ -29,15 +29,15 @@ void main() {
   
   char *test = "hello world";
   push_back(words, test, 16);
-  printf("\n---- PUSH BACK ----");
+  printf("\n---- PUSH BACK ----\n");
   print_list(words);
 
-  printf("\n---- REMOVE NODE ----");
+  printf("\n---- REMOVE NODE ----\n");
   remove_node(words, 42);
   print_list(words);
 
-  remove_nodes(words, 0, 2); // some bugs
-  printf("\n---- REMOVE NODES ----");
+  remove_nodes(words, 0, 42); // some bugs
+  printf("\n---- REMOVE NODES ----\n");
   print_list(words);
 
   destroy(words);
