@@ -15,9 +15,8 @@ A repository for learning C and the basics of git using SUAI labs
 | Lab 3 | 🔷 | 🔷 | 🔷 | 🔷 |
 | Lab 4 | 🔷 | 🔷 | 🔷 | 🔷 |
 | Lab 5 | 🔷 | 🔷 | 🔷 | 🔶 |
-| Lab 6 | 🔶 | 🔷 |  |  |
+| Lab 6 | 🔷 | 🔷 |  |  |
 
 # Now in Dev:
 
-* Lab 6 (new features)
 * Snippets file
