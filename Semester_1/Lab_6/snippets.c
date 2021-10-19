@@ -306,11 +306,10 @@ void remove_node(list *list, int index) {
 
 void remove_nodes(list *list, int start, int end) {
   for (int i = 0; i < end - start; i++) // [start, end)
-  remove_node(list, start);
-  list -> size -= (end - start);
+    remove_node(list, start);
 }
 
-void remove_duplicates(list *list) {
+void remove_duplicates(list *list) { // bug here
   for (int i = 0; i < list -> size - 1; i++) {
     int index;
     node *curr = get_node(list, i);
