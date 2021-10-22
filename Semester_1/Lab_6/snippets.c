@@ -377,3 +377,17 @@ void double_sort(list *list, int sort_1, int sort_2, int order) {
     }
   }
 }
+
+// новая версия двойной сортировки
+void double_sort_2(list *list, int sort_1, int sort_2, int order) {
+  for (int i = 0; i < list -> size; i++) {
+    for (int j = i+1; j < list -> size; j++) {
+      struct node *node1 = get_node(list, i);
+      struct node *node2 = get_node(list, j);
+      int swap = need_swap(node1 -> word, node2 -> word, sort_1, order);
+      if ((sort_1 == ALPHABET && swap >= 0) || (sort_1 != ALPHABET && !swap))
+        swap = need_swap(node1 -> word, node2 -> word, sort_2, order);
+      if (swap < 0) swap_nodes(node1, node2);
+    }
+  }
+}
