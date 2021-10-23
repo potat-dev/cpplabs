@@ -4,10 +4,20 @@
 // конфиги
 #define NORMAL   0
 #define REVERSE  1
+
 #define ALPHABET 0
 #define LENGTH   1
 #define VOWELS   2
 #define CONSNTS  3
+
+#define EXIT   0
+#define HELP   1
+#define REMOVE 2
+#define INSERT 3
+#define SORT   4
+#define SORTx2 5
+#define PRINT  9
+
 
 typedef struct file {
   char *str;
@@ -84,6 +94,26 @@ void destroy(list *list) {
     curr = curr -> next;
     destroy_node(prev);
   }
+}
+
+int len = 0;
+char *read_str() {
+  len = 0;
+  int capacity = 1;
+  char *s = (char *)malloc(sizeof(char));
+  char c = getchar();
+  while (c == '\n') c = getchar();
+  
+  while (c != '\n') {
+    s[(len)++] = c;
+    if (len >= capacity) {
+      capacity *= 2;
+      s = (char *)realloc(s, capacity * sizeof(char));
+    }
+    c = getchar();
+  }
+  s[len] = '\0';
+  return s;
 }
 
 int strlen(char *str) {
@@ -257,9 +287,10 @@ int compare_words(word *w1, word *w2, int order) {
   else return order ^ (w1 -> size > w2 -> size) ? -1 : 1;
 }
 
-void insert(list *list, node *curr, char *str, int cap) {
+void insert(list *list, node *curr, char *str) {
+
   node *temp_node = (node*) malloc(sizeof(node));
-  word *temp_word = make_word(str, cap);
+  word *temp_word = make_word(str, strlen(str));
   temp_node -> word = temp_word;
   temp_node -> next = curr -> next;
   temp_node -> prev = curr;
