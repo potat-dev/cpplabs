@@ -6,22 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#define W_COUNT 5
-
-const char words[W_COUNT][7] = {
-  "XCLM", "QTES", "HASH", "DLLR", "PRCNT", "AMPSND",
-  "LBRCK", "RBRCK", "ASTRK", "PLUS", "MINUS", "SLSH",
-  "DOT", "COMMA", "COLON", "SCLN", "ATSMB", "QSTN",
-  "LARR", "EQUL", "RARR", "TILDE", "PIPE", "UNDSC"
-};
-
-const char punct[W_COUNT] = {
-  '!', '"', '#', '$', '%', '&',
-  '(', ')', '*', '+', "-", "/",
-  '.', ',', ':', ';', '@', '?',
-  '<', '=', '>', '~', '|', '_'
-};
+#include "reducts.c"
 
 char lower(int c) {
   return c > 64 && c < 91 ? c + 32 : c;
