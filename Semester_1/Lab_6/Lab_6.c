@@ -6,8 +6,11 @@
 #define ORDER NORMAL
 
 void main() {
-  file *file = read_file("input/medium.txt");
+  file *file = read_file("input/large.txt");
   list *words = parse_file(file);
+
+  printf("\n---- NOT SORTED -----\n");
+  print_list(words);
 
   printf("\n--- ALPHABET SORT ---\n");
   sort_list(words, ALPHABET, ORDER);
