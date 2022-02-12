@@ -103,7 +103,6 @@ char *read_str() {
   char *s = (char *)malloc(sizeof(char));
   char c = getchar();
   while (c == '\n') c = getchar();
-  
   while (c != '\n') {
     s[(len)++] = c;
     if (len >= capacity) {
@@ -118,18 +117,18 @@ char *read_str() {
 
 int strlen(char *str) {
   int count = 0;
-  for (int i = 0; str[i] != '\0'; i++) count++;
+  for (int i = 0; str[i] != 0; i++) count++;
   return count;
 }
 
 int vowels_count(char *str) {
   int count = 0;
   for (int i = 0; str[i] != '\0'; i++)
-    if ((str[i] == 'a')
-    ||  (str[i] == 'e')
-    ||  (str[i] == 'i')
-    ||  (str[i] == 'o')
-    ||  (str[i] == 'u')) count++;
+    if ((str[i] == 'a' || str[i] == 'A')
+    ||  (str[i] == 'e' || str[i] == 'E')
+    ||  (str[i] == 'i' || str[i] == 'I')
+    ||  (str[i] == 'o' || str[i] == 'O')
+    ||  (str[i] == 'u' || str[i] == 'U')) count++;
   return count;
 }
 
@@ -148,7 +147,7 @@ struct word *make_word(char *str, int capacity) {
 }
 
 char lower(int ch) {
-	return ch > 64 && ch < 91 ? ch + 32 : ch;
+  return ch > 64 && ch < 91 ? ch + 32 : ch;
 }
 
 void push_back(list *list, char *str, int capacity) {
@@ -222,7 +221,7 @@ int is_char(int ch) {
 
 int strcmp(char *s1, char *s2) {
   char c1, c2;
-  while ((c1 == *s1++) == (c2 = *s2++))
+  while ((c1 = *s1++) == (c2 = *s2++))
     if (c1 == '\0')
       return 0;
   return c1 - c2;

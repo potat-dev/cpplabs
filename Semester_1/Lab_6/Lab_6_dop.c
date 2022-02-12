@@ -30,7 +30,7 @@ void main() {
 
       case REMOVE: // working!
         printf("Enter node index to delete: ");
-        scanf("%d\n", &id);
+        scanf("%d", &id);
         remove_node(words, id);
         break;
 
