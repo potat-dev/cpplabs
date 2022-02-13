@@ -49,4 +49,23 @@ void parse_file(file *file, list *list) {
       temp = 0;
     } else continue;
   }
+  if (has_number) push_back(list, temp);
+}
+
+int is_prime(int n) {
+  if (n < 3) return (n == 2);
+  if (~n & 1) return 0;
+  for (int i = 3; i*i <= n; i += 2)
+    if (n % i == 0) return 0;
+  return 1;
+}
+
+void split_primes(list *src, list *primes, list *not_primes) {
+  int n = 0;
+  node *curr = src->head;
+  for (int i = 0; i < src->size; i++) {
+    n = curr->value;
+    push_back(is_prime(n) ? primes : not_primes, n);
+    curr = curr->next;
+  }
 }

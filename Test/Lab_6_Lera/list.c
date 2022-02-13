@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// list  ->  содержит указатель на начало связанного списка node
+// node  ->  содержит ссылку на number и ссылки на пред/след элемент
+
 typedef struct node {
   int value;
   struct node *prev;
@@ -38,7 +41,6 @@ void push_back(list* list, int val) {
 }
 
 void destroy(list* list) {
-  // проходим по всему списку и все заменяем на NULL
   node *curr = list->head;
   node *prev = NULL;
   while (curr == NULL) {
@@ -48,7 +50,6 @@ void destroy(list* list) {
   }
   list -> head = NULL;
   list -> size = 0;
-  // по факту это просто init()
 }
 
 void set(list* list, int index, int val) {
@@ -69,13 +70,13 @@ int get(list* list, int index) {
 }
 
 void erase(list* list, node* node) {
-  if (node == list->head) { // проверка на head
+  if (node == list->head) {
     list->head = list->head->next;
-    if (node->next != NULL) // проверка на tail
+    if (node->next != NULL)
       node->next->prev = NULL;
   } else {
     node->prev->next = node->next;
-    if (node->next != NULL) // проверка на tail
+    if (node->next != NULL)
       node->next->prev = node->prev;
   }
   free(node);
@@ -91,7 +92,7 @@ int find(list* list, int val) {
     index++;
   }
   return -1;
-} // можно идти с конца если индекс больше середины
+}
 
 void print_list(list* list) {
   node* curr = list->head;
@@ -99,4 +100,5 @@ void print_list(list* list) {
     printf("%d ", curr->value);
     curr = curr->next;
   }
+  printf("\n");
 }
