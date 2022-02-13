@@ -4,9 +4,20 @@
 #include "snippets.c"
 
 void main() {
-  file *file = read_file("input/large.txt");
-  list *numbers = parse_file(file);
+  list *numbers;
+  init(numbers);
+
+  for (int i = 0; i < 20; i++)
+    push_back(numbers, i);
 
   print_list(numbers);
   destroy(numbers);
 }
+
+// void test() {
+//   file *file = read_file("input/large.txt");
+//   list *numbers = parse_file(file);
+
+//   print_list(numbers);
+//   destroy(numbers);
+// }

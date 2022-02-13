@@ -45,3 +45,37 @@ void init(list *list) {
   list -> head = NULL;
   list -> size = 0;
 }
+
+void destroy(list *list) {
+  node *curr = list -> head;
+  node *prev = NULL;
+  while (curr != NULL) {
+    prev = curr;
+    curr = curr -> next;
+    free(prev);
+  }
+}
+
+void push_back(list *list, int n) {
+  node *curr, *temp = (node*) malloc(sizeof(node));
+  temp -> n = n;
+  temp -> next = NULL;
+
+  if(list -> head == NULL) {
+    list -> head = temp;
+  } else {
+    curr = list -> head;
+    while (curr -> next != NULL)
+      curr = curr -> next;
+    curr -> next = temp;
+  }
+  list -> size++;
+}
+
+void print_list(list *list) {
+  node *curr = list -> head;
+  while (curr) {
+    printf("%d\n", curr -> n);
+    curr = curr -> next;
+  }
+}
