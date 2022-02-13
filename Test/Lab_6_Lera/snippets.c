@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "list.c"
 
 typedef struct file {
   char *str;
@@ -15,14 +16,15 @@ int file_size(FILE *file) {
 }
 
 // чтение файла в строку
-file *read_file(char *path) {
+file* read_file(char *path) {
   FILE *f = fopen(path, "r");
   if (f == NULL) perror("Error opening file");
 
   int fsize = file_size(f);
-  char *str = (char*) malloc(fsize * sizeof(char));
+  char *str = (char*) malloc((fsize + 1) * sizeof(char));
   for (int i = 0; i < fsize; i++)
     str[i] = fgetc(f);
+  str[fsize] = 0;
   fclose(f);
 
   file *temp_file = (file*) malloc(sizeof(file));
@@ -31,51 +33,24 @@ file *read_file(char *path) {
   return temp_file;
 }
 
-typedef struct node {
-  int n;
-  struct node *next;
-} node;
-
-typedef struct list {
-  int  size;
-  node *head;
-} list;
-
-void init(list *list) {
-  list -> head = NULL;
-  list -> size = 0;
+int is_num(char ch) {
+  return (int)('0' <= ch && ch <= '9');
 }
 
-void destroy(list *list) {
-  node *curr = list -> head;
-  node *prev = NULL;
-  while (curr != NULL) {
-    prev = curr;
-    curr = curr -> next;
-    free(prev);
-  }
-}
-
-void push_back(list *list, int n) {
-  node *curr, *temp = (node*) malloc(sizeof(node));
-  temp -> n = n;
-  temp -> next = NULL;
-
-  if(list -> head == NULL) {
-    list -> head = temp;
-  } else {
-    curr = list -> head;
-    while (curr -> next != NULL)
-      curr = curr -> next;
-    curr -> next = temp;
-  }
-  list -> size++;
-}
-
-void print_list(list *list) {
-  node *curr = list -> head;
-  while (curr) {
-    printf("%d\n", curr -> n);
-    curr = curr -> next;
+void str2list(char *str, list *list) {
+  int temp = 0, has_number = 0;
+  
+  for (int i = 0; str[i] != 0; i++) {
+    if (is_num(str[i])) {
+      temp = temp * 10 + (str[i] - 48);
+      has_number = 1;
+    } else if (str[i] == ' ') {
+      if (has_number) {
+        push_back(list, temp);
+        printf("%d ", temp);
+        has_number = 0;
+      }
+      temp = 0;
+    } else continue;
   }
 }

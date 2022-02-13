@@ -1,23 +1,16 @@
 // Написать функцию, расщепляющую упорядоченный линейный список целых чисел 
 // на два упорядоченных списка: простых и составных чисел
-
+#include <stdio.h>
 #include "snippets.c"
+#include "list.c"
 
 void main() {
+  file *file = read_file("test.txt");
   list *numbers;
-  init(numbers);
 
-  for (int i = 0; i < 20; i++)
-    push_back(numbers, i);
+  init(numbers);
+  str2list(file->str, numbers);
 
   print_list(numbers);
   destroy(numbers);
 }
-
-// void test() {
-//   file *file = read_file("input/large.txt");
-//   list *numbers = parse_file(file);
-
-//   print_list(numbers);
-//   destroy(numbers);
-// }
