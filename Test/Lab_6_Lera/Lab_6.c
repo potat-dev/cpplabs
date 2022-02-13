@@ -9,7 +9,7 @@ void main() {
   list *numbers;
 
   init(numbers);
-  str2list(file->str, numbers);
+  parse_file(file, numbers);
 
   print_list(numbers);
   destroy(numbers);

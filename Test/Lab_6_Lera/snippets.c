@@ -33,21 +33,17 @@ file* read_file(char *path) {
   return temp_file;
 }
 
-int is_num(char ch) {
-  return (int)('0' <= ch && ch <= '9');
-}
-
-void str2list(char *str, list *list) {
+void parse_file(file *file, list *list) {
+  char *str = file -> str;
   int temp = 0, has_number = 0;
   
   for (int i = 0; str[i] != 0; i++) {
-    if (is_num(str[i])) {
+    if ('0' <= str[i] && str[i] <= '9') {
       temp = temp * 10 + (str[i] - 48);
       has_number = 1;
     } else if (str[i] == ' ') {
       if (has_number) {
         push_back(list, temp);
-        printf("%d ", temp);
         has_number = 0;
       }
       temp = 0;
