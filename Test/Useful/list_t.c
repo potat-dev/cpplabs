@@ -23,7 +23,6 @@ void init(list_t *list) {
 //   node_t* temp = (node_t*)malloc(sizeof(node_t));
 //   temp->value = val;
 //   temp->next = NULL;
-  
 // }
 
 void push_back(list_t* list, int val) {
