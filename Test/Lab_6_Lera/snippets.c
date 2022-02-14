@@ -16,6 +16,12 @@ typedef struct list {
   int size;
 } list;
 
+typedef struct file {
+  char *str;
+  int size;
+} file;
+
+// инициализация: возвращает пустой список
 list* init_list() {
   list *temp = (list*)malloc(sizeof(list));
   temp->head = NULL;
@@ -24,6 +30,7 @@ list* init_list() {
   return temp;
 }
 
+// добавление числа в конец списка
 void push_back(list* list, int val) {
   node* temp = (node*)malloc(sizeof(node));
   temp->value = val;
@@ -41,6 +48,7 @@ void push_back(list* list, int val) {
   list->size++;
 }
 
+// очищаем список
 void destroy(list* list) {
   node *curr = list->head;
   node *prev = NULL;
@@ -53,6 +61,7 @@ void destroy(list* list) {
   list -> size = 0;
 }
 
+// выводим список на экран
 void print_list(list* list) {
   node* curr = list->head;
   while (curr != NULL) {
@@ -61,11 +70,6 @@ void print_list(list* list) {
   }
   printf("\n");
 }
-
-typedef struct file {
-  char *str;
-  int size;
-} file;
 
 // определение размера файла
 int file_size(FILE *file) {
@@ -93,6 +97,7 @@ file* read_file(char *path) {
   return temp_file;
 }
 
+// парсим текстовый файл в линейный список
 void parse_file(file *file, list *list) {
   char *str = file -> str;
   int temp = 0, has_number = 0;
@@ -112,6 +117,7 @@ void parse_file(file *file, list *list) {
   if (has_number) push_back(list, temp);
 }
 
+// проверка простоты числа
 int is_prime(int n) {
   if (n < 3) return (n == 2);
   if (~n & 1) return 0;
@@ -120,6 +126,7 @@ int is_prime(int n) {
   return 1;
 }
 
+// разделяем числа на список простых и список составных
 void split_primes(list *src, list *primes, list *composites) {
   node *curr = src->head;
   for (int i = 0; i < src->size; i++) {
