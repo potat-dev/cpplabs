@@ -1,6 +1,66 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "list.c"
+
+// list -> содержит указатель на начало связанного списка node
+// node -> содержит ссылку на number и ссылки на пред/след элемент
+
+typedef struct node {
+  int value;
+  struct node *prev;
+  struct node *next;
+} node;
+
+typedef struct list {
+  node* head;
+  node* tail;
+  int size;
+} list;
+
+list* init_list() {
+  list *temp = (list*)malloc(sizeof(list));
+  temp->head = NULL;
+  temp->tail = NULL;
+  temp->size = 0;
+  return temp;
+}
+
+void push_back(list* list, int val) {
+  node* temp = (node*)malloc(sizeof(node));
+  temp->value = val;
+  temp->next = NULL;
+  
+  if (list->size == 0) {
+    list->head = temp;
+    list->tail = temp;
+    temp->prev = NULL;
+  } else {
+    temp->prev = list->tail;
+    list->tail->next = temp;
+    list->tail = temp;
+  }
+  list->size++;
+}
+
+void destroy(list* list) {
+  node *curr = list->head;
+  node *prev = NULL;
+  while (curr == NULL) {
+    prev = curr;
+    curr = curr->next;
+    free(prev);
+  }
+  list -> head = NULL;
+  list -> size = 0;
+}
+
+void print_list(list* list) {
+  node* curr = list->head;
+  while (curr != NULL) {
+    printf("%d ", curr->value);
+    curr = curr->next;
+  }
+  printf("\n");
+}
 
 typedef struct file {
   char *str;
@@ -60,12 +120,10 @@ int is_prime(int n) {
   return 1;
 }
 
-void split_primes(list *src, list *primes, list *not_primes) {
-  int n = 0;
+void split_primes(list *src, list *primes, list *composites) {
   node *curr = src->head;
   for (int i = 0; i < src->size; i++) {
-    n = curr->value;
-    push_back(is_prime(n) ? primes : not_primes, n);
+    push_back(is_prime(curr->value) ? primes : composites, curr->value);
     curr = curr->next;
   }
 }

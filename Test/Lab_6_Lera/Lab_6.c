@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include "snippets.c"
-#include "list.c"
 
 void main() {
   file *file = read_file("test.txt");
@@ -14,7 +13,7 @@ void main() {
   parse_file(file, numbers);
   split_primes(numbers, primes, composites);
 
-  print_list(numbers);
-  print_list(primes);
-  print_list(composites);
+  printf("%-12s", "numbers:");    print_list(numbers);
+  printf("%-12s", "primes:");     print_list(primes);
+  printf("%-12s", "composites:"); print_list(composites);
 }
