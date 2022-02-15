@@ -15,12 +15,12 @@ Labs now ready: `7 / 7`
 | Lab 6 | ✅ | ✅ | ✅ | ✅ |
 
 ## Semester 2:
-Labs now ready: `2 / 8`
+Labs now ready: `3 / 8`
 | Lab   | Dev | Ready | Pass | Dop |
 | :---- | :-: | :-: | :-: | :-: |
 | Lab 7 | 🔷 | 🔷 |  |  |
 | Lab 8 | 🔷 | 🔷 |  |  |
-| Lab 9 |  |  |  |  |
+| Lab 9 | 🔷 |  |  |  |
 | Lab 10 |  |  |  |  |
 | Lab 11 | 🔷 | 🔷 |  |  |
 | Lab 12 |  |  |  |  |
