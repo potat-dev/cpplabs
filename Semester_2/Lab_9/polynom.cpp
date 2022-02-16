@@ -19,12 +19,24 @@ polynom *new_polynom(int *arr, int n) {
   return temp;
 }
 
-// возвращает полином вида (x - a)
+// обновляет существующий полином
+void upd_polynom(polynom *p, int *arr, int n) {
+  free(p->arr);
+  p->arr = arr;
+  p->n = n;
+}
+
+// возвращает бином вида (x + a)
 polynom *new_binom(int a) {
   int *arr = (int*)malloc(2 * sizeof(int));
-  arr[0] = -a; arr[1] = 1; 
+  arr[0] = a; arr[1] = 1; 
   polynom *temp = new_polynom(arr, 2);
   return temp;
+}
+
+// обновляет существующий бином
+void upd_binom(polynom *b, int a) {
+  b->arr[0] = a;
 }
 
 polynom *multiply(polynom *a, polynom *b) {
@@ -40,6 +52,22 @@ polynom *multiply(polynom *a, polynom *b) {
 
   polynom *temp = new_polynom(arr, max_power);
   return temp;
+}
+
+void multiply(polynom *m, polynom *a, polynom *b) {
+  int max_power = a->n + b->n - 1;
+  int *arr = (int*)malloc(max_power * sizeof(int));
+  for (int i = 0; i < max_power; i++) arr[i] = 0;
+
+  for (int x = 0; x < a->n; x++) {
+    for (int y = 0; y < b->n; y++) {
+      arr[x+y] += a->arr[x] * b->arr[y];
+    }
+  }
+
+  free(m->arr);
+  m->arr = arr;
+  m->n = max_power;
 }
 
 void print_polynom(polynom *p) {
