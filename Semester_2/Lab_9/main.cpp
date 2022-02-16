@@ -24,6 +24,13 @@ polynom *new_polynom(int *arr, int n) {
   return temp;
 }
 
+polynom *new_binom(int a) { // возвращает полином вида (x - a)
+  int *arr = (int*)malloc(2 * sizeof(int));
+  arr[0] = -a; arr[1] = 1; 
+  polynom *temp = new_polynom(arr, 2);
+  return temp;
+}
+
 void destroy(polynom *p) {
   free(p->arr);
   free(p);
@@ -80,25 +87,22 @@ polynom *multiply(polynom *a, polynom *b) {
 }
 
 int main() {
-  int arr[] = {0, 1};
+  int a = 0, n =0;
   polynom *p1, *p2;
 
-  int n = 0;
   printf("input n = ");
   scanf("%d", &n);
   if (n < 1) exit(42);
   printf("input %d numbers: ", n);
 
-  scanf("%d", &arr[0]);
-  arr[0] *= -1;
-  p1 = new_polynom(arr, 2);
+  scanf("%d", &a);
+  p1 = new_binom(a);
 
   for (int i = 1; i < n; i++) {
-    int temp[] = {0, 1};
-    scanf("%d", &temp);
-    temp[0] *= -1; // так как у нас (x - a)
-    p2 = new_polynom(temp, 2);
-    p1 = multiply(p1, p2);
+    scanf("%d", &a);
+    destroy(p2);
+    p2 = new_binom(a);
+    p1 = multiply(p1, p2); // тут утечка памяти, потом исправить
     if (i == n-1) print_polynom(p1);
   }
 }
