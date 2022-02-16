@@ -80,21 +80,8 @@ polynom *multiply(polynom *a, polynom *b) {
 }
 
 int main() {
-  int temp = 0;
-  int arr1[2] = {1, 1};
-  int arr2[2] = {2, 1};
-  int arr[2] = {0, 1};
-
-  polynom *p1 = new_polynom(arr1, 2);
-  polynom *p2 = new_polynom(arr2, 2);
-
-  print_polynom(p1);
-  print_polynom(p2);
-
-  polynom *m = multiply(p1, p2);
-  print_polynom(m);
-
-  printf("\n---test---\n\n");
+  int arr[] = {0, 1};
+  polynom *p1, *p2;
 
   int n = 0;
   printf("input n = ");
@@ -102,18 +89,16 @@ int main() {
   if (n < 1) exit(42);
   printf("input %d numbers: ", n);
 
-  scanf("%d", &temp);
-  arr[0] = -temp;
-
+  scanf("%d", &arr[0]);
+  arr[0] *= -1;
   p1 = new_polynom(arr, 2);
-  print_polynom(p1);
 
-  for (int i = 0; i < n - 1; i++) {
+  for (int i = 1; i < n; i++) {
+    int temp[] = {0, 1};
     scanf("%d", &temp);
-    arr[0] = -temp;
-    p2 = new_polynom(arr, 2);
-    print_polynom(p2);
+    temp[0] *= -1; // так как у нас (x - a)
+    p2 = new_polynom(temp, 2);
     p1 = multiply(p1, p2);
-    print_polynom(p1);
+    if (i == n-1) print_polynom(p1);
   }
 }
