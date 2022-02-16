@@ -7,4 +7,5 @@ void upd_binom(polynom *b, int a);
 polynom *multiply(polynom *a, polynom *b);
 void multiply(polynom *m, polynom *a, polynom *b);
 void print_polynom(polynom *p);
+void print_koeffs(int *arr, int n);
 void destroy(polynom *p);

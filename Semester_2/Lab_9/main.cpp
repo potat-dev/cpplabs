@@ -21,17 +21,10 @@ int main() {
   printf("input %d numbers: ", n);
   int *arr = (int*)malloc(n * sizeof(int));
   for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
-
-  printf("p(x) = ");
-  for (int i = 0; i < n; i++) {
-    printf("(x - %d)", arr[i]);
-    if (i < n-1) printf(" * ");
-    else printf("\n");
-  }
-
+  print_koeffs(arr, n);
+  
   polynom *p1 = new_binom(-arr[0]);
   if (n == 1) {
-    printf("p(x) = ");
     print_polynom(p1);
     exit(1);
   }
@@ -42,6 +35,6 @@ int main() {
     multiply(p1, p1, p2);
   }
 
-  printf("p(x) = ");
   print_polynom(p1);
+  return 0;
 }

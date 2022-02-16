@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // как хранится 3x^2 + 4x + 5:
 // a: {5, 4, 3}
@@ -73,43 +74,34 @@ void multiply(polynom *m, polynom *a, polynom *b) {
 }
 
 // красиво выводит полином на экран
-// ! код очень страшный, надо оптимизировать
 void print_polynom(polynom *p) {
+  printf("p(x) = ");
   int first_been = 0;
-  for (int i = p->n-1; i >= 0; i--) {
+  for (int i = p->n - 1; i >= 0; i--) {
     int x = p->arr[i];
+    if (!x) continue;
     if (!first_been) {
-      if (x == 1 || x == -1) {
-        if (x > 0) {
-          printf(
-            (x > 0) ?
-            (i > 1 ? "x^%d" : i ? "x" : "1") :
-            (i > 1 ? "-x^%d" : i ? "-x" : "-1"), i);
-        } else {
-          printf((i > 1 ? "-x^%d" : i ? "-x" : "-1"), i);
-        }
-      } else if (x) {
-        printf(i > 1 ? "%dx^%d" : i ? "%dx" : "%d", x, i);
-      }
-      if (x) first_been++;
+      if (x < 0) printf("-");
+      first_been++;
     } else {
-      if (x == 1 || x == -1) {
-        printf(
-          (x > 0) ?
-          (i > 1 ? " + x^%d" : i ? " + x" : " + 1") :
-          (i > 1 ? " - x^%d" : i ? " - x" : " - 1"), i
-        );
-      } else if (x) {
-        printf(
-          (x > 0) ?
-          (i > 1 ? " + %dx^%d" : i ? " + %dx" : " + %d") :
-          (i > 1 ? " - %dx^%d" : i ? " - %dx" : " - %d"),
-          (x > 0) ? x : -x, i
-        );
-      }
+      printf(x > 0 ? " + " : " - ");
+    }
+    if (fabs(x) == 1) {
+      printf(i > 1 ? "x^%d" : i ? "x" : "1", i);
+    } else {
+      printf(i > 1 ? "%dx^%d" : i ? "%dx" : "%d", fabs(x), i);
     }
   }
   printf("\n");
+}
+
+void print_koeffs(int *arr, int n) {
+  printf("p(x) = ");
+  for (int i = 0; i < n; i++) {
+    printf("(x - %d)", arr[i]);
+    if (i < n-1) printf(" * ");
+    else printf("\n");
+  }
 }
 
 void destroy(polynom *p) {
