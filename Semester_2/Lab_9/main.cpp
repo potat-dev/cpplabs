@@ -30,12 +30,34 @@ void destroy(polynom *p) {
 }
 
 void print_polynom(polynom *p) {
-  for (int i = p->n - 1; i >= 0; i--) {
-    if (p->arr[i]) {
-      if (i < 2) {
-        printf(i ? "%dx + " : "%d", p->arr[i]);
-      } else {
-        printf("%dx^%d + ", p->arr[i], i);
+  int first_been = 0;
+  for (int i = p->n-1; i >= 0; i--) {
+    int x = p->arr[i];
+    if (!first_been) {
+      if (x == 1 || x == -1) {
+        if (x > 0) {
+          printf(i > 1 ? "x^%d" : i ? "x" : "1", i);
+        } else {
+          printf(i > 1 ? "-x^%d" : i ? "-x" : "-1", i);
+        }
+      } else if (x) {
+        printf(i > 1 ? "%dx^%d" : i ? "%dx" : "%d", x, i);
+      }
+      if (x) first_been++;
+    } else {
+      if (x == 1 || x == -1) {
+        printf(
+          (x > 0) ?
+          (i > 1 ? " + x^%d" : i ? " + x" : " + 1") :
+          (i > 1 ? " - x^%d" : i ? " - x" : " - 1"), i
+        );
+      } else if (x) {
+        printf(
+          (x > 0) ?
+          (i > 1 ? " + %dx^%d" : i ? " + %dx" : " + %d") :
+          (i > 1 ? " - %dx^%d" : i ? " - %dx" : " - %d"),
+          (x > 0) ? x : -x, i
+        );
       }
     }
   }
@@ -52,18 +74,19 @@ polynom *multiply(polynom *a, polynom *b) {
       arr[x+y] += a->arr[x] * b->arr[y];
     }
   }
-  // for (int i = 0; i < max_power; i++) printf("%d ", arr[i]);
-  // printf("\n");
+
   polynom *temp = new_polynom(arr, max_power);
   return temp;
 }
 
 int main() {
-  int arr1[3] = {1, 45, 3};
-  int arr2[4] = {1, 6, 1, 8};
+  int temp = 0;
+  int arr1[2] = {1, 1};
+  int arr2[2] = {2, 1};
+  int arr[2] = {0, 1};
 
-  polynom *p1 = new_polynom(arr1, 3);
-  polynom *p2 = new_polynom(arr2, 4);
+  polynom *p1 = new_polynom(arr1, 2);
+  polynom *p2 = new_polynom(arr2, 2);
 
   print_polynom(p1);
   print_polynom(p2);
@@ -71,10 +94,26 @@ int main() {
   polynom *m = multiply(p1, p2);
   print_polynom(m);
 
-  // int n = 0;
-  // printf("input n = ");
-  // scanf("%d", &n);
-  // for (int i = 0; i < n; i++) {
-  //   multiply(p1, p2);
-  // }
+  printf("\n---test---\n\n");
+
+  int n = 0;
+  printf("input n = ");
+  scanf("%d", &n);
+  if (n < 1) exit(42);
+  printf("input %d numbers: ", n);
+
+  scanf("%d", &temp);
+  arr[0] = -temp;
+
+  p1 = new_polynom(arr, 2);
+  print_polynom(p1);
+
+  for (int i = 0; i < n - 1; i++) {
+    scanf("%d", &temp);
+    arr[0] = -temp;
+    p2 = new_polynom(arr, 2);
+    print_polynom(p2);
+    p1 = multiply(p1, p2);
+    print_polynom(p1);
+  }
 }
