@@ -4,7 +4,7 @@
 // как хранится 3x^2 + 4x + 5:
 // a: {5, 4, 3}
 // i:  0, 1, 2
-// => a*x^i
+// => представляется как a*x^i
 
 struct polynom {
   int n; // - количество коэффициентов
@@ -39,6 +39,7 @@ void upd_binom(polynom *b, int a) {
   b->arr[0] = a;
 }
 
+// умножает два полинома и возвращает новый
 polynom *multiply(polynom *a, polynom *b) {
   int max_power = a->n + b->n - 1;
   int *arr = (int*)malloc(max_power * sizeof(int));
@@ -54,6 +55,7 @@ polynom *multiply(polynom *a, polynom *b) {
   return temp;
 }
 
+// умножает два полинома и записывает в существующий
 void multiply(polynom *m, polynom *a, polynom *b) {
   int max_power = a->n + b->n - 1;
   int *arr = (int*)malloc(max_power * sizeof(int));
@@ -70,6 +72,8 @@ void multiply(polynom *m, polynom *a, polynom *b) {
   m->n = max_power;
 }
 
+// красиво выводит полином на экран
+// ! код очень страшный, надо оптимизировать
 void print_polynom(polynom *p) {
   int first_been = 0;
   for (int i = p->n-1; i >= 0; i--) {

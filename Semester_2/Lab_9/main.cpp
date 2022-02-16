@@ -5,10 +5,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "polynom.h"
 
 int main() {
-  int n =0;
+  int n = 0;
   printf("input n = ");
   scanf("%d", &n);
 
@@ -30,6 +31,7 @@ int main() {
 
   polynom *p1 = new_binom(-arr[0]);
   if (n == 1) {
+    printf("p(x) = ");
     print_polynom(p1);
     exit(1);
   }
