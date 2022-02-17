@@ -9,9 +9,9 @@
 #include "polynom.h"
 
 int main() {
-  int n = 0;
+  unsigned int n = 0;
   printf("input n = ");
-  scanf("%d", &n);
+  scanf("%u", &n);
 
   if (n < 1) {
     printf("n must be >= 1\n");
@@ -19,8 +19,8 @@ int main() {
   }
 
   printf("input %d numbers: ", n);
-  int *arr = (int*)malloc(n * sizeof(int));
-  for (int i = 0; i < n; i++) scanf("%d", &arr[i]);
+  long long *arr = (long long*)malloc(n * sizeof(long long));
+  for (int i = 0; i < n; i++) scanf("%lld", &arr[i]);
   print_koeffs(arr, n);
   
   polynom *p1 = new_binom(-arr[0]);
