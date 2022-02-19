@@ -4,26 +4,15 @@
 // Предусмотреть функции сложения, вычитания, сравнения и проверки на 0
 
 #include <iostream>
-#include <string>
-#include "snippets.h"
-
-using namespace std;
+#include "HugeInt.h"
 
 int main() {
-  string hello = "hello";
-  int arr[5] = {3, 4, 5, 6, 7};
+  HugeInt test;
+  test.print();
 
-  Test test_1 {{1, 2, 3, 4, 5}, 4242};
-  Test test_2;
-
-  test_1.print();
-  test_2.print();
-  test_2.arr[0] = 42;
-
-  HugeInt h;
-  cout << h.str << endl;
-  h.set(arr);
-  h.print();
+  test.set(42);
+  test.set(7);
+  test.print();
 }
 
 // Используйте приватные поля для данных,
