@@ -1,18 +1,18 @@
-// это решение лабы было взято из интернета
+// Написать программу составления двоичного дерева слов по символьному файлу
+// и функцию определения глубины дерева
 
 #include <stdio.h>
-#include <ctype.h>
-#include <string.h>
+#include <ctype.h>  // нельзя
+#include <string.h> // нельзя
 #include <stdlib.h>
-//#include <cstddef>
 
 #define MAXWORD 100
 
-typedef struct tnode {         // узел дерева
-  char* word;                  // указатель на строку (слово)
-  int count;                   // число вхождений
-  struct tnode* left;          // левый потомок
-  struct tnode* right;         // правый потомок
+typedef struct tnode {  // узел дерева
+  char* word;           // указатель на строку (слово)
+  int count;            // число вхождений
+  struct tnode* left;   // левый потомок
+  struct tnode* right;  // правый потомок
 } tnode;
 
 // Функция добавления узла к дереву
@@ -47,7 +47,12 @@ void freemem(tnode* tree) {
 void treeprint(struct tnode* p) {
   if (p != NULL) {
     treeprint(p->left);
-    printf("%d %s\n", p->count, p->word);
+    printf("%s", p->word);
+    if (p->count > 1) {
+      printf("\t - %d times\n", p->count);
+    } else {
+      printf("\n");
+    }
     treeprint(p->right);
   }
 }
@@ -64,7 +69,6 @@ int main() {
   } while (word[0] != '0');    // условие выхода – ввод символа '0'
   treeprint(root);
   freemem(root);
-  getchar();
-  getchar();
+  getchar(); getchar();
   return 0;
 }
