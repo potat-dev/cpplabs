@@ -5,47 +5,9 @@
 
 #include <iostream>
 #include <string>
+#include "snippets.h"
 
 using namespace std;
-
-class HugeInt {
-  private:
-    int arr[5];
-    int test;
-
-  public:
-    string str = "hello";
-    int arr_2[5];
-    int pub = 42;
-
-    void print() {
-      for (char i = 0; i < 5; i++)
-        printf(i < 4 ? "%d, " : "%d", arr[i]);
-
-      printf("\ntest: %d\n", test);
-    }
-
-    void set(int *a) {
-      for (char i = 0; i < 5; i++) arr[i] = a[i];
-    }
-};
-
-class Test {
-  public:
-    int arr[5];
-    int test = 42;
-
-    void print() {
-      for (char i = 0; i < 5; i++)
-        printf(i < 4 ? "%d, " : "%d", arr[i]);
-      printf("\ntest: %d\n", test);
-    }
-  
-  // private:
-  //   void test() {
-  //     cout << "test lol" << endl;
-  //   };
-};
 
 int main() {
   string hello = "hello";
