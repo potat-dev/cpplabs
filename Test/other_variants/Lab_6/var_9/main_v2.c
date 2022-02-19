@@ -12,7 +12,7 @@
 
 int sizefile(FILE *file)
 {
-  if ((fopen_s(&file, "newtext.txt", "r") != NULL) || (file == NULL))
+  if ((fopen_s(&file, "input.txt", "r") != NULL) || (file == NULL))
   {
     printf("ERROR");
     return 0;
@@ -150,7 +150,7 @@ int main()
   char *lefttmp = NULL;
   char *righttmp = NULL;
   FILE *filewords;
-  if ((fopen_s(&filewords, "newtext.txt", "r") != NULL) || (filewords == NULL))
+  if ((fopen_s(&filewords, "input.txt", "r") != NULL) || (filewords == NULL))
   {
     printf("ERROR");
   }

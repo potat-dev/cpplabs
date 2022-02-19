@@ -145,7 +145,7 @@ void printTree(struct node *node)
 
 int main()
 {
-  file *f = read_file("newtext.txt");
+  file *f = read_file("input.txt");
   tree *my_tree;
   init(my_tree);
   parse_str(f->str, f->size, my_tree);
