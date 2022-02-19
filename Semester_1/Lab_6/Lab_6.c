@@ -3,6 +3,7 @@
 // вывести оба списка
 
 #include "snippets.c"
+#define ORDER NORMAL 
 
 void main() {
   file *file = read_file("input/large.txt");
@@ -12,11 +13,11 @@ void main() {
   print_list(words);
 
   printf("\n--- ALPHABET SORT ---\n");
-  sort_list(words, ALPHABET, NORMAL);
+  sort_list(words, ALPHABET, ORDER);
   print_list(words);
 
   printf("\n---- VOWELS SORT ----\n");
-  sort_list(words, VOWELS, NORMAL);
+  sort_list(words, VOWELS, ORDER);
   print_list(words); 
 
   destroy(words);
