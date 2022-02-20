@@ -1,23 +1,31 @@
 #include <iostream>
 #include <string>
+#include <vector>
+
 #include "HugeInt.h"
 
 using namespace std;
 
+// конструктор
+HugeInt::HugeInt(int digits) {
+  digits_count = digits;
+  array.resize(digits_count);
+}
+
 void HugeInt::set(int n) {
-  if (i >= 40) {
+  if (i >= digits_count) {
     cout << "array is full" << endl;
   } else {
-    arr[i++] = n;
+    array[i++] = n;
   }
 }
 
 int HugeInt::get(int n) {
-  return (n >= 0 && n < 40) ? arr[n] : 0;
+  return (n >= 0 && n < digits_count) ? array[n] : 0;
 }
 
 void HugeInt::print() {
-  for (int j = 39; j >= 0; j--) {
-    printf(j ? "%d, " : "%d\n", arr[j]);
+  for (int j = digits_count - 1; j >= 0; j--) {
+    printf(j ? "%d, " : "%d\n", array[j]);
   }
 }
