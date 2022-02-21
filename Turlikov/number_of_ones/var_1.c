@@ -21,7 +21,7 @@ char arr[256] = {0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
 char count_ones (unsigned long long n) {
   char w = 0;
   while (n > 0) { // не может быть более 8 итераций
-    w += arr[n & 255];
+    w += arr[n & 255]; // логическое умножение на маску 0b11111111
     n = n >> 8;
   }
   return w;
