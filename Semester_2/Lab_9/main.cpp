@@ -10,7 +10,7 @@
 
 #include "polynom.h"
 
-int main() {
+int main1() {
   unsigned int n = 0;
   printf("input n = ");
   scanf("%u", &n);
