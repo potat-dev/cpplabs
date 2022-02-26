@@ -21,7 +21,7 @@ int main() {
   }
 
   printf("input %d numbers: ", n);
-  long long *arr = (long long*)malloc(n * sizeof(long long));
+  long long *arr = (long long*) malloc(n * sizeof(long long));
   for (int i = 0; i < n; i++) scanf("%lld", &arr[i]);
   print_koeffs(arr, n);
   
