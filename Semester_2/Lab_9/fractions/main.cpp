@@ -5,26 +5,25 @@
 
 int main() { // ? test
   fraction *f = new_fraction();
-  print_fraction(f);
-  set_fraction(f, 6, 18);
-  print_fraction(f);
+  fraction *f1 = new_fraction();
+  fraction *f2 = new_fraction();
 
-  fraction *fr = new_fraction();
-  print_fraction(fr);
-  fraction *tt = new_fraction();
-  // sum_fractions(tt, f, fr);
+  print_fraction(f1);
+  set_fraction(f1, 6, 18);
+  print_fraction(f1);
+  print_fraction(f2);
+  set_fraction(f2, 42343342, 425236560);
+  sum_fractions(f1, f2);
+  print_fraction(f1); //* correct!
 
-  sum_fractions(f, fr);
+  set_fraction(f, 423, 1618);
+  set_fraction(f1, 42, 4);
+  set_fraction(f2, 2343, 67);
+  sum_multiply_fractions(f, f1, f2);
+  print_fraction(f); //* correct!
 
-  print_fraction(f);
-
-  // set_fraction(fr, 4342, 454);
-  // simplify_fraction(fr);
-  // print_fraction(fr);
-
-  // set_fraction(fr, 39, 3);
-  // simplify_fraction(fr);
-  // print_fraction(fr);
-
-  return 0;
+  set_fraction(f1, 0, 1);
+  set_fraction(f2, 618, 1);
+  multiply_fractions(f, f1, f2);
+  print_fraction(f); //* correct!
 }
