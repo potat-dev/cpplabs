@@ -53,24 +53,31 @@ void upd_binom(polynom *b, long long a) {
   b->koeffs[0] = a;
 }
 
-// long long gcd1(long long a, long long b) {
-//   if (a == 0) return b;
-//   return gcd(b % a, a);
-// }
-
-long long gcd(long long a, long long b)
-{
-  if (a == 0)
-    return 1;
-
-  while (a != b)
-    a > b ? a -= b : b -= a;
-  return a;
+long long gcd(long long a, long long b) {
+  if (a == 0) return b;
+  return gcd(b % a, a);
 }
 
-void simplify(long long *a, long long *b) {
-  long long d = gcd(*a, *b);
-  *a /= d; *b /= d;
+void simplify(long long &a, long long &b) {
+  long long factor = gcd(a, b);
+  a /= factor; b /= factor;
+}
+
+// выполняет действие: x/y = a/b + c/d
+//? можно упростить до x/y += a/b
+//  x     a     c
+// --- = --- + ---
+//  y     b     d
+
+void add_fractions(
+  long long &x, long long &y, // результат
+  long long a, long long b,   // первое слагаемое
+  long long c, long long d    // второе слагаемое
+) {
+  y = gcd(b, d);
+  y = (b * d) / y;
+  x = (a) * (y / b) + (c) * (y / d);
+  simplify(x, y);
 }
 
 // выполняет действие: x/y = x/y + (a/b * c/d)
@@ -79,31 +86,32 @@ void simplify(long long *a, long long *b) {
 //  y     y     b     d
 
 void sum_multiply_fractions(
-  long long *x, long long *y, // слагаемое
+  long long &x, long long &y, // слагаемое
   long long a, long long b,   // первый множитель
   long long c, long long d    // второй множитель
 ) {
+  long long ac = a * c, bd = b * d;
+  simplify(ac, bd);
+  add_fractions(x, y, x, y, ac, bd);
+
+  // printf("ac=%lld bd=%lld\n", ac, bd); //? debug
+  // printf("ac=%lld bd=%lld\n", ac, bd); //? debug
+  
+  // printf("a=%lld b=%lld c=%lld d=%lld\n", a, b, c, d); //? debug
+  // simplify(&a, &d); simplify(&b, &c);
+  // printf("a=%lld b=%lld c=%lld d=%lld\n", a, b, c, d); //? debug
   // long long ac = a * c, bd = b * d;
   // printf("ac=%lld bd=%lld\n", ac, bd); //? debug
   // simplify(&ac, &bd);
   // printf("ac=%lld bd=%lld\n", ac, bd); //? debug
-
-
-  printf("a=%lld b=%lld c=%lld d=%lld\n", a, b, c, d); //? debug
-  // simplify(&a, &d); simplify(&b, &c);
-  printf("a=%lld b=%lld c=%lld d=%lld\n", a, b, c, d); //? debug
-  long long ac = a * c, bd = b * d;
-  printf("ac=%lld bd=%lld\n", ac, bd); //? debug
-  simplify(&ac, &bd);
-  printf("ac=%lld bd=%lld\n", ac, bd); //? debug
-  simplify(x, &bd); simplify(y, &ac);
-  long long g = gcd(*y, bd);
-  *x = *x * bd / g + ac * (*y / g);
-  *y *= bd / g;
+  // simplify(&x, &bd); simplify(y, &ac);
+  // long long g = gcd(*y, bd);
+  // *x = *x * bd / g + ac * (*y / g);
+  // *y *= bd / g;
   // *x *= ac; *y *= bd;
-  printf("x=%lld y=%lld\n", *x, *y); //? debug
-  simplify(x, y);
-  printf("x=%lld y=%lld\n", *x, *y); //? debug
+  // printf("x=%lld y=%lld\n", *x, *y); //? debug
+  // simplify(&x, &y);
+  // printf("x=%lld y=%lld\n", *x, *y); //? debug
 }
 
 // умножает два полинома и возвращает новый
@@ -183,25 +191,14 @@ void destroy(polynom *p) {
   free(p);
 }
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   long long x = 366;
   long long y = 3432;
   long long a = 34;
   long long b = 9887;
   long long c = 432;
   long long d = 43;
-  sum_multiply_fractions(&x, &y, a, b, c, d);
-  printf("%lld %lld\n", x, y);
+  sum_multiply_fractions(x, y, a, b, c, d);
+  printf("%lld %lld\n", x, y); // 34335137 243180652 - correct!!
   return 0;
 }
-
-/* wtf lol
-a=34 b=9887 c=432 d=43
-a=34 b=9887 c=432 d=43
-ac=14688 bd=425141
-ac=14688 bd=425141
-x=155689122 y=60795163
-x=155689122 y=60795163
-155689122 60795163
-*/
