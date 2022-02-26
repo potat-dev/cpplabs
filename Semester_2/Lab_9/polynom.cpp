@@ -63,55 +63,30 @@ void simplify(long long &a, long long &b) {
   a /= factor; b /= factor;
 }
 
-// выполняет действие: x/y = a/b + c/d
-//? можно упростить до x/y += a/b
-//  x     a     c
-// --- = --- + ---
-//  y     b     d
-
+// выполняет действие: x/y += a/b
 void add_fractions(
-  long long &x, long long &y, // результат
-  long long a, long long b,   // первое слагаемое
-  long long c, long long d    // второе слагаемое
+  long long &x, long long &y,
+  long long a, long long b    // второе слагаемое
 ) {
-  y = gcd(b, d);
-  y = (b * d) / y;
-  x = (a) * (y / b) + (c) * (y / d);
+  long long temp_x = x, temp_y = y;
+  y = (temp_y * b) / gcd(temp_y, b);
+  x = (temp_x) * (y / temp_y) + (a) * (y / b);
   simplify(x, y);
 }
 
-// выполняет действие: x/y = x/y + (a/b * c/d)
+// выполняет действие: x/y += a/b * c/d
 //  x     x     a     c
 // --- = --- + --- * ---
 //  y     y     b     d
 
-void sum_multiply_fractions(
+void add_multiply_fractions(
   long long &x, long long &y, // слагаемое
   long long a, long long b,   // первый множитель
   long long c, long long d    // второй множитель
 ) {
   long long ac = a * c, bd = b * d;
   simplify(ac, bd);
-  add_fractions(x, y, x, y, ac, bd);
-
-  // printf("ac=%lld bd=%lld\n", ac, bd); //? debug
-  // printf("ac=%lld bd=%lld\n", ac, bd); //? debug
-  
-  // printf("a=%lld b=%lld c=%lld d=%lld\n", a, b, c, d); //? debug
-  // simplify(&a, &d); simplify(&b, &c);
-  // printf("a=%lld b=%lld c=%lld d=%lld\n", a, b, c, d); //? debug
-  // long long ac = a * c, bd = b * d;
-  // printf("ac=%lld bd=%lld\n", ac, bd); //? debug
-  // simplify(&ac, &bd);
-  // printf("ac=%lld bd=%lld\n", ac, bd); //? debug
-  // simplify(&x, &bd); simplify(y, &ac);
-  // long long g = gcd(*y, bd);
-  // *x = *x * bd / g + ac * (*y / g);
-  // *y *= bd / g;
-  // *x *= ac; *y *= bd;
-  // printf("x=%lld y=%lld\n", *x, *y); //? debug
-  // simplify(&x, &y);
-  // printf("x=%lld y=%lld\n", *x, *y); //? debug
+  add_fractions(x, y, ac, bd);
 }
 
 // умножает два полинома и возвращает новый
@@ -126,8 +101,12 @@ polynom *multiply(polynom *a, polynom *b) {
 
   for (int x = 0; x < a->n; x++) { 
     for (int y = 0; y < b->n; y++) {
-      koeffs[x+y] += a->koeffs[x] * b->koeffs[y];
-      // arr[x+y], divs[x+y] = multiply_fractions()
+      // koeffs[x+y] += a->koeffs[x] * b->koeffs[y];
+      add_multiply_fractions(
+        koeffs[x+y], dividers[x+y],
+        a->koeffs[x], a->dividers[x],
+        b->koeffs[y], b->dividers[y]
+      );
     }
   }
 
@@ -191,14 +170,14 @@ void destroy(polynom *p) {
   free(p);
 }
 
-int main(int argc, char const *argv[]) {
+int main_test(int argc, char const *argv[]) {
   long long x = 366;
   long long y = 3432;
   long long a = 34;
   long long b = 9887;
   long long c = 432;
   long long d = 43;
-  sum_multiply_fractions(x, y, a, b, c, d);
+  add_multiply_fractions(x, y, a, b, c, d);
   printf("%lld %lld\n", x, y); // 34335137 243180652 - correct!!
   return 0;
 }
