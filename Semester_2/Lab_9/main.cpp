@@ -38,5 +38,6 @@ int main() {
   }
 
   print_polynom(p1);
+  getchar(); getchar();
   return 0;
 }

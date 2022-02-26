@@ -21,9 +21,9 @@ struct polynom {
 };
 
 // возвращает полином любой степени
-polynom *new_polynom(long long *k, unsigned int n) {
+polynom *new_polynom(long long *k, long long *d, unsigned int n) {
   polynom *temp = (polynom*)malloc(sizeof(polynom));
-  temp->dividers = k; // = d
+  temp->dividers = d; // = d
   temp->koeffs = k;
   temp->n = n;
   return temp;
@@ -43,8 +43,8 @@ polynom *new_binom(long long a) {
   long long *koeffs = (long long*)malloc(2 * sizeof(long long));
   long long *dividers = (long long*)malloc(2 * sizeof(long long));
   koeffs[0] = a; koeffs[1] = 1;
-  dividers[0] = dividers[1] = 1;
-  polynom *temp = new_polynom(koeffs, 2);
+  dividers[0] = 1; dividers[1] = 1;
+  polynom *temp = new_polynom(koeffs, dividers, 2);
   return temp;
 }
 
@@ -68,6 +68,7 @@ void add_fractions(
   long long &x, long long &y,
   long long a, long long b    // второе слагаемое
 ) {
+  // printf("%d\n", gcd(y, b));
   long long temp_x = x, temp_y = y;
   y = (temp_y * b) / gcd(temp_y, b);
   x = (temp_x) * (y / temp_y) + (a) * (y / b);
@@ -75,9 +76,9 @@ void add_fractions(
 }
 
 // выполняет действие: x/y += a/b * c/d
-//  x     x     a     c
-// --- = --- + --- * ---
-//  y     y     b     d
+//  x      a     c
+// --- += --- * ---
+//  y      b     d
 
 void add_multiply_fractions(
   long long &x, long long &y, // слагаемое
@@ -86,6 +87,7 @@ void add_multiply_fractions(
 ) {
   long long ac = a * c, bd = b * d;
   simplify(ac, bd);
+  // printf("%lld %lld\n", ac, bd);
   add_fractions(x, y, ac, bd);
 }
 
@@ -96,7 +98,7 @@ polynom *multiply(polynom *a, polynom *b) {
   long long *dividers = (long long*)malloc(max_power * sizeof(long long));
   for (int i = 0; i < max_power; i++) {
     koeffs[i] = 0;
-    dividers[i] = 0;
+    dividers[i] = 1;
   }
 
   for (int x = 0; x < a->n; x++) { 
@@ -110,24 +112,33 @@ polynom *multiply(polynom *a, polynom *b) {
     }
   }
 
-  polynom *temp = new_polynom(koeffs, max_power);
+  polynom *temp = new_polynom(koeffs, dividers, max_power);
   return temp;
 }
 
 // умножает два полинома и записывает в существующий
 void multiply(polynom *m, polynom *a, polynom *b) {
   unsigned int max_power = a->n + b->n - 1;
-  long long *arr = (long long*)malloc(max_power * sizeof(long long));
-  for (int i = 0; i < max_power; i++) arr[i] = 0;
+  long long *koeffs = (long long*)malloc(max_power * sizeof(long long));
+  long long *dividers = (long long*)malloc(max_power * sizeof(long long));
+  for (int i = 0; i < max_power; i++) {
+    koeffs[i] = 0;
+    dividers[i] = 1;
+  }
 
   for (int x = 0; x < a->n; x++) {
     for (int y = 0; y < b->n; y++) {
-      arr[x+y] += a->koeffs[x] * b->koeffs[y];
+      // arr[x+y] += a->koeffs[x] * b->koeffs[y];
+      add_multiply_fractions(
+        koeffs[x+y], dividers[x+y],
+        a->koeffs[x], a->dividers[x],
+        b->koeffs[y], b->dividers[y]
+      ); //! проверить, нет ли деления на ноль
     }
   }
 
   free(m->koeffs);
-  m->koeffs = arr;
+  m->koeffs = koeffs;
   m->n = max_power;
 }
 
@@ -171,8 +182,8 @@ void destroy(polynom *p) {
 }
 
 int main_test(int argc, char const *argv[]) {
-  long long x = 366;
-  long long y = 3432;
+  long long x = 35;
+  long long y = 89;
   long long a = 34;
   long long b = 9887;
   long long c = 432;
