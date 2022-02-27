@@ -115,12 +115,8 @@ void destroy(polynom *p) {
   free(p);
 }
 
-// осталось написать функцию нахождения первообразной
-// x^2 / 3 => x^3 / 9
-// https://pasteimg.com/image/image.T7RKf
 
-// y = ∫f
-void integral(polynom *y, polynom *f) {
+void integral(polynom *y, polynom *f) { // y = ∫f
   fraction *fr = f->koeffs;
   fraction *temp = (fraction*)malloc((f->n + 1) * sizeof(fraction));
   set_fraction(&temp[0], 0);

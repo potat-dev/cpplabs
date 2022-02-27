@@ -7,8 +7,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "polynom.h"
+
+#define DOP
 
 int main() {
   unsigned int n = 0;
@@ -39,15 +40,13 @@ int main() {
 
   print_polynom("\np(x) = ", p);
 
+#ifdef DOP
+
   printf("\nEnter d (integral degree) = ");
   scanf("%u", &n);
-  if (!n) {
-    printf("d must be >= 1\n");
-    exit(1);
-  }
-
+  if (!n) printf("d must be >= 0\n");
   for (int i = 0; i < n; i++) integral(p, p); // p = ∫ p
   print_polynom("\ni(p) = ", p);
 
-  return 0;
+#endif
 }
