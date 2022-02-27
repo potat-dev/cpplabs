@@ -34,7 +34,11 @@ int main() {
   polynom *p2 = new_binom(0);
   for (int i = 1; i < n; i++) {
     upd_binom(p2, -arr[i]);
-    multiply(p1, p1, p2);
+    p1 = multiply(p1, p2);
+    // тут утечка памяти
+    // я пока не придумал как это исправить
+    // но когда-нибудь придумаю
+    // главное что оно работает
   }
 
   print_polynom(p1);
