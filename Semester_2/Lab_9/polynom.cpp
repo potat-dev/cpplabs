@@ -75,9 +75,8 @@ void multiply(polynom *m, polynom *a, polynom *b) {
 }
 
 // красиво выводит полином на экран
-// ! доработать для вывода дробей
-void print_polynom(polynom *p) {
-  printf("p(x) = ");
+void print_polynom(const char s[], polynom *p) {
+  printf("%s", s);
   char first_been = 0;
   for (int i = p->n - 1; i >= 0; i--) {
     long long k = (&p->koeffs[i])->koeff;

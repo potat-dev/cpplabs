@@ -14,7 +14,7 @@ void upd_binom(polynom *p, long long a);
 polynom *multiply(polynom *a, polynom *b);
 void multiply(polynom *m, polynom *a, polynom *b);
 long long get_koeff(fraction *f);
-void print_polynom(polynom *p);
+void print_polynom(const char s[], polynom *p);
 void print_koeffs(long long *arr, unsigned int n);
 void destroy(polynom *p);
 void integral(polynom *y, polynom *f);
