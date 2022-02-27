@@ -17,3 +17,4 @@ long long get_koeff(fraction *f);
 void print_polynom(polynom *p);
 void print_koeffs(long long *arr, unsigned int n);
 void destroy(polynom *p);
+void integral(polynom *y, polynom *f);

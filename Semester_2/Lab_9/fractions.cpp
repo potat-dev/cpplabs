@@ -4,7 +4,7 @@
 #include "fractions.h"
 
 long long gcd(long long a, long long b) {
-  if (a == 0) return b;
+  if (a == 0) return (b > 0) ? b : -b;
   return gcd(b % a, a);
 }
 

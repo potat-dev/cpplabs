@@ -81,6 +81,7 @@ void print_polynom(polynom *p) {
   char first_been = 0;
   for (int i = p->n - 1; i >= 0; i--) {
     long long k = (&p->koeffs[i])->koeff;
+    long long d = (&p->koeffs[i])->divider;
     if (!k) continue;
     if (!first_been) {
       if (k < 0) printf("-");
@@ -93,6 +94,7 @@ void print_polynom(polynom *p) {
     } else {
       printf(i > 1 ? "%llu*x^%u" : i ? "%llux" : "%llu", llabs(k), i);
     }
+    if (d != 1) printf("/%llu", d);
   }
   printf("\n");
 }
@@ -112,4 +114,21 @@ void print_koeffs(long long *arr, unsigned int n) {
 void destroy(polynom *p) {
   free(p->koeffs);
   free(p);
+}
+
+// осталось написать функцию нахождения первообразной
+// x^2 / 3 => x^3 / 9
+// https://pasteimg.com/image/image.T7RKf
+
+// y = ∫f
+void integral(polynom *y, polynom *f) {
+  fraction *fr = f->koeffs;
+  fraction *temp = (fraction*)malloc((f->n + 1) * sizeof(fraction));
+  set_fraction(&temp[0], 0);
+  for (long long i = 0; i < f->n; i++)
+    set_fraction(&temp[i + 1], (&fr[i])->koeff, (&fr[i])->divider * (i + 1));
+    // например: 3x^2 / 4 => 3x^3 / 12 => x^3 / 4
+  
+  y->n = f->n + 1;
+  y->koeffs = temp;
 }
