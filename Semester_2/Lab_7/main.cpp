@@ -4,22 +4,36 @@
 // Подсчитать частоту каждого числа при выборке 100000
 
 // доп: центральная предельная теорема
-// найти ее
 // с ее помощью получить нормальное распределение
 // полулучить Гауссовский колокол
 
-#include <stdio.h>
 #include "rand.h"
+#define DOP 
 
 #define ITERS 100000
-#define NUMS  211
+#define DISTR_FACTOR 12
+#define WIDE 40
+
 
 int main () {
   int array[NUMS] = {0};
-   for (int i = 0; i < ITERS; i++)
-     array[gen()]++;
+
+#ifndef DOP
+
+  for (int i = 0; i < ITERS; i++)
+    array[gen()]++;
 
   printf("%-4s| %s\n----|-----\n", "num", "freq");
   for (int i = 0; i < NUMS; i++)
     printf("%-4d| %d\n", i, array[i]);
+
+#else
+
+  for (int i = 0; i < ITERS; i++)
+    array[gen_normal(DISTR_FACTOR)]++;
+
+  pretty_print(array, NUMS, WIDE);
+
+#endif
+
 }
