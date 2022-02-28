@@ -6,17 +6,24 @@
 
 #define llabs(x) x > 0 ? x : -x  
 
-// как хранится 3x^2 + 4x + 5:
-// k: {5, 4, 3}
-// d: {1, 1, 1}
-// i:  0, 1, 2
+// как хранится полином
+// на примере 3x^2 + 4x + 5:
+// k: {5, 4, 3} -- коэффициенты
+// d: {1, 1, 1} -- делители
+// i:  0, 1, 2  -- степени
 // => представляется как a*x^i/d
-// n = 3 - кол-во коэффициентов (макс степень + 1)
+// n = 3 => кол-во коэффициентов (макс степень + 1)
 
 struct polynom {
   unsigned int n;   // количество коэффициентов
   fraction *koeffs; // массив коэффициентов (дробей)
 };
+
+// очищает полином
+void destroy(polynom *p) {
+  free(p->koeffs);
+  free(p);
+}
 
 // возвращает полином любой степени
 polynom *new_polynom(long long *k, unsigned int n) {
@@ -28,6 +35,8 @@ polynom *new_polynom(long long *k, unsigned int n) {
   return temp;
 }
 
+// возвращает полином любой степени
+// инициализируя его массивом дробей
 polynom *new_polynom(fraction *f, unsigned int n) {
   polynom *temp = (polynom*)malloc(sizeof(polynom));
   temp->koeffs = f; // массив дробей
@@ -69,9 +78,15 @@ polynom *multiply(polynom *a, polynom *b) {
 
 // умножает два полинома и записывает в существующий
 void multiply(polynom *m, polynom *a, polynom *b) {
-  free(m->koeffs);
-  free(m);
+  destroy(m);
   m = multiply(a, b);
+}
+
+// выполняет: a *= b
+void self_multiply(polynom *a, polynom *b) {
+  polynom *temp = multiply(a, b);
+  destroy(a);
+  a = temp;
 }
 
 // красиво выводит полином на экран
@@ -98,6 +113,8 @@ void print_polynom(const char s[], polynom *p) {
   printf("\n");
 }
 
+// выводит коэффициенты полинома в виде
+// p(x) = (x - a1) * (x - a2) * ... * (x - an)
 void print_koeffs(long long *arr, unsigned int n) {
   printf("p(x) = ");
   for (int i = 0; i < n; i++) {
@@ -110,20 +127,16 @@ void print_koeffs(long long *arr, unsigned int n) {
   }
 }
 
-void destroy(polynom *p) {
-  free(p->koeffs);
-  free(p);
-}
-
-
-void integral(polynom *y, polynom *f) { // y = ∫f
+// вычисляет первообразную полинома (y = ∫f)
+void integral(polynom *y, polynom *f) {
   fraction *fr = f->koeffs;
   fraction *temp = (fraction*)malloc((f->n + 1) * sizeof(fraction));
   set_fraction(&temp[0], 0);
   for (long long i = 0; i < f->n; i++)
     set_fraction(&temp[i + 1], (&fr[i])->koeff, (&fr[i])->divider * (i + 1));
     // например: 3x^2 / 4 => 3x^3 / 12 => x^3 / 4
-  
-  y->n = f->n + 1;
+
+  free(y->koeffs);
   y->koeffs = temp;
+  y->n = f->n + 1;
 }
