@@ -1,50 +1,27 @@
-#include <string>
+﻿#include "dtoa.h"
+#include <stdio.h>
+// Написать функцию для преобразования переменной типа double в строку символов с заданной точностью
+// представления(dtoa(double num, int npos, int nfr)) и тестирующую программу к ней, где npos— -
+// общее число знаков(включая запятую), а nfr— - число знаков после запятой.
 
-char* dtoa(double _num, int _npos, int _prec)
-{
-	int size = _npos + _prec + 2;
-	char* num = (char*)malloc(size * sizeof(char));
-	int cel = int(_num); double ost = _num - cel;
-	num[_npos] = ',';
-	for (int i = _npos - 1; i >= 0; --i, cel /= 10)
-		num[i] = cel % 10 + 48;
-	for (int i = _npos + 1; i < size; ++i) {
-		num[i] = (int)(ost * 10) + 48;
-		ost *= 10;
-		ost -= int(ost);
-	}
-	num[size - 1] = '\0';
-	for (int i = 0; i <= _npos; i++) {
-		num[i] = num[i + _prec + 1];
-	}
-	num[_npos + 1] = '\0';
-	return num;
+int main() {
+	int npost = 0;
+	int nfr = 0;
+	double num;
+	scanf("%lf", &num);
+	nfr = posle(num);
+	npost = k(num, nfr);
+	printf("%s\n", dtoa(num, npost, nfr));
+	return 0;
 }
 
-int k(double acc, int st) {
-	int cope;
-	int cope2 = 0;
-	int k = 10;
-	int count = 0;
-	for (int i = 0; i <= st; i++) {
-		acc = acc * 10;
-	}
-	cope = acc;
-	while (cope != cope2) {
-		cope2 = cope % k;
-		k = k * 10;
-		count++;
-	}
-	return count;
-}
+// Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
+// Отладка программы: F5 или меню "Отладка" > "Запустить отладку"
 
-int posle(double app) {
-	int test = (int)app;
-	int count = 0;
-	while (test != app) {
-		count++;
-		app *= 10;
-		test = (int)app;
-	}
-	return count;
-}
+// Советы по началу работы 
+//   1. В окне обозревателя решений можно добавлять файлы и управлять ими.
+//   2. В окне Team Explorer можно подключиться к системе управления версиями.
+//   3. В окне "Выходные данные" можно просматривать выходные данные сборки и другие сообщения.
+//   4. В окне "Список ошибок" можно просматривать ошибки.
+//   5. Последовательно выберите пункты меню "Проект" > "Добавить новый элемент", чтобы создать файлы кода, или "Проект" > "Добавить существующий элемент", чтобы добавить в проект существующие файлы кода.
+//   6. Чтобы снова открыть этот проект позже, выберите пункты меню "Файл" > "Открыть" > "Проект" и выберите SLN-файл.
