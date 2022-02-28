@@ -10,28 +10,28 @@
 #include "rand.h"
 #define DOP 
 
-#define ITERS 100000
-#define DISTR_FACTOR 12
-#define WIDE 40
+#define ITER 100000
+#define WIDE  40
 
+// фактор сглаживания
+// чем больше, тем острее Гауссовский колокол
+#define DISTR_FACTOR 12
 
 int main () {
   int array[NUMS] = {0};
 
 #ifndef DOP
 
-  for (int i = 0; i < ITERS; i++)
+  for (int i = 0; i < ITER; i++)
     array[gen()]++;
-
   printf("%-4s| %s\n----|-----\n", "num", "freq");
   for (int i = 0; i < NUMS; i++)
     printf("%-4d| %d\n", i, array[i]);
 
 #else
 
-  for (int i = 0; i < ITERS; i++)
+  for (int i = 0; i < ITER; i++)
     array[gen_normal(DISTR_FACTOR)]++;
-
   pretty_print(array, NUMS, WIDE);
 
 #endif
