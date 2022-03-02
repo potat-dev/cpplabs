@@ -7,6 +7,6 @@
 #include "file.h"
 
 int main() {
-  file *file = read_file("input.txt");
-  printf("%s\n", file->str);
+  string str = read_file("input.txt");
+  cout << str << endl;
 }
