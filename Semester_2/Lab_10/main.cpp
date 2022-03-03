@@ -2,11 +2,15 @@
 // с форматированным текстом, в котором в каждой строке
 // первое слово начинается с 3-ей позиции, а последнее
 // заканчивается в 60-ой позиции
-// Использовать функции fopen, fclose, fgets
 
 #include "file.h"
 
 int main() {
   string str = read_file("input.txt");
+
+  for (int i = 0; i < str.length(); i += 60)
+    str.insert(i, (i) ? "\n  " : "  ");
+
+  cout << endl;
   cout << str << endl;
 }
