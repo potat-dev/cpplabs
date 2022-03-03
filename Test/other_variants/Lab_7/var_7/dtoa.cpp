@@ -1,5 +1,12 @@
-#include <string>
+// npos --- общее число знаков (включая запятую)
+// nfr --- число знаков после запятой
 
+#include <stdlib.h>
+#include <stdio.h>
+
+// char* dtoa(double num, int npos, int nfr);
+
+/*
 char* dtoa(double _num, int _npos, int _prec)
 {
     int size = 0;
@@ -35,31 +42,27 @@ char* dtoa(double _num, int _npos, int _prec)
 
     return num;
 }
+*/
 
-int k(double acc, int st) {
-	int cope;
-	int cope2 = 0;
-	int k = 10;
+int after_decimal(double d) {
+	int temp = (int)d;
 	int count = 0;
-	for (int i = 0; i <= st; i++) {
-		acc = acc * 10;
-	}
-	cope = acc;
-	while (cope != cope2) {
-		cope2 = cope % k;
-		k = k * 10;
+	while (temp != d) {
 		count++;
+		d *= 10;
+		temp = (int)d;
 	}
 	return count;
 }
 
-int posle(double app) {
-	int test = (int)app;
-	int count = 0;
-	while (test != app) {
-		count++;
-		app *= 10;
-		test = (int)app;
-	}
-	return count;
+int digits_count(double d) {
+  // считает кол-во цифр
+  // не считает точку и знак минус
+  int count = after_decimal(d);
+  int temp = (int)d;
+  while (temp) {
+    temp /= 10;
+    count++;
+  }
+  return count;
 }

@@ -1,5 +1,4 @@
 #pragma once
-//#include "my_lab.h"
-char* dtoa(double _num, int _npos, int _prec);
-int k(double acc, int st);
-int posle(double app);
+
+int after_decimal(double d);
+int digits_count(double d);
