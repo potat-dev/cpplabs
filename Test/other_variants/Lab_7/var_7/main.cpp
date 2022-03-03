@@ -6,21 +6,11 @@
 // общее число знаков(включая запятую), а nfr— - число знаков после запятой.
 
 int main() {
-  double d = -3.141592;
-  printf("%d %d\n", digits_count(d), after_decimal(d));
-
+  double d1 = -39877789.141592;
+  double d2 = 36549876;
+  double d3 = -142999.7989;
+	
+  printf("%f %d %d\n", d1, double_length(d1), after_decimal(d1));
+  printf("%f %d %d\n", d2, double_length(d2), after_decimal(d2));
+  printf("%f %d %d\n", d3, double_length(d3), after_decimal(d3));
 }
-
-/*
-int main() {
-	int npost = 0;
-	int nfr = 0;
-	double num;
-	scanf("%lf", &num);
-	nfr = posle(num);
-	npost = k(num, nfr);
-	printf("%d %d\n", npost, nfr);
-	printf("%s\n", dtoa(num, npost, nfr));
-	return 0;
-}
-*/
