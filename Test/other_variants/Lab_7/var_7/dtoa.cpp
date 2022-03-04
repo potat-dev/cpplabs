@@ -6,7 +6,7 @@
 
 int after_decimal(double d) {
   d = (d > 0) ? d : -d;
-	unsigned long long temp = (unsigned long long)d;
+	unsigned long long temp = (unsigned long long) d;
 	int count = 0;
 	while (temp != d) {
 		count++;
@@ -41,17 +41,32 @@ int double_length(double d) {
   return count;
 }
 
-// char* dtoa(double num, int npos, int nfr) {
-//   char* str = (char*) malloc((npos + 1) * sizeof(char));
-//   double temp = (num > 0) ? num : -num;
+int before_decimal(double d) {
+  d = (d > 0) ? d : -d;
+  unsigned long long temp = (unsigned long long) d;
+  int count = 0;
+  while (temp) {
+    temp /= 10;
+    count++;
+  }
+  return count;
+}
 
-//   int pos = 0;
-//   if (num < 0) {
-//     str[pos] = '-';
-//     pos++;
-//   }
+char* dtoa(double num, int npos, int nfr) {
+  char* str = (char*) malloc((npos + 1) * sizeof(char));
+  num = (num > 0) ? num : -num;
+  unsigned long long temp = (unsigned long long) num;
+  int before = before_decimal(num);
 
-//   for (pos; pos < )
+  int pos = 0;
+  if (num < 0) {
+    str[pos] = '-';
+    pos++;
+  }
 
-//   return str;
-// }
+  for (int i = pos; i < pos + before; pos++) {
+    // str[pos] = ();
+  }
+
+  return str;
+}
