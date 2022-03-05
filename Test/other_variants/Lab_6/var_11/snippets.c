@@ -86,8 +86,7 @@ file* read_file(char *path) {
 
   int fsize = file_size(f);
   char *str = (char*) malloc((fsize + 1) * sizeof(char));
-  for (int i = 0; i < fsize; i++)
-    str[i] = fgetc(f);
+  for (int i = 0; i < fsize; i++) str[i] = fgetc(f);
   str[fsize] = 0;
   fclose(f);
 
@@ -119,8 +118,9 @@ void parse_file(file *file, list *list) {
 
 // проверка простоты числа
 int is_prime(int n) {
-  if (n < 3) return (n == 2);
-  if (~n & 1) return 0;
+  if (n < 3) return (n == 2); // 2 - простое число, 1 - нет
+  if (~n & 1) return 0; // если число делится на 2
+  // ищем нечетные делители до корня числа
   for (int i = 3; i*i <= n; i += 2)
     if (n % i == 0) return 0;
   return 1;

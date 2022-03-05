@@ -18,7 +18,15 @@ void main() {
   split_primes(numbers, primes, composites);
 
   // выводим на экран
-  printf("%-12s", "numbers:");    print_list(numbers);
-  printf("%-12s", "primes:");     print_list(primes);
-  printf("%-12s", "composites:"); print_list(composites);
+  printf("\nnumbers:\n");
+  print_list(numbers);
+  printf("\nprimes:\n");
+  print_list(primes);
+  printf("\ncomposites:\n");
+  print_list(composites);
+
+  // очищаем память
+  destroy(numbers);
+  destroy(primes);
+  destroy(composites);
 }
