@@ -23,6 +23,4 @@ int main()
     double d = -3.1415;
     char* s = dtoa(d, 6, 3);
     printf("double: %f  - char array: %s\n", d, s);
-    int n = 123456;
-    printf("%d\n", digit_count(n)); // ? test
 }
