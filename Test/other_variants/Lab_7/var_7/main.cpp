@@ -6,21 +6,15 @@
 // npos - общее число знаков (включая запятую)
 // nfr - число знаков после запятой
 
-/*
+
 int main() {
   double d1 = -39877789.141592;
   double d2 = 36549876;
   double d3 = -3.141592;
+  double d4 = 0;
 	
-  printf("%f %d %d\n", d1, double_length(d1), after_decimal(d1));
-  printf("%f %d %d\n", d2, double_length(d2), after_decimal(d2));
-  printf("%f %d %d %d\n", d3, before_decimal(d3), double_length(d3), after_decimal(d3));
-}
-*/
-
-int main()
-{
-    double d = -3.1415;
-    char* s = dtoa(d, 6, 3);
-    printf("double: %f  - char array: %s\n", d, s);
+  printf("\n%f\n%s\n", d1, dtoa(d1, 16, 6));
+  printf("\n%f\n%s\n", d2, dtoa(d2, 8, 0));
+  printf("\n%f\n%s\n", d3, dtoa(d3, 9, 6));
+  printf("\n%f\n%s\n", d4, dtoa(d4, 3, 1));
 }
