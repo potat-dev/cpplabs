@@ -21,6 +21,6 @@ int main() {
 int main()
 {
     double d = -3.1415;
-    char* s = to_char_array(d, 3);
+    char* s = dtoa(d, 3);
     printf("double: %f  - char array: %s\n", d, s);
 }

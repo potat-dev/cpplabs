@@ -55,25 +55,8 @@ int before_decimal(double d) {
   return count;
 }
 
-// from stackoverflow //
-// https://stackoverflow.com/a/50710965/15301038
-
-char *to_char_array(double num_double, int decimal_place) {
-  int num_int = round(num_double * pow(10, decimal_place));
-  int sign = num_int < 0;
-  num_int = abs(num_int);
-
-  if (num_int == 0) {
-    char *s = (char *)malloc(decimal_place + 3);
-    s[0] = '0';
-    s[1] = '.';
-    for (int i = 2; i < decimal_place + 2; i++) s[i] = '0';
-    s[decimal_place + 2] = '\0';
-    return s;
-  }
-
+int digits_count(int n) {
   int digit_count = 1;
-  int n = num_int;
 
   if (n >= 100000000) {
     digit_count += 8;
@@ -90,17 +73,34 @@ char *to_char_array(double num_double, int decimal_place) {
   if (n >= 10) {
     digit_count++;
   }
+  return digit_count;
+}
 
-  int size = digit_count + 1 + (decimal_place > 0 ? 1 : 0) + sign;
-  char *s = (char *)malloc(size);
+// from stackoverflow //
+// https://stackoverflow.com/a/50710965/15301038
 
-  for (int i = 0, integer = num_int; integer != 0; integer /= 10) {
-    s[size - 2 - i++] = integer % 10 + 48;
+char *dtoa(double num_double, int decimal_place) {
+  int num_int = abs(round(num_double * pow(10, decimal_place)));
+
+  if (num_int == 0) {
+    char *s = (char *)malloc((decimal_place + 3) * sizeof(char));
+    s[0] = '0';
+    s[1] = '.';
+    for (int i = 2; i < decimal_place + 2; i++) s[i] = '0';
+    s[decimal_place + 2] = '\0';
+    return s;
+  }
+
+  int size = digits_count(num_int) + 1 + (decimal_place > 0) + (num_double < 0);
+  char *s = (char *)malloc(size * sizeof(char));
+
+  for (int i = 0, n = num_int; n != 0; n /= 10) {
+    s[size - 2 - i++] = n % 10 + 48;
     if (decimal_place > 0 && i == decimal_place)
       s[size - 2 - i++] = '.';
   }
   s[size - 1] = '\0';
-  if (sign) s[0] = '-';
+  if (num_double < 0) s[0] = '-';
   return s;
 }
 
