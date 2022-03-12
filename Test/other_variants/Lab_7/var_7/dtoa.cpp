@@ -1,5 +1,5 @@
 #include <stdlib.h>
-#include <math.h>
+#include <cmath>
 
 using namespace std;
 
@@ -7,7 +7,7 @@ char *dtoa(double num, int npos, int nfr) {
   // npos --- общее число знаков (включая запятую)
   // nfr --- число знаков после запятой
 
-  long long inum = abs(round(num * pow(10, nfr)));
+  long long inum = fabs(round(num * pow(10, nfr)));
   char *s = (char *)malloc((npos + 1) * sizeof(char));
   for (int i = 0; i < npos; i++) s[i] = '0';
   s[npos] = '\0';
