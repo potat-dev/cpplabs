@@ -14,3 +14,6 @@
 // с нормальным распределением, используя
 // Центральную Предельную теорему
 float normal_frand_n(int count, int n);
+
+// красивый вывод на экран
+void pretty_print(int *arr, int n, int wide);
