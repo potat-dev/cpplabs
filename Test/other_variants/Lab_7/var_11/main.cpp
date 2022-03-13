@@ -4,15 +4,18 @@
 
 #include "frand.h"
 
-#define N 5
-#define NUM 500000
-#define POWER 12
+#define N 5        // граница интервала
+#define NUM 500000 // кол-во итераций
+#define POWER 12   // коэффициент распределения
 
 int main() {
   int freq[N * 2] = {0};
+
+  // подсчитываем кол-во появлений
   for (int i = 0; i < NUM; i++)
     freq[round(normal_frand_n(POWER, N)) + N]++;
 
+  // выводим на экран
   for (int i = 0; i < N * 2; i++)
     printf("(%2d, %2d) - %d\n", i-N, i-N+1, freq[i]);
 }
