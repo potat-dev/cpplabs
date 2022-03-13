@@ -5,6 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define frand() ((float)(rand())/(RAND_MAX))
+
+float frand5() {
+  return frand() * 10 - 5;
+}
+
 int main() {
-  
+  for (int i = 0; i < 20; i++) {
+    printf("%f\n", frand5());
+  }
 }
