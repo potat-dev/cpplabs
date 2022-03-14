@@ -26,14 +26,24 @@ long long& Rational::denominator() { return _denominator; }
 
 double Rational::get_value() {return (double)_numerator / (double)_denominator; }
 
-std::istream& operator>>(std::istream &in, Rational &r) {
+std::istream& operator>>(std::istream &in, Rational &temp) {
   long long num, denom;
   in >> num; in >> denom;
-  r.set(num, denom);
+  temp.set(num, denom);
   return in;
 }
 
 std::ostream& operator<<(std::ostream &out, const Rational &r) {
   out << r._numerator << " / " << r._denominator;
   return out;
+}
+
+Rational& Rational::operator=(const Rational &temp) {
+  // Проверка на самоприсваивание
+  if (this == &temp) return *this;
+  // Выполняем копирование значений
+  _numerator = temp._numerator;
+  _denominator = temp._denominator;
+  // Возвращаем текущий объект, чтобы иметь возможность связать в цепочку выполнение нескольких операций присваивания
+  return *this;
 }

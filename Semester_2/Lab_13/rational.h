@@ -12,7 +12,7 @@ class Rational {
   public:
     Rational(long long numerator = 0, long long denominator = 1);
     Rational(const Rational &temp);
-    
+
     void set(long long numerator, long long denominator);
     long long& numerator();
     long long& denominator();
@@ -20,4 +20,5 @@ class Rational {
 
     friend std::istream& operator>>(std::istream &in, Rational &temp);
     friend std::ostream& operator<<(std::ostream &out, const Rational &temp);
+    Rational& operator=(const Rational &temp);
 };
