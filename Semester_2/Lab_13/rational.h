@@ -6,17 +6,18 @@
 
 class Rational {
   private:
-    double numerator;   // числитель
-    double denominator; // знаминатель
+    long long _numerator;   // числитель
+    long long _denominator; // знаминатель
   
   public:
-    Rational(double num = 0, double denom = 1);
-    void set(double num, double denom);
-    double& get_numerator();
-    double& get_denominator();
+    Rational(long long numerator = 0, long long denominator = 1);
+    Rational(const Rational &temp);
+    
+    void set(long long numerator, long long denominator);
+    long long& numerator();
+    long long& denominator();
     double get_value();
-    void print();
 
-    friend std::istream& operator>>(std::istream &in, Rational &r);
-    friend std::ostream& operator<<(std::ostream &out, const Rational &r);
+    friend std::istream& operator>>(std::istream &in, Rational &temp);
+    friend std::ostream& operator<<(std::ostream &out, const Rational &temp);
 };

@@ -7,7 +7,7 @@
 //* функции-элементы установки и извлечения значений
 //* перегруженные операторы ввода и вывода
 //? указанные в задании перегруженные операции
-//? конструктор копий
+//* конструктор копий
 //? оператор присваивания
 //? деструктор
 
@@ -17,23 +17,26 @@ using namespace std;
 int main() {
   Rational test(1, 2);
   printf(
-    "%d / %d = %f\n",
-    (int)test.get_numerator(),
-    (int)test.get_denominator(),
+    "%lld / %lld = %f\n",
+    test.numerator(),
+    test.denominator(),
     test.get_value()
   );
 
   Rational test2(2, 3);
-  test2.print();
+  cout << test2 << endl;
 
-  test2.get_denominator() = 42;
+  test2.denominator() = 42;
   printf("%f\n", test2.get_value());
 
-  test2.get_numerator() = 42;
+  test2.numerator() = 42;
   printf("%f\n", test2.get_value());
   
   cout << test << ", " << test2 << endl;
 
   cin >> test;
-  cout << "\n" << test << "\n";
+  cout << "\n" << test << " = " << test.get_value() << "\n";
+
+  Rational test3(test);
+  cout << "\n" << test3 << " = " << test3.get_value() << "\n";
 }
