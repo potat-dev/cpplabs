@@ -1,6 +1,9 @@
-# SUAI Programming Labs
+# `SUAI` Programming Labs
 
 A repository for learning C, C++ and the basics of Git in SUAI
+
+File with tasks for laboratory works: [Google Docs](https://docs.google.com/document/d/1xrpJrEPfF8pt5H5FsIfXumKFvwkoEy_wYpgZskR7_lA/)  
+Ready-made variants are listed here: [STATUS.md](STATUS.md)
 
 ## Semester 1:
 Labs now ready: `7 / 7`
