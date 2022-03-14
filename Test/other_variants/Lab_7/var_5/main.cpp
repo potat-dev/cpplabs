@@ -3,10 +3,13 @@
 // использовать rand()
 
 #include "frand.h"
-
-#define NUM 100
+#define NUM 100000
 
 int main() {
+  int freq[10] = {0};
   for (int i = 0; i < NUM; i++)
-    printf("%d ", (int)frand10());
+    freq[(int)frand10()]++;
+  
+  for (int i = 0; i < 10; i++)
+    printf("%d - %-5d times\n", i, freq[i]);
 }
