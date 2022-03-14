@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 class Rational {
   private:
@@ -13,4 +14,9 @@ class Rational {
     void set(double num, double denom);
     double& get_numerator();
     double& get_denominator();
+    double get_value();
+    void print();
+
+    friend std::istream& operator>>(std::istream &in, Rational &r);
+    friend std::ostream& operator<<(std::ostream &out, const Rational &r);
 };
