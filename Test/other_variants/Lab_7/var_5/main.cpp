@@ -4,22 +4,18 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
-int main(void)
-{
-  srand(time(NULL));
-  int a, capacity = 0;
-  printf("Enter a number of random numbers \n");
-  scanf("%d", &a);
-  while (capacity >= a);
-  capacity *= 2;
-  int *mas = (int *)malloc(capacity * sizeof(int));
-  for (int i = 0; i < a; i++)
-  {
-    int r = rand() % 10;
-    mas[i] = r;
-  }
-  for (int i = 0; i < a; i++)
-    printf("%d, ", mas[i]);
+#define frand() ((float)(rand())/(RAND_MAX))
+
+float frand10() {
+  float f;
+  do {
+    f = frand();
+  } while (f >= 1);
+  return f * 10;
+}
+
+int main() {
+  for (int i = 0; i < 10; i++)
+    printf("%d\n", (int)frand10());
 }
