@@ -14,10 +14,12 @@ class Rational {
     Rational(long long numerator = 0, long long denominator = 1);
     Rational(const Rational &temp);
 
-    void set(long long numerator, long long denominator);
+    Rational& set(long long numerator, long long denominator);
     long long& numerator();
     long long& denominator();
+
     double get_value();
+    Rational& simplify();
 
     friend istream& operator>>(istream &in, Rational &temp);
     friend ostream& operator<<(ostream &out, const Rational &temp);

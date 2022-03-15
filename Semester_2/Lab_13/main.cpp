@@ -80,7 +80,13 @@ int main() {
   if (testA == testNew)
     cout << "True4" << endl;
   
-  cout << testA++ << ", " << testA << endl;
+  cout << testA++ << ", "
+       << testA << endl;
   if (testA == testNew)
     cout << "True5" << endl;
+
+  Rational temp(10, -20);
+  cout << temp << ", "
+       << temp.simplify() << ", "
+       << temp << endl;
 }

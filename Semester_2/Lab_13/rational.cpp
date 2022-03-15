@@ -14,9 +14,10 @@ Rational::Rational(const Rational &temp) :
   _denominator(temp._denominator) {
 }
 
-void Rational::set(long long numerator, long long denominator) {
+Rational& Rational::set(long long numerator, long long denominator) {
   _numerator = denominator > 0 ? numerator : -numerator;
   _denominator = denominator ? (denominator > 0 ? denominator : -denominator) : 1;
+  return *this;
 }
 
 long long& Rational::numerator() {
@@ -29,6 +30,22 @@ long long& Rational::denominator() {
 
 double Rational::get_value() {
   return (double)_numerator / (double)_denominator;
+}
+
+long long gcd(long long a, long long b) {
+  if (a == 0) return (b > 0) ? b : -b;
+  return gcd(b % a, a);
+}
+
+Rational& Rational::simplify() {
+  long long factor = gcd(_numerator, _denominator);
+  if (_denominator < 0)
+    factor *= -1;
+  if (factor != 1) {
+    _numerator /= factor;
+    _denominator /= factor;
+  }
+  return *this;
 }
 
 istream& operator>>(istream &in, Rational &temp) {
@@ -44,12 +61,9 @@ ostream& operator<<(ostream &out, const Rational &r) {
 }
 
 Rational& Rational::operator=(const Rational &temp) {
-  // Проверка на самоприсваивание
   if (this == &temp) return *this;
-  // Выполняем копирование значений
   _numerator = temp._numerator;
   _denominator = temp._denominator;
-  // Возвращаем текущий объект, чтобы иметь возможность связать в цепочку выполнение нескольких операций присваивания
   return *this;
 } 
 
@@ -64,7 +78,7 @@ bool operator==(const Rational &r1, const Rational &r2) {
           r1._denominator == r2._denominator);
 }
 
-bool operator!= (const Rational &r1, const Rational &r2) {
+bool operator!=(const Rational &r1, const Rational &r2) {
   return !(r1 == r2);
 }
 
@@ -87,12 +101,9 @@ Rational& Rational::operator--() {
 };
 
 Rational Rational::operator++(int) {
-  // Создаем временный объект
   Rational temp(*this);
-  // Используем оператор декремента версии префикс
-  // для реализации перегрузки оператора декремента версии постфикс
   ++(*this);
-  return temp; // Возвращаем временный объект
+  return temp;
 };
 
 Rational Rational::operator--(int) {
