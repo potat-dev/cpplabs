@@ -1,8 +1,9 @@
 #pragma once
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+
+using namespace std;
 
 class Rational {
   private:
@@ -18,7 +19,8 @@ class Rational {
     long long& denominator();
     double get_value();
 
-    friend std::istream& operator>>(std::istream &in, Rational &temp);
-    friend std::ostream& operator<<(std::ostream &out, const Rational &temp);
+    friend istream& operator>>(istream &in, Rational &temp);
+    friend ostream& operator<<(ostream &out, const Rational &temp);
     Rational& operator=(const Rational &temp);
+    Rational& operator=(const long long &temp);
 };

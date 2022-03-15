@@ -14,34 +14,47 @@
 using namespace std;
 
 int main() {
-  Rational test(1, 2);
-  printf(
-    "%lld / %lld = %f\n",
-    test.numerator(),
-    test.denominator(),
-    test.get_value()
-  );
+  Rational r;
+  cout << r << endl;
 
+  Rational test(1, 2);
   Rational test2(2, 3);
-  cout << test2 << endl;
+
+  // конструктор копии
+  Rational test3(test);
+
+  cout << test.numerator() << " / "
+       << test.denominator() << " = "
+       << test.get_value() << endl;
+
+  cout << test << " = " << test.get_value() << endl;
 
   test2.denominator() = 42;
-  printf("%f\n", test2.get_value());
+  cout << test2.get_value() << endl;
 
   test2.numerator() = 42;
-  printf("%f\n", test2.get_value());
+  cout << test2.get_value() << endl;
   
-  cout << test << ", " << test2 << endl;
+  cout << test << ", "
+       << test2 << endl;
 
+  cout << "\nenter rational: ";
   cin >> test;
-  cout << "\n" << test << " = " << test.get_value() << "\n";
+  cout << test << " = " << test.get_value() << "\n\n";
 
-  Rational test3(test);
-  cout << "\n" << test3 << " = " << test3.get_value() << "\n";
+  cout << test3 << " = " << test3.get_value() << "\n\n";
 
   Rational r1(1, 2);
   Rational r2(1, 3);
   Rational r3(1, 4);
-  r1 = r2 = r3; // - 1 / 4
-  cout << r1 << ", " << r2 << ", " << r3 << endl;
+
+  r1 = r2 = r3; // = 1 / 4
+  cout << r1 << ", "
+       << r2 << ", "
+       << r3 << endl;
+
+  r1 = r2 = r3 = 42;
+  cout << r1 << ", "
+       << r2 << ", "
+       << r3 << endl;
 }

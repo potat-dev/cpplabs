@@ -1,5 +1,4 @@
 #include "rational.h"
-#include <stdio.h>
 #include <assert.h>
 
 using namespace std;
@@ -26,14 +25,14 @@ long long& Rational::denominator() { return _denominator; }
 
 double Rational::get_value() {return (double)_numerator / (double)_denominator; }
 
-std::istream& operator>>(std::istream &in, Rational &temp) {
+istream& operator>>(istream &in, Rational &temp) {
   long long num, denom;
   in >> num; in >> denom;
   temp.set(num, denom);
   return in;
 }
 
-std::ostream& operator<<(std::ostream &out, const Rational &r) {
+ostream& operator<<(ostream &out, const Rational &r) {
   out << r._numerator << " / " << r._denominator;
   return out;
 }
@@ -45,5 +44,11 @@ Rational& Rational::operator=(const Rational &temp) {
   _numerator = temp._numerator;
   _denominator = temp._denominator;
   // Возвращаем текущий объект, чтобы иметь возможность связать в цепочку выполнение нескольких операций присваивания
+  return *this;
+}
+
+Rational& Rational::operator=(const long long &temp) {
+  _numerator = temp;
+  _denominator = 1;
   return *this;
 }
