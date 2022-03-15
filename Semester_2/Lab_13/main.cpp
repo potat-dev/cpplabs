@@ -15,6 +15,7 @@
 #include "rational.h"
 using namespace std;
 
+// тестирование функций класса
 int main() {
   Rational r;
   cout << r << endl;
@@ -40,8 +41,8 @@ int main() {
   cout << test << ", "
        << test2 << endl;
 
-  cout << "\nenter rational: ";
-  // cin >> test;
+  cout << endl << "Enter rational: ";
+  cin >> test;
   cout << test << " = " << test.get_value() << "\n\n";
 
   cout << test3 << " = " << test3.get_value() << "\n\n";
@@ -74,7 +75,12 @@ int main() {
   Rational testNew(testA);
   if (testA == testNew)
     cout << "True3" << endl;
-  ++testNew;
+
+  cout << ++testNew << ", " << testNew << endl;
   if (testA == testNew)
     cout << "True4" << endl;
+  
+  cout << testA++ << ", " << testA << endl;
+  if (testA == testNew)
+    cout << "True5" << endl;
 }

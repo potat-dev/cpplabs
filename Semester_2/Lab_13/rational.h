@@ -21,15 +21,22 @@ class Rational {
 
     friend istream& operator>>(istream &in, Rational &temp);
     friend ostream& operator<<(ostream &out, const Rational &temp);
+
     Rational& operator=(const Rational &temp);
     Rational& operator=(const long long &temp);
 
     friend bool operator== (const Rational &r1, const Rational &r2);
     friend bool operator!= (const Rational &r1, const Rational &r2);
 
+    // унарные операторы
     const Rational operator+();
     const Rational operator-();
+
+    // префиксный инкремент
     Rational& operator++();
     Rational& operator--();
     
+    // постфиксный инкремент
+    Rational operator++(int);
+    Rational operator--(int);
 };

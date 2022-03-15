@@ -4,8 +4,8 @@
 using namespace std;
 
 Rational::Rational(long long numerator, long long denominator) :
-  _numerator(numerator),
-  _denominator(denominator ? denominator : 1) {
+  _numerator(denominator > 0 ? numerator : -numerator),
+  _denominator(denominator ? (denominator > 0 ? denominator : -denominator) : 1) {
   assert(denominator != 0);
 }
 
@@ -15,8 +15,8 @@ Rational::Rational(const Rational &temp) :
 }
 
 void Rational::set(long long numerator, long long denominator) {
-  _numerator = numerator;
-  _denominator = denominator ? denominator : 1;
+  _numerator = denominator > 0 ? numerator : -numerator;
+  _denominator = denominator ? (denominator > 0 ? denominator : -denominator) : 1;
 }
 
 long long& Rational::numerator() {
@@ -51,7 +51,7 @@ Rational& Rational::operator=(const Rational &temp) {
   _denominator = temp._denominator;
   // Возвращаем текущий объект, чтобы иметь возможность связать в цепочку выполнение нескольких операций присваивания
   return *this;
-}
+} 
 
 Rational& Rational::operator=(const long long &temp) {
   _numerator = temp;
@@ -86,4 +86,17 @@ Rational& Rational::operator--() {
   return *this;
 };
 
+Rational Rational::operator++(int) {
+  // Создаем временный объект
+  Rational temp(*this);
+  // Используем оператор декремента версии префикс
+  // для реализации перегрузки оператора декремента версии постфикс
+  ++(*this);
+  return temp; // Возвращаем временный объект
+};
 
+Rational Rational::operator--(int) {
+  Rational temp(*this);
+  --(*this);
+  return temp;
+};
