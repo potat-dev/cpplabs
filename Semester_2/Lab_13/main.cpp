@@ -7,8 +7,10 @@
 //* перегруженные операторы ввода и вывода
 //* конструктор копий
 //* оператор присваивания
+
 //? указанные в задании перегруженные операции
-// +, +=, -, -=, =, ==, !=, >, <, >=, <=, *, *=, /, /=
+//* выполнено ++, --, +r, -r, ==, !=, =
+//! не готово +, +=, -, -=, >, <, >=, <=, *, *=, /, /=
 
 #include "rational.h"
 using namespace std;
@@ -39,7 +41,7 @@ int main() {
        << test2 << endl;
 
   cout << "\nenter rational: ";
-  cin >> test;
+  // cin >> test;
   cout << test << " = " << test.get_value() << "\n\n";
 
   cout << test3 << " = " << test3.get_value() << "\n\n";
@@ -57,4 +59,22 @@ int main() {
   cout << r1 << ", "
        << r2 << ", "
        << r3 << endl;
+
+  cout << test << ", " << -test << ", " << ++test;
+
+  Rational testA(1, 2);
+  Rational testB(1, 2);
+
+  cout << endl;
+  if (testA == testB)
+    cout << "True1" << endl;
+  if (testA == testA)
+    cout << "True2" << endl;
+
+  Rational testNew(testA);
+  if (testA == testNew)
+    cout << "True3" << endl;
+  ++testNew;
+  if (testA == testNew)
+    cout << "True4" << endl;
 }

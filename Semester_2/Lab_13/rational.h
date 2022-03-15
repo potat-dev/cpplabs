@@ -23,4 +23,13 @@ class Rational {
     friend ostream& operator<<(ostream &out, const Rational &temp);
     Rational& operator=(const Rational &temp);
     Rational& operator=(const long long &temp);
+
+    friend bool operator== (const Rational &r1, const Rational &r2);
+    friend bool operator!= (const Rational &r1, const Rational &r2);
+
+    const Rational operator+();
+    const Rational operator-();
+    Rational& operator++();
+    Rational& operator--();
+    
 };

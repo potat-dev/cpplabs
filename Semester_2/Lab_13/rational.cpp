@@ -19,11 +19,17 @@ void Rational::set(long long numerator, long long denominator) {
   _denominator = denominator ? denominator : 1;
 }
 
-long long& Rational::numerator() { return _numerator; }
+long long& Rational::numerator() {
+  return _numerator;
+}
 
-long long& Rational::denominator() { return _denominator; }
+long long& Rational::denominator() {
+  return _denominator;
+}
 
-double Rational::get_value() {return (double)_numerator / (double)_denominator; }
+double Rational::get_value() {
+  return (double)_numerator / (double)_denominator;
+}
 
 istream& operator>>(istream &in, Rational &temp) {
   long long num, denom;
@@ -52,3 +58,32 @@ Rational& Rational::operator=(const long long &temp) {
   _denominator = 1;
   return *this;
 }
+
+bool operator==(const Rational &r1, const Rational &r2) {
+  return (r1._numerator == r2._numerator &&
+          r1._denominator == r2._denominator);
+}
+
+bool operator!= (const Rational &r1, const Rational &r2) {
+  return !(r1 == r2);
+}
+
+const Rational Rational::operator+() {
+  return Rational(_numerator, _denominator);
+}
+
+const Rational Rational::operator-() {
+  return Rational(-_numerator, _denominator);
+}
+
+Rational& Rational::operator++() {
+  _numerator += _denominator;
+  return *this;
+};
+
+Rational& Rational::operator--() {
+  _numerator -= _denominator;
+  return *this;
+};
+
+
