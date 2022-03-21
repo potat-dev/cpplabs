@@ -1,4 +1,4 @@
-#include <iostream>
+#include <stdint.h>
 using namespace std;
 
 uint64_t c (uint16_t n, uint16_t k) {

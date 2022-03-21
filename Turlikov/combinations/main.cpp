@@ -1,10 +1,10 @@
-#define VERSION 3
+#include <iostream>
+using namespace std;
+
+#define VERSION 2
 // 0 - old version
 // 1 - new version
 // 2 - optimal solution
-
-#include <iostream>
-using namespace std;
 
 #if VERSION == 0
 
@@ -35,13 +35,20 @@ using namespace std;
   #include "optimal_binom.h"
 
   int main() {
-    // тут пока пусто
+    uint64_t arr[5][3] = {
+      {60, 30, 118264581564861424},
+      {61,  8, 2944827765},
+      {42, 21, 538257874440},
+      {65, 32, 3609714217008132870},
+      {99, 99, 1}
+    }; 
+
+    for (int i = 0; i < 5; i++)
+      cout << c(arr[i][0], arr[i][1]) << " = " << arr[i][2] << endl;
   }
 
 #else
 
-  #pragma message "incorrect version"
-
-  int main() {}
+  #error "incorrect version"
 
 #endif
