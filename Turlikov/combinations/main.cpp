@@ -8,7 +8,7 @@ using namespace std;
 
 #if VERSION == 0
 
-  #include "old_combinations.h"
+  #include "binom_koeff_v0.h"
 
   int main() {
     for (int i = 0; i <= 8; i++)
@@ -17,7 +17,7 @@ using namespace std;
 
 #elif VERSION == 1 
 
-  #include "binom_koeff.h"
+  #include "binom_koeff_v1.h"
 
   int main() {
     cout << "c(9,  7) = " << c(9,  7) << endl; // 36
