@@ -12,6 +12,7 @@ double frand(double n, int count) {
   // находим среднее арифметическое
   for (int i = 0; i < count; i++)
     sum += rand_1 * n;
+
   return sum / count;
 }
 
