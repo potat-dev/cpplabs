@@ -2,7 +2,7 @@
 #include "file.h"
 
 // форматируем файл с отступами
-void parse_file(const char *in, const char *out, int start, int end) {
+void parse_file(const char *in, const char *out, int start, int end, bool no_whitespace) {
   FILE *input = fopen(in, "rt");
   FILE *output = fopen(out, "w");
   if (input == NULL) return;
@@ -20,7 +20,9 @@ void parse_file(const char *in, const char *out, int start, int end) {
 
     if (counter <= end) {
       fprintf(output, "%c", c);
-      c = fgetc(input);
+      do {
+        c = fgetc(input);
+      } while (c == ' ' && no_whitespace);
       counter++;
     } else {
       fprintf(output, "\n");
