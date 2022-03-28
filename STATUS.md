@@ -56,7 +56,7 @@ Variants now ready: `4 / 20`
 
 | 01 | 02 | 03 | 04 | [✅](Variants/Lab_7/var_5) | [✅](Semester_2/Lab_7) | [✅](Variants/Lab_7/var_7) | 08 | 09 | 10 |
 |---|---|---|---|---|---|---|---|---|---|
-| [✅](Variants/Lab_7/var_11) | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
+| [✅](Variants/Lab_7/var_11) | [✅](Variants/Lab_7/var_12) | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 8
 Variants now ready: `1 / 20`
