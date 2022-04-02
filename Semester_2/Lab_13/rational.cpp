@@ -39,8 +39,7 @@ long long gcd(long long a, long long b) {
 
 Rational& Rational::simplify() {
   long long factor = gcd(_numerator, _denominator);
-  if (_denominator < 0)
-    factor *= -1;
+  if (_denominator < 0) factor *= -1;
   if (factor != 1) {
     _numerator /= factor;
     _denominator /= factor;
@@ -110,4 +109,52 @@ Rational Rational::operator--(int) {
   Rational temp(*this);
   --(*this);
   return temp;
+};
+
+Rational operator+(const Rational &r1, const Rational &r2) {
+
+};
+
+Rational operator+(const Rational &r, unsigned long long value) {
+
+};
+
+Rational operator+(unsigned long long value, const Rational &r) {
+
+};
+
+Rational operator-(const Rational &r1, const Rational &r2) {
+
+};
+
+Rational operator-(const Rational &r, unsigned long long value) {
+
+};
+
+Rational operator-(unsigned long long value, const Rational &r) {
+
+};
+
+Rational operator*(const Rational &r1, const Rational &r2) {
+
+};
+
+Rational operator*(const Rational &r, unsigned long long value) {
+
+};
+
+Rational operator*(unsigned long long value, const Rational &r) {
+
+};
+
+Rational operator/(const Rational &r1, const Rational &r2) {
+
+};
+
+Rational operator/(const Rational &r, unsigned long long value) {
+
+};
+
+Rational operator/(unsigned long long value, const Rational &r) {
+
 };

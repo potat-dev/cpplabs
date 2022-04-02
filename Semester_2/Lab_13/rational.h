@@ -41,4 +41,20 @@ class Rational {
     // постфиксный инкремент
     Rational operator++(int);
     Rational operator--(int);
+
+    friend Rational operator+(const Rational &r1, const Rational &r2);
+	  friend Rational operator+(const Rational &r, unsigned long long value);
+	  friend Rational operator+(unsigned long long value, const Rational &r);
+
+    friend Rational operator-(const Rational &r1, const Rational &r2);
+	  friend Rational operator-(const Rational &r, unsigned long long value);
+	  friend Rational operator-(unsigned long long value, const Rational &r);
+    
+    friend Rational operator*(const Rational &r1, const Rational &r2);
+	  friend Rational operator*(const Rational &r, unsigned long long value);
+	  friend Rational operator*(unsigned long long value, const Rational &r);
+
+    friend Rational operator/(const Rational &r1, const Rational &r2);
+	  friend Rational operator/(const Rational &r, unsigned long long value);
+	  friend Rational operator/(unsigned long long value, const Rational &r);
 };
