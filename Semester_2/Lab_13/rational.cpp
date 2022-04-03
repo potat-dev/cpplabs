@@ -9,9 +9,9 @@ Rational::Rational(long long numerator, long long denominator) :
   assert(denominator != 0);
 }
 
-Rational::Rational(const Rational &temp) :
-  _numerator(temp._numerator),
-  _denominator(temp._denominator) {
+Rational::Rational(const Rational &temp, bool invert) :
+  _numerator(invert ? temp._denominator : temp._numerator),
+  _denominator(invert ? temp._numerator : temp._denominator) {
 }
 
 Rational& Rational::set(long long numerator, long long denominator) {
@@ -112,49 +112,66 @@ Rational Rational::operator--(int) {
 };
 
 Rational operator+(const Rational &r1, const Rational &r2) {
-
+  Rational temp(
+    r1._numerator * r2._denominator +
+    r2._numerator * r1._denominator,
+    r1._denominator * r2._denominator
+  );
+  return temp.simplify();
 };
 
 Rational operator+(const Rational &r, unsigned long long value) {
-
+  Rational temp(value);
+  return temp + r;
 };
 
 Rational operator+(unsigned long long value, const Rational &r) {
-
+  return r + value;
 };
 
 Rational operator-(const Rational &r1, const Rational &r2) {
-
+  Rational temp(-r2._numerator, r2._denominator);
+  return r1 + temp;
 };
 
 Rational operator-(const Rational &r, unsigned long long value) {
-
+  Rational temp(value);
+  return r - temp;
 };
 
 Rational operator-(unsigned long long value, const Rational &r) {
-
+  Rational temp(value);
+  return temp - r;
 };
 
 Rational operator*(const Rational &r1, const Rational &r2) {
-
+  Rational temp(
+    r1._numerator * r2._numerator,
+    r1._denominator * r2._denominator
+  );
+  return temp.simplify();
 };
 
 Rational operator*(const Rational &r, unsigned long long value) {
-
+  Rational temp(value);
+  return r * temp;
 };
 
 Rational operator*(unsigned long long value, const Rational &r) {
-
+  return r * value;
 };
 
 Rational operator/(const Rational &r1, const Rational &r2) {
-
+  Rational temp(r2, INVERSE); // обратная дробь
+  return r1 * temp;
 };
 
 Rational operator/(const Rational &r, unsigned long long value) {
-
+  Rational temp(value);
+  return r / temp;
 };
 
 Rational operator/(unsigned long long value, const Rational &r) {
-
+  Rational temp(value);
+  return temp / r;
 };

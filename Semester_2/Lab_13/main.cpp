@@ -9,8 +9,8 @@
 //* оператор присваивания
 
 //? указанные в задании перегруженные операции
-//* выполнено ++, --, +r, -r, ==, !=, =
-//! не готово +, +=, -, -=, >, <, >=, <=, *, *=, /, /=
+//* выполнено ++, --, +r, -r, ==, !=, =, +, -, *, /
+//! не готово +=, -=, >, <, >=, <=, *=, /=
 
 #include "rational.h"
 using namespace std;
@@ -38,13 +38,11 @@ int main() {
   test2.numerator() = 42;
   cout << test2.get_value() << endl;
   
-  cout << test << ", "
-       << test2 << endl;
+  cout << test << ", " << test2 << endl;
 
   cout << endl << "Enter rational: ";
   cin >> test;
   cout << test << " = " << test.get_value() << "\n\n";
-
   cout << test3 << " = " << test3.get_value() << "\n\n";
 
   Rational r1(1, 2);
@@ -52,14 +50,10 @@ int main() {
   Rational r3(1, 4);
 
   r1 = r2 = r3; // = 1 / 4
-  cout << r1 << ", "
-       << r2 << ", "
-       << r3 << endl;
+  cout << r1 << ", " << r2 << ", " << r3 << endl;
 
   r1 = r2 = r3 = 42;
-  cout << r1 << ", "
-       << r2 << ", "
-       << r3 << endl;
+  cout << r1 << ", " << r2 << ", " << r3 << endl;
 
   cout << test << ", " << -test << ", " << ++test;
 
@@ -67,26 +61,50 @@ int main() {
   Rational testB(1, 2);
 
   cout << endl;
-  if (testA == testB)
-    cout << "True1" << endl;
-  if (testA == testA)
-    cout << "True2" << endl;
+  if (testA == testB) cout << "testA == testB" << endl;
+  if (testA == testA) cout << "testA == testA" << endl;
 
   Rational testNew(testA);
-  if (testA == testNew)
-    cout << "True3" << endl;
+  if (testA == testNew) cout << "testA == testNew" << endl;
 
   cout << ++testNew << ", " << testNew << endl;
-  if (testA == testNew)
-    cout << "True4" << endl;
+  if (testA == testNew) cout << "testA == testNew" << endl;
   
-  cout << testA++ << ", "
-       << testA << endl;
-  if (testA == testNew)
-    cout << "True5" << endl;
+  cout << testA++ << ", " << testA << endl;
+  if (testA == testNew) cout << "testA == testNew" << endl;
 
   Rational temp(10, -20);
-  cout << temp << ", "
-       << temp.simplify() << ", "
-       << temp << endl;
+  cout << temp << ", " << temp.simplify() << ", " << temp << endl;
+
+
+  cout << "/-- tests --/" << endl;
+
+  Rational kek_1(42, 618);
+  Rational kek_2(69, 420);
+  unsigned long long kek_n = 777;
+
+  cout << "(" << kek_1 << ") + (" << kek_2 << ") = " << kek_1 + kek_2 << endl;
+  cout << "(" << kek_1 << ") + (" << kek_n << ") = " << kek_1 + kek_n << endl;
+  cout << "(" << kek_n << ") + (" << kek_1 << ") = " << kek_n + kek_1 << endl;
+  
+  cout << "(" << kek_1 << ") - (" << kek_2 << ") = " << kek_1 - kek_2 << endl;
+  cout << "(" << kek_1 << ") - (" << kek_n << ") = " << kek_1 - kek_n << endl;
+  cout << "(" << kek_n << ") - (" << kek_1 << ") = " << kek_n - kek_1 << endl;
+  
+  cout << "(" << kek_1 << ") * (" << kek_2 << ") = " << kek_1 * kek_2 << endl;
+  cout << "(" << kek_1 << ") * (" << kek_n << ") = " << kek_1 * kek_n << endl;
+  cout << "(" << kek_n << ") * (" << kek_1 << ") = " << kek_n * kek_1 << endl;
+  
+  cout << "(" << kek_1 << ") / (" << kek_2 << ") = " << kek_1 / kek_2 << endl;
+  cout << "(" << kek_1 << ") / (" << kek_n << ") = " << kek_1 / kek_n << endl;
+  cout << "(" << kek_n << ") / (" << kek_1 << ") = " << kek_n / kek_1 << endl;
+}
+
+int test() {
+  Rational r;
+  for (int i = 1; i < 30; i++) {
+    Rational temp(1, i);
+    r = r + temp;
+    cout << r << " = " << r.get_value() << endl;
+  }
 }

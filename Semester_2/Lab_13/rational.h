@@ -5,6 +5,8 @@
 
 using namespace std;
 
+#define INVERSE true
+
 class Rational {
   private:
     long long _numerator;   // числитель
@@ -12,7 +14,7 @@ class Rational {
   
   public:
     Rational(long long numerator = 0, long long denominator = 1);
-    Rational(const Rational &temp);
+    Rational(const Rational &temp, bool invert = false);
 
     Rational& set(long long numerator, long long denominator);
     long long& numerator();
