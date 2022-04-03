@@ -1,4 +1,4 @@
-#include "pascal_vec.h"
+#include "pascal_arr.h"
 
 int main() {
   uint16_t n = 67; // 67 максимум
