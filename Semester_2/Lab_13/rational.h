@@ -45,18 +45,30 @@ class Rational {
     Rational operator--(int);
 
     friend Rational operator+(const Rational &r1, const Rational &r2);
-	  friend Rational operator+(const Rational &r, unsigned long long value);
-	  friend Rational operator+(unsigned long long value, const Rational &r);
+	  friend Rational operator+(const Rational &r, long long value);
+	  friend Rational operator+(long long value, const Rational &r);
 
     friend Rational operator-(const Rational &r1, const Rational &r2);
-	  friend Rational operator-(const Rational &r, unsigned long long value);
-	  friend Rational operator-(unsigned long long value, const Rational &r);
+	  friend Rational operator-(const Rational &r, long long value);
+	  friend Rational operator-(long long value, const Rational &r);
     
     friend Rational operator*(const Rational &r1, const Rational &r2);
-	  friend Rational operator*(const Rational &r, unsigned long long value);
-	  friend Rational operator*(unsigned long long value, const Rational &r);
+	  friend Rational operator*(const Rational &r, long long value);
+	  friend Rational operator*(long long value, const Rational &r);
 
     friend Rational operator/(const Rational &r1, const Rational &r2);
-	  friend Rational operator/(const Rational &r, unsigned long long value);
-	  friend Rational operator/(unsigned long long value, const Rational &r);
+	  friend Rational operator/(const Rational &r, long long value);
+	  friend Rational operator/(long long value, const Rational &r);
+
+    friend Rational& operator+=(Rational& left, const Rational& right);
+    friend Rational& operator+=(Rational& left, const long long& right);
+    
+    friend Rational& operator-=(Rational& left, const Rational& right);
+    friend Rational& operator-=(Rational& left, const long long& right);
+    
+    friend Rational& operator*=(Rational& left, const Rational& right);
+    friend Rational& operator*=(Rational& left, const long long& right);
+    
+    friend Rational& operator/=(Rational& left, const Rational& right);
+    friend Rational& operator/=(Rational& left, const long long& right);
 };

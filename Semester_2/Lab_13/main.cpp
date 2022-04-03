@@ -9,8 +9,8 @@
 //* оператор присваивания
 
 //? указанные в задании перегруженные операции
-//* выполнено ++, --, +r, -r, ==, !=, =, +, -, *, /
-//! не готово +=, -=, >, <, >=, <=, *=, /=
+//* выполнено ++, --, +r, -r, ==, !=, =, +, +=, -, -=, *, *=, /, /=
+//! не готово >, <, >=, <=
 
 #include "rational.h"
 using namespace std;
@@ -77,11 +77,11 @@ int main() {
   cout << temp << ", " << temp.simplify() << ", " << temp << endl;
 
 
-  cout << "/-- tests --/" << endl;
+  cout << "\n/-- tests 1 --/\n\n";
 
   Rational kek_1(42, 618);
   Rational kek_2(69, 420);
-  unsigned long long kek_n = 777;
+  long long kek_n = 777;
 
   cout << "(" << kek_1 << ") + (" << kek_2 << ") = " << kek_1 + kek_2 << endl;
   cout << "(" << kek_1 << ") + (" << kek_n << ") = " << kek_1 + kek_n << endl;
@@ -98,9 +98,27 @@ int main() {
   cout << "(" << kek_1 << ") / (" << kek_2 << ") = " << kek_1 / kek_2 << endl;
   cout << "(" << kek_1 << ") / (" << kek_n << ") = " << kek_1 / kek_n << endl;
   cout << "(" << kek_n << ") / (" << kek_1 << ") = " << kek_n / kek_1 << endl;
+
+  cout << "\n/-- tests 2 --/\n\n";
+
+  kek_1 = {42, 618}; kek_2 = {69, 420}; kek_n = 777;
+  cout << "(" << kek_1 << ") += (" << kek_2 << ") -> " << (kek_1 += kek_2) << endl;
+  cout << "(" << kek_1 << ") += (" << kek_n << ") -> " << (kek_1 += kek_n) << endl;
+
+  kek_1 = {42, 618}; kek_2 = {69, 420}; kek_n = 777;
+  cout << "(" << kek_1 << ") -= (" << kek_2 << ") -> " << (kek_1 -= kek_2) << endl;
+  cout << "(" << kek_1 << ") -= (" << kek_n << ") -> " << (kek_1 -= kek_n) << endl;
+
+  kek_1 = {42, 618}; kek_2 = {69, 420}; kek_n = 777;
+  cout << "(" << kek_1 << ") *= (" << kek_2 << ") -> " << (kek_1 *= kek_2) << endl;
+  cout << "(" << kek_1 << ") *= (" << kek_n << ") -> " << (kek_1 *= kek_n) << endl;
+
+  kek_1 = {42, 618}; kek_2 = {69, 420}; kek_n = 777;
+  cout << "(" << kek_1 << ") /= (" << kek_2 << ") -> " << (kek_1 /= kek_2) << endl;
+  cout << "(" << kek_1 << ") /= (" << kek_n << ") -> " << (kek_1 /= kek_n) << endl;
 }
 
-int test() {
+void test() {
   Rational r;
   for (int i = 1; i < 30; i++) {
     Rational temp(1, i);

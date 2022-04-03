@@ -111,6 +111,8 @@ Rational Rational::operator--(int) {
   return temp;
 };
 
+// + - * /
+
 Rational operator+(const Rational &r1, const Rational &r2) {
   Rational temp(
     r1._numerator * r2._denominator +
@@ -120,12 +122,12 @@ Rational operator+(const Rational &r1, const Rational &r2) {
   return temp.simplify();
 };
 
-Rational operator+(const Rational &r, unsigned long long value) {
+Rational operator+(const Rational &r, long long value) {
   Rational temp(value);
   return temp + r;
 };
 
-Rational operator+(unsigned long long value, const Rational &r) {
+Rational operator+(long long value, const Rational &r) {
   return r + value;
 };
 
@@ -134,12 +136,12 @@ Rational operator-(const Rational &r1, const Rational &r2) {
   return r1 + temp;
 };
 
-Rational operator-(const Rational &r, unsigned long long value) {
+Rational operator-(const Rational &r, long long value) {
   Rational temp(value);
   return r - temp;
 };
 
-Rational operator-(unsigned long long value, const Rational &r) {
+Rational operator-(long long value, const Rational &r) {
   Rational temp(value);
   return temp - r;
 };
@@ -152,12 +154,12 @@ Rational operator*(const Rational &r1, const Rational &r2) {
   return temp.simplify();
 };
 
-Rational operator*(const Rational &r, unsigned long long value) {
+Rational operator*(const Rational &r, long long value) {
   Rational temp(value);
   return r * temp;
 };
 
-Rational operator*(unsigned long long value, const Rational &r) {
+Rational operator*(long long value, const Rational &r) {
   return r * value;
 };
 
@@ -166,12 +168,54 @@ Rational operator/(const Rational &r1, const Rational &r2) {
   return r1 * temp;
 };
 
-Rational operator/(const Rational &r, unsigned long long value) {
+Rational operator/(const Rational &r, long long value) {
   Rational temp(value);
   return r / temp;
 };
 
-Rational operator/(unsigned long long value, const Rational &r) {
+Rational operator/(long long value, const Rational &r) {
   Rational temp(value);
   return temp / r;
+};
+
+// += -= *= /=
+
+Rational& operator+=(Rational& left, const Rational& right) {
+  left = left + right;
+  return left;
+};
+
+Rational& operator+=(Rational& left, const long long& right) {
+  left = left + right;
+  return left;
+};
+
+Rational& operator-=(Rational& left, const Rational& right) {
+  left = left - right;
+  return left;
+};
+
+Rational& operator-=(Rational& left, const long long& right) {
+  left = left - right;
+  return left;
+};
+
+Rational& operator*=(Rational& left, const Rational& right) {
+  left = left * right;
+  return left;
+};
+
+Rational& operator*=(Rational& left, const long long& right) {
+  left = left * right;
+  return left;
+};
+
+Rational& operator/=(Rational& left, const Rational& right) {
+  left = left / right;
+  return left;
+};
+
+Rational& operator/=(Rational& left, const long long& right) {
+  left = left / right;
+  return left;
 };
