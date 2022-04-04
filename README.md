@@ -24,8 +24,11 @@ Labs now ready: `5 / 8`
 | Lab 7 | ✅ | ✅ | ✅ | ✅ |
 | Lab 8 | ✅ | ✅ | ✅ | ✅ |
 | Lab 9 | ✅ | ✅ | ✅ | ✅ |
-| Lab 10 | 🔷 | 🔷 | 🔷 |  |
-| Lab 11 | 🔷 | 🔷 |  |  |
+| Lab 10 | ✅ | ✅ | ✅ | ✅ |
+| Lab 11 | 🔷 | 🔷 | 🔷 |  |
 | Lab 12 | 🔷 |  |  |  |
 | Lab 13 | 🔷 |  |  |  |
 | Lab 14 |  |  |  |  |
+
+### Total time spent on labs:  
+[![wakatime](https://wakatime.com/badge/user/44ab2413-c50e-4335-a9cd-7990b8ed9c8b/project/40f4ff13-1639-42ba-a9dd-a503aca9302c.svg)](https://wakatime.com/@CyberPotat42)

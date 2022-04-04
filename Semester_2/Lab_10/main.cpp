@@ -7,9 +7,9 @@
 
 #include "file.h"
 
-#define START_POS 3
-#define END_POS 60
-#define NO_WHITESPACE 1
+#define START_POS 3 // начальная позиция (отступ)
+#define END_POS 60  // конечная позиция (перенос строки)
+#define NO_WHITESPACE true // удалять ли пробелы
 
 int main() {
   parse_file(

@@ -22,7 +22,7 @@ void parse_file(const char *in, const char *out, int start, int end, bool no_whi
       fprintf(output, "%c", c);
       do {
         c = fgetc(input);
-      } while (c == ' ' && no_whitespace);
+      } while ((c == ' ' || c == '\t') && no_whitespace);
       counter++;
     } else {
       fprintf(output, "\n");
