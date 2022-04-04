@@ -4,8 +4,17 @@
 
 // доп: написать strcmp
 
-#include "strpbrk.h"
+#define DOP
+
+#include <stdio.h>
 #include <stdlib.h>
+
+#ifndef DOP
+  #include "strpbrk.h"
+#else
+  #include "strcmp.h"
+#endif
+
 
 int len = 0;
 char *readstr() {
@@ -25,12 +34,19 @@ char *readstr() {
   return s;
 }
 
-int main() {
-  printf("Enter string: ");
-  char *str = readstr();
 
-  printf("Enter allowed chars: ");
-  char *chrs = readstr();
-  
-  printf("The first character found: %c", *strpbrk(str, chrs));
+int main() {
+  #ifndef DOP
+    printf("Enter string: ");
+    char *str = readstr();
+    printf("Enter allowed chars: ");
+    char *chrs = readstr();
+    printf("The first character found: %c", *strpbrk(str, chrs));
+  #else
+    printf("Enter string 1: ");
+    char *str1 = readstr();
+    printf("Enter string 2: ");
+    char *str2 = readstr();
+    printf("Strcmp result: %d", strcmp(str1, str2));
+  #endif
 }
