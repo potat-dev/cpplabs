@@ -2,6 +2,8 @@
 // const char* strpbrk(const char *string, const char *strCharSet)
 // работающую так же, как библиотечная и тестирующую программу к ней
 
+// доп: написать strcmp
+
 #include "strpbrk.h"
 #include <stdlib.h>
 
