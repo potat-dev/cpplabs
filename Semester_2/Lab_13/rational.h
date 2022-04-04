@@ -71,4 +71,10 @@ class Rational {
     
     friend Rational& operator/=(Rational& left, const Rational& right);
     friend Rational& operator/=(Rational& left, const long long& right);
+
+    friend bool operator> (const Rational&r1, const Rational &r2);
+    friend bool operator<= (const Rational &r1, const Rational &r2);
+ 
+    friend bool operator< (const Rational &r1, const Rational &r2);
+    friend bool operator>= (const Rational &r1, const Rational &r2);
 };

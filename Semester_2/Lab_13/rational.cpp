@@ -7,17 +7,19 @@ Rational::Rational(long long numerator, long long denominator) :
   _numerator(denominator > 0 ? numerator : -numerator),
   _denominator(denominator ? (denominator > 0 ? denominator : -denominator) : 1) {
   assert(denominator != 0);
+  this->simplify();
 }
 
 Rational::Rational(const Rational &temp, bool invert) :
   _numerator(invert ? temp._denominator : temp._numerator),
   _denominator(invert ? temp._numerator : temp._denominator) {
+  this->simplify();
 }
 
 Rational& Rational::set(long long numerator, long long denominator) {
   _numerator = denominator > 0 ? numerator : -numerator;
   _denominator = denominator ? (denominator > 0 ? denominator : -denominator) : 1;
-  return *this;
+  return this->simplify();
 }
 
 long long& Rational::numerator() {
@@ -35,6 +37,10 @@ double Rational::get_value() {
 long long gcd(long long a, long long b) {
   if (a == 0) return (b > 0) ? b : -b;
   return gcd(b % a, a);
+}
+
+long long lcm(long long a, long long b) {
+  return (a * b) / gcd(a, b);
 }
 
 Rational& Rational::simplify() {
@@ -218,4 +224,24 @@ Rational& operator/=(Rational& left, const Rational& right) {
 Rational& operator/=(Rational& left, const long long& right) {
   left = left / right;
   return left;
+};
+
+bool operator>(const Rational&r1, const Rational &r2) {
+  long long L = lcm(r1._denominator, r2._denominator);
+  return (
+    r1._numerator * L / r1._denominator >
+    r2._numerator * L / r2._denominator
+  );
+};
+
+bool operator<=(const Rational&r1, const Rational &r2) {
+  if (r1 == r2 || r1 < r2);
+};
+
+bool operator<(const Rational&r1, const Rational &r2) {
+  return r2 > r1;
+};
+
+bool operator>=(const Rational&r1, const Rational &r2) {
+  return (r1 == r2 || r1 > r2);
 };

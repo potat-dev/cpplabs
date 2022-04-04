@@ -9,8 +9,7 @@
 //* оператор присваивания
 
 //? указанные в задании перегруженные операции
-//* выполнено ++, --, +r, -r, ==, !=, =, +, +=, -, -=, *, *=, /, /=
-//! не готово >, <, >=, <=
+//* выполнено ++, --, +r, -r, ==, !=, =, +, +=, -, -=, *, *=, /, /=, >, <, >=, <=
 
 #include "rational.h"
 using namespace std;
@@ -116,6 +115,14 @@ int main() {
   kek_1 = {42, 618}; kek_2 = {69, 420}; kek_n = 777;
   cout << "(" << kek_1 << ") /= (" << kek_2 << ") -> " << (kek_1 /= kek_2) << endl;
   cout << "(" << kek_1 << ") /= (" << kek_n << ") -> " << (kek_1 /= kek_n) << endl;
+
+  cout << "\n/-- tests 3 --/\n\n";
+  
+  kek_1 = {42, 618}; kek_2 = {69, 420};
+  cout << kek_1 << " > " << kek_2 << (kek_1 > kek_2 ? " = True" : " = False") << endl;
+  cout << kek_1 << " >= " << kek_2 << (kek_1 >= kek_2 ? " = True" : " = False") << endl;
+  cout << kek_1 << " < " << kek_2 << (kek_1 < kek_2 ? " = True" : " = False") << endl;
+  cout << kek_1 << " <= " << kek_2 << (kek_1 <= kek_2 ? " = True" : " = False") << endl;
 }
 
 void test() {
