@@ -1,18 +1,18 @@
 #pragma once
 #include <stdio.h>
 
-static int code_table[] = {0x00, 0x0d, 0x16, 0x1b}; //1f
+static unsigned char code_table[] = {0x00, 0x0d, 0x16, 0x1f}; //1f
 
-int coder(int m) {
+unsigned char coder(unsigned char m) {
   return code_table[m];
 }
 
-int channel(int a, int e) {
+unsigned char channel(unsigned char a, unsigned char e) {
   return a ^ e;
 }
 
-unsigned int count_ones(unsigned long long n) {
-  unsigned int w = 0;
+unsigned char count_ones(unsigned char n) {
+  unsigned char w = 0;
   while (n > 0) {
     w += n & 1;
     n = n >> 1;
@@ -20,14 +20,14 @@ unsigned int count_ones(unsigned long long n) {
   return w;
 }
 
-int hamming(int a, int b) {
+unsigned char hamming(unsigned char a, unsigned char b) {
   return count_ones(a ^ b);
 }
 
-int decoder(int m) {
-  int ind = 0, min = 5;
-  for (int i = 0; i < 4; i++) {
-    int d = hamming(m, code_table[i]);
+unsigned char decoder(unsigned char m) {
+  unsigned char ind = 0, min = 5;
+  for (unsigned char i = 0; i < 4; i++) {
+    unsigned char d = hamming(m, code_table[i]);
     if (d < min) {
       min = d;
       ind = i;
@@ -36,8 +36,13 @@ int decoder(int m) {
   return ind;
 }
 
-void convertToBinary(int n) {
-  if (n / 2 != 0)
-    convertToBinary(n / 2);
-  printf("%d", n % 2);
+void printf_bin(unsigned char n) {  
+  for (unsigned char i = 0; i < 5; i++)
+    printf("%d", (n >> (4 - i)) & 1);
 }
+
+// void convertToBinary(int n) {
+//   if (n / 2 != 0)
+//     convertToBinary(n / 2);
+//   printf("%d", n % 2);
+// }
