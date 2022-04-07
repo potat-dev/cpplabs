@@ -1,13 +1,6 @@
 #include <iostream>
 using namespace std;
 
-unsigned long long get(unsigned long long *arr, int size, int i) {
-  if (i < 0 || i >= size)
-    return 0;
-  else
-    return arr[i];
-}
-
 void print(unsigned long long *arr, int size) {
   for (int i = 0; i < size; i++)
     cout << arr[i] << endl;
@@ -27,8 +20,8 @@ void print_line(int line) {
   for (int i = 1; i < size; i++) {
     copy_arr(prev, now, size);
     // заполняем новую строку треугольника
-    for (int x = 0; x < size; x++)
-      now[x] = get(prev, size, x - 1) + get(prev, size, x);
+    for (int x = 1; x < size; x++)
+      now[x] = prev[x - 1] + prev[x];
   }
 
   print(now, size);
