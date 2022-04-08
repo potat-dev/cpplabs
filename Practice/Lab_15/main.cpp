@@ -44,9 +44,27 @@ int main() {
   file_header.Reserved1  = get(in_file, sizeof(file_header.Reserved1));
   file_header.Reserved2  = get(in_file, sizeof(file_header.Reserved2));
   file_header.OffsetBits = get(in_file, sizeof(file_header.OffsetBits));
-  cout << "Type:       " << hex << file_header.Type       << endl;
-  cout << "Size:       " << dec << file_header.Size       << endl;
-  cout << "Reserved1:  " << hex << file_header.Reserved1  << endl;
-  cout << "Reserved2:  " << hex << file_header.Reserved2  << endl;
-  cout << "OffsetBits: " << dec << file_header.OffsetBits << endl;
+
+  BitMapInfoHeader info_header;
+  info_header.Size            = get(in_file, sizeof(info_header.Size));
+  info_header.Width           = get(in_file, sizeof(info_header.Width));
+  info_header.Height          = get(in_file, sizeof(info_header.Height));
+  info_header.Planes          = get(in_file, sizeof(info_header.Planes));
+  info_header.BitCount        = get(in_file, sizeof(info_header.BitCount));
+  info_header.Compression     = get(in_file, sizeof(info_header.Compression));
+  info_header.SizeImage       = get(in_file, sizeof(info_header.SizeImage));
+  info_header.XpelsPerMeter   = get(in_file, sizeof(info_header.XpelsPerMeter));
+  info_header.YpelsPerMeter   = get(in_file, sizeof(info_header.YpelsPerMeter));
+  info_header.ColorsUsed      = get(in_file, sizeof(info_header.ColorsUsed));
+  info_header.ColorsImportant = get(in_file, sizeof(info_header.ColorsImportant));
+ 
+  cout << "Type:        " << hex << file_header.Type       << endl;
+  cout << "Size:        " << dec << file_header.Size       << endl;
+  cout << "OffsetBits:  " << dec << file_header.OffsetBits << endl;
+  cout << "Width:       " << dec << info_header.Width           << endl;
+  cout << "Height:      " << dec << info_header.Height          << endl;
+  cout << "Planes:      " << dec << info_header.Planes          << endl;
+  cout << "BitCount:    " << dec << info_header.BitCount        << endl;
+  cout << "Compression: " << dec << info_header.Compression     << endl;
+  cout << "SizeImage:   " << dec << info_header.SizeImage       << endl;
 }
