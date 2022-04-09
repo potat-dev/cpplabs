@@ -1,7 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cstdlib> // для функции exit()
+#include <cstdlib>
+#include "stdio.h"
+
+// указывать имена файлов исходных и результирующих файлов в командной строке
+// ! файлы, после обработки заголовков, читать целиком в динамически заказанную память
 
 using namespace std;
 
@@ -27,6 +31,20 @@ struct BitMapInfoHeader {
   uint32_t ColorsImportant;  //  4  50  Число основных цветов
 };
 
+struct BGRA {
+  uint8_t Blue;
+  uint8_t Green;
+  uint8_t Red;
+  uint8_t Alpha;
+  
+  BGRA (uint32_t i) {
+    Blue  = (i >> 24) & 0xFF;
+    Green = (i >> 16) & 0xFF;
+    Red   = (i >>  8) & 0xFF;
+    Alpha = (i >>  0) & 0xFF;
+  }
+};
+
 uint32_t get(FILE *f, uint8_t bytes) {
   uint32_t temp = 0;
   for (int i = 0; i < bytes; i++)
@@ -34,37 +52,108 @@ uint32_t get(FILE *f, uint8_t bytes) {
   return temp;
 }
 
+void put(FILE *f, uint32_t data, uint8_t bytes) {
+  for (int i = 0; i < bytes; i++)
+    putc((data >> (i * 8)) & 0xff, f);
+}
+
+bool grayscale(BGRA *c) {
+  double temp =
+    ((0.30 * (double)(c->Red)) +
+    (0.59 * (double)(c->Green)) +
+    (0.11 * (double)(c->Blue))) / 256.0;
+  return (temp > 0.5);
+}
+
 
 int main() {
-  FILE * in_file = fopen("input.bmp", "rb");
+  FILE * input = fopen("kek2.bmp", "rb");
+  FILE * output = fopen("output.bmp", "wb");
 
-  BitMapFileHeader file_header;
-  file_header.Type       = get(in_file, sizeof(file_header.Type));
-  file_header.Size       = get(in_file, sizeof(file_header.Size));
-  file_header.Reserved1  = get(in_file, sizeof(file_header.Reserved1));
-  file_header.Reserved2  = get(in_file, sizeof(file_header.Reserved2));
-  file_header.OffsetBits = get(in_file, sizeof(file_header.OffsetBits));
+  BitMapFileHeader file;
+  file.Type       = get(input, sizeof(file.Type));
+  file.Size       = get(input, sizeof(file.Size));
+  file.Reserved1  = get(input, sizeof(file.Reserved1));
+  file.Reserved2  = get(input, sizeof(file.Reserved2));
+  file.OffsetBits = get(input, sizeof(file.OffsetBits));
 
-  BitMapInfoHeader info_header;
-  info_header.Size            = get(in_file, sizeof(info_header.Size));
-  info_header.Width           = get(in_file, sizeof(info_header.Width));
-  info_header.Height          = get(in_file, sizeof(info_header.Height));
-  info_header.Planes          = get(in_file, sizeof(info_header.Planes));
-  info_header.BitCount        = get(in_file, sizeof(info_header.BitCount));
-  info_header.Compression     = get(in_file, sizeof(info_header.Compression));
-  info_header.SizeImage       = get(in_file, sizeof(info_header.SizeImage));
-  info_header.XpelsPerMeter   = get(in_file, sizeof(info_header.XpelsPerMeter));
-  info_header.YpelsPerMeter   = get(in_file, sizeof(info_header.YpelsPerMeter));
-  info_header.ColorsUsed      = get(in_file, sizeof(info_header.ColorsUsed));
-  info_header.ColorsImportant = get(in_file, sizeof(info_header.ColorsImportant));
+  BitMapInfoHeader image;
+  image.Size            = get(input, sizeof(image.Size));
+  image.Width           = get(input, sizeof(image.Width));
+  image.Height          = get(input, sizeof(image.Height));
+  image.Planes          = get(input, sizeof(image.Planes));
+  image.BitCount        = get(input, sizeof(image.BitCount));
+  image.Compression     = get(input, sizeof(image.Compression));
+  image.SizeImage       = get(input, sizeof(image.SizeImage));
+  image.XpelsPerMeter   = get(input, sizeof(image.XpelsPerMeter));
+  image.YpelsPerMeter   = get(input, sizeof(image.YpelsPerMeter));
+  image.ColorsUsed      = get(input, sizeof(image.ColorsUsed));
+  image.ColorsImportant = get(input, sizeof(image.ColorsImportant));
  
-  cout << "Type:        " << hex << file_header.Type       << endl;
-  cout << "Size:        " << dec << file_header.Size       << endl;
-  cout << "OffsetBits:  " << dec << file_header.OffsetBits << endl;
-  cout << "Width:       " << dec << info_header.Width           << endl;
-  cout << "Height:      " << dec << info_header.Height          << endl;
-  cout << "Planes:      " << dec << info_header.Planes          << endl;
-  cout << "BitCount:    " << dec << info_header.BitCount        << endl;
-  cout << "Compression: " << dec << info_header.Compression     << endl;
-  cout << "SizeImage:   " << dec << info_header.SizeImage       << endl;
+  cout << "Type:        " << hex << file.Type         << endl;
+  cout << "Size:        " << dec << file.Size         << endl;
+  cout << "OffsetBits:  " << dec << file.OffsetBits   << endl;
+  cout << "Width:       " << dec << image.Width       << endl;
+  cout << "Height:      " << dec << image.Height      << endl;
+  cout << "Planes:      " << dec << image.Planes      << endl;
+  cout << "BitCount:    " << dec << image.BitCount    << endl;
+  cout << "Compression: " << dec << image.Compression << endl;
+  cout << "SizeImage:   " << dec << image.SizeImage   << endl;
+
+  fseek(input, file.OffsetBits, SEEK_SET);
+
+  BGRA ** pixels = (BGRA **) malloc(image.Width * sizeof(BGRA *));
+  for (int x = 0; x < image.Width; x++) {
+    pixels[x] = (BGRA *) malloc(image.Height * sizeof(BGRA));
+    for (int y = 0; y < image.Height; y++) {
+      pixels[x][y].Blue = get(input, 1);
+      // ?  pixels[x][y].Green = get(input, 1);
+      // ?  pixels[x][y].Red = get(input, 1);
+      // ?  pixels[x][y].Alpha = get(input, 1);
+
+      // pixels[x][y] = (BGRA) get(input, sizeof(BGRA));
+      // printf(grayscale(&pixels[x][y]) ? " " : "#");
+      // cout << grayscale(&pixels[x][y]);
+    }
+    // cout << endl;
+    // printf("\n");
+  }
+
+  // for (int y = 0; y < image.Height; y++) {
+  //   for (int x = 0; x < image.Width; x++) {
+  //     printf(grayscale(&pixels[y][x]) ? " " : "#");
+  //   }
+  //   printf("\n");
+  // }
+
+  put(output, file.Type      , sizeof(file.Type      ));
+  put(output, file.Size      , sizeof(file.Size      ));
+  put(output, file.Reserved1 , sizeof(file.Reserved1 ));
+  put(output, file.Reserved2 , sizeof(file.Reserved2 ));
+  put(output, file.OffsetBits, sizeof(file.OffsetBits));
+
+  put(output, image.Size           , sizeof(image.Size           ));
+  put(output, image.Width          , sizeof(image.Width          ));
+  put(output, image.Height         , sizeof(image.Height         ));
+  put(output, image.Planes         , sizeof(image.Planes         ));
+  put(output, image.BitCount       , sizeof(image.BitCount       ));
+  put(output, image.Compression    , sizeof(image.Compression    ));
+  put(output, image.SizeImage      , sizeof(image.SizeImage      ));
+  put(output, image.XpelsPerMeter  , sizeof(image.XpelsPerMeter  ));
+  put(output, image.YpelsPerMeter  , sizeof(image.YpelsPerMeter  ));
+  put(output, image.ColorsUsed     , sizeof(image.ColorsUsed     ));
+  put(output, image.ColorsImportant, sizeof(image.ColorsImportant));
+
+  // ? fseek(input, 54, SEEK_SET);
+  // ? for (int i = 0; i < 1024; i++)
+  // ?   put(output, get(input, 1), 1);
+
+  for (int x = 0; x < image.Width; x++) {
+    for (int y = 0; y < image.Height; y++) {
+      put(output, pixels[x][y].Blue, 1);
+      // ? put(output, pixels[x][image.Height - y - 1].Green, 1);
+      // ? put(output, pixels[x][image.Height - y - 1].Red, 1);
+      // ? put(output, pixels[x][image.Height - y - 1].Alpha, 1);
+    }
+  }
 }
