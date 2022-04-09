@@ -65,6 +65,13 @@ bool grayscale(BGRA *c) {
   return (temp > 0.5);
 }
 
+void pretty_print(BGRA ** pixels, int h, int w) {
+  for (int y = 0; y < h; y++) {
+    for (int x = 0; x < w; x++)
+      printf(grayscale(&pixels[y][x]) ? " " : "#");
+    printf("\n");
+  }
+}
 
 int main() {
   FILE * input = fopen("kek2.bmp", "rb");
@@ -107,24 +114,12 @@ int main() {
     pixels[x] = (BGRA *) malloc(image.Height * sizeof(BGRA));
     for (int y = 0; y < image.Height; y++) {
       pixels[x][y].Blue = get(input, 1);
-      // ?  pixels[x][y].Green = get(input, 1);
-      // ?  pixels[x][y].Red = get(input, 1);
-      // ?  pixels[x][y].Alpha = get(input, 1);
-
+      pixels[x][y].Green = get(input, 1);
+      pixels[x][y].Red = get(input, 1);
+      pixels[x][y].Alpha = get(input, 1);
       // pixels[x][y] = (BGRA) get(input, sizeof(BGRA));
-      // printf(grayscale(&pixels[x][y]) ? " " : "#");
-      // cout << grayscale(&pixels[x][y]);
     }
-    // cout << endl;
-    // printf("\n");
   }
-
-  // for (int y = 0; y < image.Height; y++) {
-  //   for (int x = 0; x < image.Width; x++) {
-  //     printf(grayscale(&pixels[y][x]) ? " " : "#");
-  //   }
-  //   printf("\n");
-  // }
 
   put(output, file.Type      , sizeof(file.Type      ));
   put(output, file.Size      , sizeof(file.Size      ));
@@ -144,16 +139,16 @@ int main() {
   put(output, image.ColorsUsed     , sizeof(image.ColorsUsed     ));
   put(output, image.ColorsImportant, sizeof(image.ColorsImportant));
 
-  // ? fseek(input, 54, SEEK_SET);
-  // ? for (int i = 0; i < 1024; i++)
-  // ?   put(output, get(input, 1), 1);
+  fseek(input, 54, SEEK_SET);
+  for (int i = 0; i < 1024; i++)
+    put(output, get(input, 1), 1);
 
   for (int x = 0; x < image.Width; x++) {
     for (int y = 0; y < image.Height; y++) {
       put(output, pixels[x][y].Blue, 1);
-      // ? put(output, pixels[x][image.Height - y - 1].Green, 1);
-      // ? put(output, pixels[x][image.Height - y - 1].Red, 1);
-      // ? put(output, pixels[x][image.Height - y - 1].Alpha, 1);
+      put(output, pixels[x][y].Green, 1);
+      put(output, pixels[x][y].Red, 1);
+      put(output, pixels[x][y].Alpha, 1);
     }
   }
 }
