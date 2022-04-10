@@ -7,7 +7,7 @@
 using namespace std;
 
 // конструктор
-HugeInt::HugeInt(int digits) {
+HugeInt::HugeInt(int digits, string str) {
   digits_count = digits;
   array.resize(digits_count);
 }
