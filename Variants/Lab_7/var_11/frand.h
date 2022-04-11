@@ -6,8 +6,8 @@
 // случайное число в диапазоне [0, 1]
 #define frand() ((float)(rand())/(RAND_MAX))
 
-// округление: i <= f < i+1
-#define round(f) (int)(f > 0 ? f : f - 1)
+// округление
+int round(float f, int N);
 
 // случайное число в диапазоне [-n ... n]
 #define frand_n(n) (frand() * n * 2 - n)
