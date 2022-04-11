@@ -2,8 +2,11 @@
 
 A repository for learning C, C++ and the basics of Git in SUAI
 
+## Useful links:
 File with tasks for laboratory works: [Google Docs](https://docs.google.com/document/d/1xrpJrEPfF8pt5H5FsIfXumKFvwkoEy_wYpgZskR7_lA/)  
-Ready-made variants are listed here: [STATUS.md](STATUS.md)
+My formatted Lab tasks (var 7, 6): [TASKS.md](TASKS.md)   
+Ready-made variants are listed here: [STATUS.md](STATUS.md)  
+The report with the lab results: [Google Sheets](https://docs.google.com/spreadsheets/d/1lntWU4vhTECSaRqylbBAyvFPDyTe_JTkbdczJ-7RJFQ/)
 
 ## Semester 1:
 Labs now ready: `7 / 7`
