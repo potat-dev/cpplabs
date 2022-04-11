@@ -14,6 +14,15 @@
 
 #define BASE_CAPACITY 4
 
+int strlen(const char *s) {
+  int count = 0;
+  while (*s) {
+    count++;
+    s++;
+  }
+  return count;
+}
+
 int file_size(FILE *file) {
   fseek(file, 0, SEEK_END);
 	int fsize = ftell(file);
@@ -43,68 +52,72 @@ char *strpbrk(const char *string, const char *strCharSet) {
   return NULL;
 }
 
-int main() {
-  FILE *input = fopen("input.txt", "r");
-  FILE *abbrev = fopen("abbrev.txt", "r");
-  if (input == NULL || abbrev == NULL)
-    perror("Error opening file");
-
-  int input_size = file_size(input);
-  char *text = (char *) malloc(input_size * sizeof(char));
-  for (int i = 0; i < input_size; i++)
-    text[i] = fgetc(input);
-  fclose(input);
-
-  char *line = NULL;
-  size_t size = 0;
-  int len;
-
-  int lines = get_lines(abbrev);
-  printf("lines: %d\n", lines);
-  char *** abbrevs = (char ***) malloc(lines * sizeof(char **));
+char *** read_word_pairs(FILE *file) {
+  int lines = get_lines(file);
+  char *** arr = (char ***) malloc(lines * sizeof(char **));
   for (int i = 0; i < lines; i++) {
-    abbrevs[i] = (char **) malloc (2 * sizeof(char *));
-    abbrevs[i][0] = (char *) malloc((BASE_CAPACITY + 1) * sizeof(char));
-    abbrevs[i][1] = (char *) malloc((BASE_CAPACITY + 1) * sizeof(char));
+    arr[i] = (char **) malloc (2 * sizeof(char *));
+    arr[i][0] = (char *) malloc((BASE_CAPACITY + 1) * sizeof(char));
+    arr[i][1] = (char *) malloc((BASE_CAPACITY + 1) * sizeof(char));
   }
 
   // считываем каждую строку файла
   for (int i = 0; i < lines; i++) {
     int capacity = BASE_CAPACITY, size = 0;
     // считываем первое слово
-    char c = getc(abbrev);
+    char c = getc(file);
     while (c != ' ' && c != '\n' && c != EOF) {
       size++;
       if (size > capacity) {
         capacity *= 2;
-        abbrevs[i][0] = (char *) realloc(abbrevs[i][0], (capacity + 1) * sizeof(char));
+        arr[i][0] = (char *) realloc(arr[i][0], (capacity + 1) * sizeof(char));
       }
-      abbrevs[i][0][size - 1] = c;
-      c = getc(abbrev);
+      arr[i][0][size - 1] = c;
+      c = getc(file);
     }
-    abbrevs[i][0][size] = 0;
-    //? printf("line %d 0: %s\n", i, abbrevs[i][0]);
+    arr[i][0][size] = 0;
 
     // считываем второе слово
     capacity = BASE_CAPACITY, size = 0;
-    c = getc(abbrev);
+    c = getc(file);
     while (c != ' ' && c != '\n' && c != EOF) {
       size++;
       if (size > capacity) {
         capacity *= 2;
-        abbrevs[i][1] = (char *) realloc(abbrevs[i][1], (capacity + 1) * sizeof(char));
+        arr[i][1] = (char *) realloc(arr[i][1], (capacity + 1) * sizeof(char));
       }
-      abbrevs[i][1][size - 1] = c;
-      c = getc(abbrev);
+      arr[i][1][size - 1] = c;
+      c = getc(file);
     }
-    abbrevs[i][1][size] = 0;
-    //? printf("line %d 1: %s\n", i, abbrevs[i][1]);
+    arr[i][1][size] = 0;
   }
+  return arr;
+}
+
+char *read_file(FILE *file) {
+  int input_size = file_size(file);
+  char *temp = (char *) malloc(input_size * sizeof(char));
+  for (int i = 0; i < input_size; i++)
+    temp[i] = fgetc(file);
+  return temp;
+}
+
+int main() {
+  FILE *input = fopen("input.txt", "r");
+  if (input == NULL)
+    perror("Error opening file");
+  char *text = read_file(input);
+  fclose(input);
+
+  FILE *abbrev = fopen("abbrev.txt", "r");
+  int lines = get_lines(abbrev);
+  char *** abbrevs = read_word_pairs(abbrev);
+  fclose(abbrev);
 
   for (int i = 0; i < lines; i++) {
-    printf("line %d:\nWord 1: %s\nWord 2: %s\n\n", i, abbrevs[i][0], abbrevs[i][1]);
+    printf(
+      "line %d:\nWord 1: %s (%d)\nWord 2: %s (%d)\n\n",
+      i, abbrevs[i][0], strlen(abbrevs[i][0]),
+      abbrevs[i][1], strlen(abbrevs[i][1]));
   }
-
-  fclose(abbrev);
-  fclose(input);
 }
