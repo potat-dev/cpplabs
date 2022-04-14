@@ -21,7 +21,7 @@ Labs now ready: `7 / 7`
 | Lab 6 | ✅ | ✅ | ✅ | ✅ |
 
 ## Semester 2:
-Labs now ready: `5 / 8`
+Labs now ready: `6 / 8`
 | Lab   | Dev | Ready | Pass | Dop |
 | :---- | :-: | :-: | :-: | :-: |
 | Lab 7 | ✅ | ✅ | ✅ | ✅ |
@@ -30,7 +30,7 @@ Labs now ready: `5 / 8`
 | Lab 10 | ✅ | ✅ | ✅ | ✅ |
 | Lab 11 | 🔷 | 🔷 | 🔷 |  |
 | Lab 12 | 🔷 |  |  |  |
-| Lab 13 | 🔷 |  |  |  |
+| Lab 13 | 🔷 | 🔷 |  |  |
 | Lab 14 |  |  |  |  |
 
 ### Total time spent on labs:  

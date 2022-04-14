@@ -3,6 +3,15 @@
 
 using namespace std;
 
+long long gcd(long long a, long long b) {
+  if (a == 0) return (b > 0) ? b : -b;
+  return gcd(b % a, a);
+}
+
+long long lcm(long long a, long long b) {
+  return (a * b) / gcd(a, b);
+}
+
 Rational::Rational(long long numerator, long long denominator) :
   _numerator(denominator > 0 ? numerator : -numerator),
   _denominator(denominator ? (denominator > 0 ? denominator : -denominator) : 1) {
@@ -32,15 +41,6 @@ long long& Rational::denominator() {
 
 double Rational::get_value() {
   return (double)_numerator / (double)_denominator;
-}
-
-long long gcd(long long a, long long b) {
-  if (a == 0) return (b > 0) ? b : -b;
-  return gcd(b % a, a);
-}
-
-long long lcm(long long a, long long b) {
-  return (a * b) / gcd(a, b);
 }
 
 Rational& Rational::simplify() {
@@ -226,6 +226,8 @@ Rational& operator/=(Rational& left, const long long& right) {
   return left;
 };
 
+// < <= > >=
+
 bool operator>(const Rational&r1, const Rational &r2) {
   long long L = lcm(r1._denominator, r2._denominator);
   return (
@@ -235,7 +237,7 @@ bool operator>(const Rational&r1, const Rational &r2) {
 };
 
 bool operator<=(const Rational&r1, const Rational &r2) {
-  if (r1 == r2 || r1 < r2);
+  return (r1 == r2 || r1 < r2);
 };
 
 bool operator<(const Rational&r1, const Rational &r2) {
