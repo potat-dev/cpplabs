@@ -9,6 +9,14 @@ int strlen(const char *s) {
   return count;
 }
 
+int strcmp(char *s1, char *s2) {
+  while (*s2) {
+    if (*s1 != *s2) return *s1 - *s2;
+    s1++; s2++;
+  }
+  return 0;
+}
+
 int file_size(FILE *file) {
   fseek(file, 0, SEEK_END);
 	int fsize = ftell(file);
