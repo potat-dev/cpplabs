@@ -13,3 +13,4 @@ char *strpbrk(const char *string, const char *strCharSet);
 
 char *** read_word_pairs(FILE *file);
 char *read_file(FILE *file);
+int find_substr(char *str, char *** abbrevs, int count);

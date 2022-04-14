@@ -100,3 +100,10 @@ char *read_file(FILE *file) {
   }
   return temp;
 }
+
+int find_substr(char *str, char *** abbrevs, int count) {
+  for (int a = 0; a < count; a++)
+    if (strcmp(str, abbrevs[a][0]) == 0)
+      return a;
+  return -1; 
+}
