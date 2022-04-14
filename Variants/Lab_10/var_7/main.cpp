@@ -11,6 +11,13 @@
 
 #include "abbrev.h"
 
+int find_substr(char *str, char *** abbrevs, int count) {
+  for (int a = 0; a < count; a++)
+    if (strcmp(str, abbrevs[a][0]) == 0)
+      return a;
+  return -1; 
+}
+
 int main() {
   FILE *input = fopen("input.txt", "r");
   if (input == NULL)
@@ -40,12 +47,21 @@ int main() {
   if (output == NULL)
     perror("Error opening file");
 
-  for (int i = 0; i < text_len; i++) {
-    for (int a = 0; a < lines; a++) {
-      if (strcmp(text + i, abbrevs[a][0]) == 0) {
-        printf("%s - at %d\n", abbrevs[a][0], i);
-        i += strlen(abbrevs[a][0]) - 1;
-      }
+  for (int i = 0; text[i]; i++) {
+    int a = find_substr(text + i, abbrevs, lines);
+    if (a != -1) {
+      fprintf(output, "%s", abbrevs[a][1]);
+      i += strlen(abbrevs[a][0]) - 1;
+    } else {
+      printf("- %c ", text[i]);
+      fprintf(output, "%c", text[i]);
     }
+    // for (int a = 0; a < lines; a++) {
+    //   if (strcmp(text + i, abbrevs[a][0]) == 0) {
+    //     printf("%s - at %d\n", abbrevs[a][0], i);
+    //   }
+    // }
   }
+  fclose(output);
+  printf("%s", text);
 }

@@ -91,7 +91,12 @@ char *** read_word_pairs(FILE *file) {
 char *read_file(FILE *file) {
   int input_size = file_size(file);
   char *temp = (char *) malloc(input_size * sizeof(char));
-  for (int i = 0; i < input_size; i++)
+  for (int i = 0; i < input_size; i++) {
     temp[i] = fgetc(file);
+    if (temp[i] == EOF) {
+      temp[i] = 0;
+      break;
+    }
+  }
   return temp;
 }
