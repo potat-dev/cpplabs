@@ -1,45 +1,46 @@
 // По символьным файлам с текстом (содержащим сокращения)
 // и с сокращениями создать новый файл,
-// где все сокращения заменены на соответствующие слова.
+// где все сокращения заменены на соответствующие слова
 
-#include "stdio.h"
-#include "stdlib.h"
+// файл с сокращениями имеет следующий формат:
+// в каждой строке по 2 слова, разделенных пробелом.
+// Cлова записываются в трехмерный массив символов
+// [["", ""],
+//  ["", ""],
+//  ["", ""]]
 
-int file_size(FILE *file) {
-  fseek(file, 0, SEEK_END);
-	int fsize = ftell(file);
-	fseek(file, 0, SEEK_SET);
-	return fsize;
-}
+#include "abbrev.h"
 
 int main() {
   FILE *input = fopen("input.txt", "r");
-  FILE *abbrev = fopen("abbrev.txt", "r");
-  if (input == NULL || abbrev == NULL)
+  if (input == NULL)
     perror("Error opening file");
 
-  int input_size = file_size(input);
-  char *text = (char *) malloc(input_size * sizeof(char));
-  for (int i = 0; i < input_size; i++)
-    text[i] = fgetc(input);
+  char *text = read_file(input);
+  int text_len = strlen(text);
   fclose(input);
 
-  char *line = NULL;
-  size_t size = 0;
-  int len;
+  FILE *abbrev = fopen("abbrev.txt", "r");
+  if (abbrev == NULL)
+    perror("Error opening file");
 
-  int lines = 2;
-  char *** abbrevs = (char ***) malloc(lines * sizeof(char **));
-  for (int i = 0; i < lines; i++) {
-    abbrevs[i] = (char **) malloc(2 * sizeof(char *));
-  }
+  int lines = get_lines(abbrev);
+  char *** abbrevs = read_word_pairs(abbrev);
+  fclose(abbrev);
 
-  while ((len = getline(&line, &size, abbrev)) != -1) {
-    if (line[len - 1] == '\n') {
-      line[len - 1] = 0;
-      len -= 1;
+  FILE *output = fopen("output.txt", "w");
+  if (output == NULL)
+    perror("Error opening file");
+
+  for (int i = 0; text[i]; i++) {
+    int a = find_substr(text + i, abbrevs, lines);
+    if (a != -1) {
+      fprintf(output, "%s", abbrevs[a][1]);
+      i += strlen(abbrevs[a][0]) - 1;
+    } else {
+      fprintf(output, "%c", text[i]);
     }
-    printf("Retrieved line of length %d:\n", len);
-    printf("%s\n", line);
   }
+
+  fclose(output);
 }
