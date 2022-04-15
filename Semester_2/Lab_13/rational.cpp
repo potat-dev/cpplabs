@@ -66,7 +66,8 @@ ostream& operator<<(ostream &out, const Rational &r) {
 }
 
 Rational& Rational::operator=(const Rational &temp) {
-  if (this == &temp) return *this;
+  // if (this == &temp) return *this;
+  // (бесполезно когда нет динамической памяти)
   _numerator = temp._numerator;
   _denominator = temp._denominator;
   return *this;

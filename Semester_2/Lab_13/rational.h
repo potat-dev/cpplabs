@@ -33,7 +33,7 @@ class Rational {
     friend bool operator!=(const Rational &r1, const Rational &r2);
 
     // унарные операторы
-    const Rational operator+();
+    const Rational operator+() = delete; // унарный плюс бесполезен
     const Rational operator-();
 
     // префиксный инкремент
