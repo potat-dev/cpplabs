@@ -13,16 +13,6 @@ void sort(int size, int* mas) {
 }
 
 double ran_expo(double lambda) {
-    double u;
-    u = rand() / (RAND_MAX + 1.0);
-    return -log(1 - u) * lambda;
+  double u = rand() / (RAND_MAX + 1.0);
+  return -log(1 - u) * lambda;
 }
-
-// int main(void)
-// {
-//     int i;
-//     srand((unsigned)time(NULL));
-//     for (i=0; i<20; i++)
-//         printf("%f\n", ran_expo(0.05));
-//     return 0;
-// }
