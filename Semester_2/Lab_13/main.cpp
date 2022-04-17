@@ -110,7 +110,6 @@ int main() {
       Rational testA(1, 2);
       Rational testB(1, 2);
 
-      cout << endl;
       if (testA == testB) cout << "testA == testB" << endl;
       if (testA == testA) cout << "testA == testA" << endl;
 
