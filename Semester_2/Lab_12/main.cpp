@@ -11,12 +11,28 @@
 //* Напишите конструктор копий, оператор присваивания, деструктор
 //? Напишите программу для тестирования вашего класса
 
-#include <iostream>
 #include "HugeInt.h"
 
 using namespace std;
 
+// dop
 int main() {
+  ifstream file("file.txt");
+  HugeInt test(42);
+  cout << "42: " << test << endl;
+
+  file >> test;
+  cout << "from file: " << test << endl;
+
+  HugeInt test2;
+  file >> test2;
+  cout << "from file: " << test2 << endl;
+
+  file.close();
+}
+
+
+int main_test() {
   HugeInt test("618");   cout << test << endl;
   HugeInt test2("618");  cout << test2 << endl;
   HugeInt test3("619");  cout << test3 << endl;
@@ -102,4 +118,6 @@ int main() {
   a = -618; b = -42;
   cout << "-618 + -42 = " << ((-a) + (-b)) << endl;
   cout << "-618 - -42 = " << ((-a) - (-b)) << endl;
+
+  return 0;
 }

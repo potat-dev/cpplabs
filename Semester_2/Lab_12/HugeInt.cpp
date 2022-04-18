@@ -1,7 +1,3 @@
-#include <iostream>
-#include <string>
-#include <vector>
-
 #include "HugeInt.h"
 
 using namespace std;
@@ -88,6 +84,13 @@ istream& operator>>(istream &in, HugeInt &a) {
   in >> str;
   a.set(str);
   return in;
+}
+
+ifstream& operator>>(ifstream &file, HugeInt &a) {
+  stringstream str;
+  str << file.rdbuf();
+  a.set(str.str());
+  return file;
 }
 
 ostream& operator<<(ostream &out, const HugeInt &a) {

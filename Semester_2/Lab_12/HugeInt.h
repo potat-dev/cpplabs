@@ -2,6 +2,11 @@
 
 #include <vector>
 #include <string>
+
+#include <iostream>
+#include <fstream>
+#include <sstream> // for read from file
+
 using namespace std;
 
 class HugeInt {
