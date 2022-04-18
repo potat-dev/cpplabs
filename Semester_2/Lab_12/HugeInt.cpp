@@ -10,20 +10,39 @@ using namespace std;
 HugeInt::HugeInt(string str, int digits) {
   minus = (str[0] == '-');
   if (minus) str.erase(0, 1);
-  cout << "str: " << str << endl;
+  // cout << "str: " << str << endl;
   digit_count = str.length();
-  capacity = digits;
+  capacity = digit_count > digits ? digit_count : digits;
   array.resize(capacity);
   for (int i = 0; i < digit_count; i++)
     array[i] = str[digit_count - i - 1] - '0';
 }
 
+HugeInt::HugeInt(long long n):
+  HugeInt(to_string(n)) {
+}
+
+HugeInt::HugeInt(const HugeInt &temp, bool invert):
+  array(temp.array), 
+  digit_count(temp.digit_count),
+  capacity(temp.capacity),
+  minus(temp.minus ^ invert) {
+}
+
+/* не имеет смысла, т.к. вектор удаляется автоматически
+HugeInt::~HugeInt() {
+  array.clear();
+}
+*/
+
 void HugeInt::print() {
-  printf("digits count %d, minus %d\n", digit_count, minus);
+  // printf("digits count %d, minus %d\n", digit_count, minus);
   for (int j = digit_count - 1; j >= 0; j--) {
     printf(j ? "%d, " : "%d\n", array[j]);
   }
 }
+
+// comparison operators
 
 bool operator==(const HugeInt &a, const HugeInt &b) {
   if (a.digit_count == b.digit_count && a.minus == b.minus) {
@@ -44,29 +63,21 @@ bool operator<(const HugeInt &a, const HugeInt &b) {
       if (a.digit_count == b.digit_count) {
         // сравниваем каждую цифру
         for (int i = 0; i < a.digit_count; i++)
-          if (a.array[i] == b.array[i]) { continue; }
-          else { return (a.array[i] > b.array[i]); }
+          if (a.array[i] == b.array[i]) continue;
+          else return (a.array[i] > b.array[i]);
         return false;
       } else return (a.digit_count > b.digit_count);
     } else {
       // если оба положительные
       if (a.digit_count == b.digit_count) {
         for (int i = 0; i < a.digit_count; i++)
-          if (a.array[i] == b.array[i]) { continue; }
-          else { return (a.array[i] < b.array[i]); }
+          if (a.array[i] == b.array[i]) continue;
+          else return (a.array[i] < b.array[i]);
         return false;
         // сравниваем каждую цифру
       } else return (a.digit_count < b.digit_count);
     }
-  } else {
-    if (a.minus) {
-      // если a - отрицательное, а b - положительное
-      return true; // a < b
-    } else {
-      // если a - положительное, а b - отрицательное
-      return false; // a > b
-    }
-  }
+  } else return a.minus;
 }
 
 bool operator<=(const HugeInt &a, const HugeInt &b) {
@@ -81,7 +92,6 @@ bool operator>=(const HugeInt &a, const HugeInt &b) {
   return (b < a || a == b);
 }
 
-// HugeInt operator+(const HugeInt &a, const HugeInt &b) {
-//   HugeInt temp("0", a.capacity > b.capacity ? a.capacity : b.capacity);
-  
-// }
+bool HugeInt::is_zero() {
+  return (*this == (HugeInt) 0);
+}
