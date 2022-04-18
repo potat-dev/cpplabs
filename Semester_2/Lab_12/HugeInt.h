@@ -5,7 +5,7 @@
 
 #include <iostream>
 #include <fstream>
-#include <sstream> // for read from file
+#include <sstream>
 
 using namespace std;
 

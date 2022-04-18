@@ -7,7 +7,6 @@ using namespace std;
 HugeInt::HugeInt(string str, int digits) {
   minus = (str[0] == '-');
   if (minus) str.erase(0, 1);
-  // cout << "str: " << str << endl;
   digit_count = str.length();
   capacity = digit_count > digits ? digit_count : digits;
   array.resize(capacity);
