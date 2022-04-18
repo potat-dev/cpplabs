@@ -40,3 +40,18 @@ void printf_bin(unsigned char n) {
   for (unsigned char i = 0; i < 5; i++)
     printf("%d", (n >> (4 - i)) & 1);
 }
+
+int min_hamming(unsigned char* arr, int size) {
+  int minim = size;
+  // int count = 0;
+  for (unsigned char a = 0; a < size; a++) {
+    for (unsigned char b = a; b < size; b++) {
+      if (arr[a] != arr[b]) {
+        int hamm = count_ones(arr[a] ^ arr[b]);
+        minim = hamm < minim ? hamm : minim;
+        // count += 1;
+      }
+    }
+  }
+  return minim;
+}
