@@ -6,7 +6,8 @@
 
 using namespace std;
 
-// конструктор
+// конструкторы
+
 HugeInt::HugeInt(string str, int digits) {
   minus = (str[0] == '-');
   if (minus) str.erase(0, 1);
@@ -29,11 +30,7 @@ HugeInt::HugeInt(const HugeInt &temp, bool invert):
   minus(temp.minus ^ invert) {
 }
 
-/* не имеет смысла, т.к. вектор удаляется автоматически
-HugeInt::~HugeInt() {
-  array.clear();
-}
-*/
+// сеттеры и геттеры
 
 void HugeInt::set(string str) {
   minus = (str[0] == '-');
@@ -43,12 +40,15 @@ void HugeInt::set(string str) {
     array[i] = str[digit_count - i - 1] - '0';
 }
 
-void HugeInt::print() {
-  // printf("digits count %d, minus %d\n", digit_count, minus);
-  for (int j = digit_count - 1; j >= 0; j--) {
-    printf(j ? "%d, " : "%d\n", array[j]);
-  }
+string HugeInt::to_str() {
+  string temp;
+  if (minus) temp = "-";
+  for (int i = digit_count - 1; i > -1; i--)
+    temp += (char) array[i] + '0';
+  return temp;
 }
+
+// операторы присваивания
 
 HugeInt& HugeInt::operator=(const HugeInt &temp) {
   array = temp.array;
@@ -68,6 +68,8 @@ HugeInt& HugeInt::operator=(const string &str) {
   return *this;
 }
 
+// ввод / вывод
+
 istream& operator>>(istream &in, HugeInt &a) {
   string str;
   in >> str;
@@ -82,7 +84,7 @@ ostream& operator<<(ostream &out, const HugeInt &a) {
   return out;
 }
 
-// comparison operators
+// операторы сравнения
 
 bool operator==(const HugeInt &a, const HugeInt &b) {
   if (a.digit_count == b.digit_count && a.minus == b.minus) {
@@ -132,10 +134,18 @@ bool operator>=(const HugeInt &a, const HugeInt &b) {
   return (b < a || a == b);
 }
 
+// проверки на ноль и минус
+
 bool HugeInt::is_zero() {
   return (*this == (HugeInt) 0);
 }
 
 bool HugeInt::has_minus() {
   return minus;
+}
+
+// смена знака
+
+const HugeInt HugeInt::operator-() {
+  return HugeInt(*this, true);
 }

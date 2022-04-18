@@ -1,6 +1,6 @@
-// Создайте класс HugeInt, который хранит в 40-элементном массиве
-// цифр целые числа разрядностью до 40 знаков
-// Разрядность указать в конструкторе.
+// Создайте класс HugeInt, который хранит в 40-элементном
+// массиве цифр целые числа разрядностью до 40 знаков
+// Разрядность указать в конструкторе
 
 // TODO:
 //* Предусмотреть функции + - == < <= > >= и проверки на 0
@@ -64,6 +64,7 @@ int main() {
   cout << "42 == 0 : " << lol.is_zero() << endl;
 
   HugeInt in_test;
+  cout << "enter HugeInt: ";
   cin >> in_test;
   cout << "in_test:  " << in_test << endl;
   HugeInt out_test(in_test);
@@ -76,4 +77,9 @@ int main() {
   cout << "test: " << test << endl;
   test = lol;
   cout << "test: " << test << endl;
+
+  cout << test << " to str: " << test.to_str() << endl;
+  
+  test = -test;
+  cout << test << " to str: " << test.to_str() << endl;
 }
