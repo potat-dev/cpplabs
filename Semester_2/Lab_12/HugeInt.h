@@ -15,6 +15,10 @@ class HugeInt {
     bool is_zero();
     bool has_minus();
 
+    HugeInt& operator=(const HugeInt &temp);
+    HugeInt& operator=(const long long &temp);
+    HugeInt& operator=(const string &str);
+
     friend istream& operator>>(istream &in, HugeInt &a);
     friend ostream& operator<<(ostream &out, const HugeInt &a);
 

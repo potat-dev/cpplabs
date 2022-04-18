@@ -50,6 +50,24 @@ void HugeInt::print() {
   }
 }
 
+HugeInt& HugeInt::operator=(const HugeInt &temp) {
+  array = temp.array;
+  digit_count = temp.digit_count;
+  capacity = temp.capacity;
+  minus = temp.minus;
+  return *this;
+}
+
+HugeInt& HugeInt::operator=(const long long &temp) {
+  *this = (HugeInt) temp;
+  return *this;
+}
+
+HugeInt& HugeInt::operator=(const string &str) {
+  this->set(str);
+  return *this;
+}
+
 istream& operator>>(istream &in, HugeInt &a) {
   string str;
   in >> str;
