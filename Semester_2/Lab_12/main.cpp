@@ -11,6 +11,9 @@
 // Напишите конструктор копий, оператор присваивания, деструктор
 // Напишите программу для тестирования вашего класса
 
+//* READY:
+// operators: == != < <= > >=
+
 #include <iostream>
 #include "HugeInt.h"
 
@@ -23,8 +26,28 @@ int main() {
   HugeInt test4("-618"); test4.print();
   // HugeInt test3("619");
 
-  cout << (test == test2) << endl;
-  cout << (test == test3) << endl;
-  cout << (test == test4) << endl;
+  cout << "618 == 618  : " << (test == test2) << endl;
+  cout << "618 == 619  : " << (test == test3) << endl;
+  cout << "618 == -618 : " << (test == test4) << endl;
+  
+  cout << "618 != 618  : " << (test != test2) << endl;
+  cout << "618 != 619  : " << (test != test3) << endl;
+  cout << "618 != -618 : " << (test != test4) << endl;
+
+  cout << "618 < 618  : " << (test < test2) << endl;
+  cout << "618 < 619  : " << (test < test3) << endl;
+  cout << "618 < -618 : " << (test < test4) << endl;
+
+  cout << "618 <= 618  : " << (test <= test2) << endl;
+  cout << "618 <= 619  : " << (test <= test3) << endl;
+  cout << "618 <= -618 : " << (test <= test4) << endl;
+
+  cout << "618 > 618  : " << (test > test2) << endl;
+  cout << "618 > 619  : " << (test > test3) << endl;
+  cout << "618 > -618 : " << (test > test4) << endl;
+
+  cout << "618 >= 618  : " << (test >= test2) << endl;
+  cout << "618 >= 619  : " << (test >= test3) << endl;
+  cout << "618 >= -618 : " << (test >= test4) << endl;
 }
 
