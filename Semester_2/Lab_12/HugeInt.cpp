@@ -36,6 +36,11 @@ void HugeInt::set(string str) {
   minus = (str[0] == '-');
   if (minus) str.erase(0, 1);
   digit_count = str.length();
+  if (digit_count > capacity) {
+    capacity = digit_count;
+    array.resize(capacity);
+  }
+
   for (int i = 0; i < digit_count; i++)
     array[i] = str[digit_count - i - 1] - '0';
 }
@@ -46,6 +51,14 @@ string HugeInt::to_str() {
   for (int i = digit_count - 1; i > -1; i--)
     temp += (char) array[i] + '0';
   return temp;
+}
+
+void HugeInt::remove_leading_zeros() {
+  while (this->digit_count > 1 && this->array.back() == 0) {
+    this->array.pop_back();
+    this->digit_count -= 1;
+  }
+  if (this->digit_count == 1 && this->array[0] == 0) this->minus = false;
 }
 
 // операторы присваивания
@@ -148,4 +161,61 @@ bool HugeInt::has_minus() {
 
 const HugeInt HugeInt::operator-() {
   return HugeInt(*this, true);
+}
+
+// операторы + -
+
+HugeInt operator+(HugeInt a, const HugeInt &b) {
+  // описано лишь сложение двух положительных чисел
+  // остальное - используя смену знака и вычитание
+
+  HugeInt right(b);
+  if (a.has_minus()) {
+    if (right.has_minus()) return -(-a + (-right));
+    else return right - (-a);
+  } else if (right.has_minus()) return a - (-right);
+
+  int carry = 0; // флаг переноса
+  for (int i = 0; i < max(a.digit_count, right.digit_count) || carry != 0; ++i) {
+    if (i == a.digit_count) a.array.push_back(0);
+    a.array[i] += carry + (i < right.digit_count ? right.array[i] : 0);
+    carry = a.array[i] >= 10;
+    if (carry != 0) a.array[i] -= 10;
+  }
+
+  return a;
+}
+
+HugeInt operator+(const HugeInt &a, long long value) {
+  return a + (HugeInt) value;
+}
+
+HugeInt operator+(long long value, const HugeInt &a) {
+  return a + (HugeInt) value;
+}
+
+HugeInt operator-(HugeInt a, const HugeInt &b)
+{
+  HugeInt right(b);
+  if (right.has_minus()) return a + (-right);
+  else if (a.has_minus()) return -(-a + right);
+  else if (a < right) return -(right - a);
+
+  int carry = 0;
+  for (int i = 0; i < right.digit_count || carry != 0; ++i) {
+    a.array[i] -= carry + (i < right.digit_count ? right.array[i] : 0);
+    carry = a.array[i] < 0;
+    if (carry != 0) a.array[i] += 10;
+  }
+
+  a.remove_leading_zeros();
+  return a;
+}
+
+HugeInt operator-(const HugeInt &a, long long value) {
+  return a - (HugeInt) value;
+}
+
+HugeInt operator-(long long value, const HugeInt &a) {
+  return (HugeInt) value - (HugeInt) a;
 }

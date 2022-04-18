@@ -79,7 +79,27 @@ int main() {
   cout << "test: " << test << endl;
 
   cout << test << " to str: " << test.to_str() << endl;
-  
+
   test = -test;
   cout << test << " to str: " << test.to_str() << endl;
+
+  // проверка операторов + -
+  cout << "\n+ / - operators test\n" << endl;
+  HugeInt a, b;
+
+  a = 618; b = 42;
+  cout << "618 + 42 = " << (a + b) << endl;
+  cout << "618 - 42 = " << (a - b) << endl;
+
+  a = -618; b = 42;
+  cout << "-618 + 42 = " << ((-a) + b) << endl;
+  cout << "-618 - 42 = " << ((-a) - b) << endl;
+
+  a = 618; b = -42;
+  cout << "618 + -42 = " << (a + (-b)) << endl;
+  cout << "618 - -42 = " << (a - (-b)) << endl;
+
+  a = -618; b = -42;
+  cout << "-618 + -42 = " << ((-a) + (-b)) << endl;
+  cout << "-618 - -42 = " << ((-a) - (-b)) << endl;
 }

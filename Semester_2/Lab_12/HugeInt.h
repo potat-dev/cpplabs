@@ -14,6 +14,7 @@ class HugeInt {
     bool is_zero();
     bool has_minus();
     string to_str();
+    void remove_leading_zeros();
 
     HugeInt& operator=(const HugeInt &temp);
     HugeInt& operator=(const long long &temp);
@@ -31,10 +32,21 @@ class HugeInt {
     friend bool operator<(const HugeInt &a, const HugeInt &b);
     friend bool operator<=(const HugeInt &a, const HugeInt &b);
 
-    friend HugeInt operator+(const HugeInt &a, const HugeInt &b);
-    friend HugeInt operator-(const HugeInt &a, const HugeInt &b);
+    // friend HugeInt operator+(const HugeInt &a, const HugeInt &b);
+    // friend HugeInt operator-(const HugeInt &a, const HugeInt &b);
   
     const HugeInt operator-();
+
+    friend HugeInt operator+(HugeInt a, const HugeInt &b);
+    // friend HugeInt operator+(HugeInt &a, HugeInt &b);
+	  friend HugeInt operator+(const HugeInt &a, long long value);
+	  friend HugeInt operator+(long long value, const HugeInt &a);
+
+    friend HugeInt operator-(HugeInt left, const HugeInt &right);
+    // friend HugeInt operator-(HugeInt &a, HugeInt &b);
+	  friend HugeInt operator-(const HugeInt &a, long long value);
+	  friend HugeInt operator-(long long value, const HugeInt &a);
+    
 
   private:
     vector <unsigned char> array;
