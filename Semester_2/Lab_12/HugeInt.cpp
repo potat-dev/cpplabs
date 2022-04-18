@@ -35,11 +35,33 @@ HugeInt::~HugeInt() {
 }
 */
 
+void HugeInt::set(string str) {
+  minus = (str[0] == '-');
+  if (minus) str.erase(0, 1);
+  digit_count = str.length();
+  for (int i = 0; i < digit_count; i++)
+    array[i] = str[digit_count - i - 1] - '0';
+}
+
 void HugeInt::print() {
   // printf("digits count %d, minus %d\n", digit_count, minus);
   for (int j = digit_count - 1; j >= 0; j--) {
     printf(j ? "%d, " : "%d\n", array[j]);
   }
+}
+
+istream& operator>>(istream &in, HugeInt &a) {
+  string str;
+  in >> str;
+  a.set(str);
+  return in;
+}
+
+ostream& operator<<(ostream &out, const HugeInt &a) {
+  if (a.minus) cout << "-";
+  for (int i = a.digit_count - 1; i > -1; i--)
+    cout << (char) (a.array[i] + '0');
+  return out;
 }
 
 // comparison operators
@@ -94,4 +116,8 @@ bool operator>=(const HugeInt &a, const HugeInt &b) {
 
 bool HugeInt::is_zero() {
   return (*this == (HugeInt) 0);
+}
+
+bool HugeInt::has_minus() {
+  return minus;
 }

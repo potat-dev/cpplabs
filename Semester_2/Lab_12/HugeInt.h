@@ -10,9 +10,13 @@ class HugeInt {
     HugeInt(long long n);
     HugeInt(const HugeInt &temp, bool invert = false);
     // ~HugeInt(); не нужен
-
+    void set(string str);
     void print();
     bool is_zero();
+    bool has_minus();
+
+    friend istream& operator>>(istream &in, HugeInt &a);
+    friend ostream& operator<<(ostream &out, const HugeInt &a);
 
     friend bool operator==(const HugeInt &a, const HugeInt &b);
     friend bool operator!=(const HugeInt &a, const HugeInt &b);

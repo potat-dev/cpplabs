@@ -3,16 +3,13 @@
 // Разрядность указать в конструкторе.
 
 // TODO:
-// Предусмотреть функции + - == < <= > >= и проверки на 0
-// Используйте приватные поля для данных
-// определите конструктор, который должен содержать значения по умолчанию
-// напишите методы установки и извлечения значений (set, get)
-// выполнения операций ввода и вывода значения объекта созданного класса
+//* Предусмотреть функции + - == < <= > >= и проверки на 0
+//* Используйте приватные поля для данных
+//* определите конструктор, который должен содержать значения по умолчанию
+//* напишите методы установки и извлечения значений (set, get)
+//* выполнения операций ввода и вывода значения объекта созданного класса
 // Напишите конструктор копий, оператор присваивания, деструктор
 // Напишите программу для тестирования вашего класса
-
-//* READY:
-// operators: == != < <= > >=
 
 #include <iostream>
 #include "HugeInt.h"
@@ -20,10 +17,10 @@
 using namespace std;
 
 int main() {
-  HugeInt test("618");   test.print();
-  HugeInt test2("618");  test2.print();
-  HugeInt test3("619");  test3.print();
-  HugeInt test4("-618"); test4.print();
+  HugeInt test("618");   cout << test << endl;
+  HugeInt test2("618");  cout << test2 << endl;
+  HugeInt test3("619");  cout << test3 << endl;
+  HugeInt test4("-618"); cout << test4 << endl;
 
   cout << "618 == 618  : " << (test == test2) << endl;
   cout << "618 == 619  : " << (test == test3) << endl;
@@ -65,4 +62,10 @@ int main() {
   cout << "zero 1 == 0 : " << zero_1.is_zero() << endl;
   cout << "zero 2 == 0 : " << zero_2.is_zero() << endl;
   cout << "42 == 0 : " << lol.is_zero() << endl;
+
+  HugeInt in_test;
+  cin >> in_test;
+  cout << "in_test:  " << in_test << endl;
+  HugeInt out_test(in_test);
+  cout << "out_test: " << out_test << endl;
 }
