@@ -5,7 +5,16 @@
 #include "lab.h"
 
 int main() {
-  unsigned int N;
-  scanf("%u", &N);
-  printf("%u", invert_4(N));
+  unsigned int offset;
+  printf("offset: ");
+  scanf("%u", &offset);
+
+  unsigned int in;
+  printf("input: ");
+  scanf("%u\n\n", &in);
+
+  unsigned int out = invert_every_nth(in, offset);
+  printf("output: %u\n\n", out);
+
+  printf("\noffset: %d\n", get_invert_offset(in, out));
 }
