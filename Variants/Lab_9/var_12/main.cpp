@@ -11,10 +11,17 @@ int main() {
 
   unsigned int in;
   printf("input: ");
-  scanf("%u\n\n", &in);
+  scanf("%u", &in);
+  printf("bin: ");
+  print_bin(in);
+  printf("\n\n");
 
   unsigned int out = invert_every_nth(in, offset);
-  printf("output: %u\n\n", out);
+  printf("output: %u\nbin: ", out);
+  print_bin(out);
+  printf("\n\n");
 
+  printf("dif: ");
+  print_bin(in ^ out);
   printf("\noffset: %d\n", get_invert_offset(in, out));
 }
