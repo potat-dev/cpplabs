@@ -85,21 +85,27 @@ istream& operator>>(istream &in, HugeInt &a) {
   return in;
 }
 
-ifstream& operator>>(ifstream &file, HugeInt &a) {
-  stringstream str;
-  str << file.rdbuf();
-  a.set(str.str());
-  return file;
+ifstream& operator>>(ifstream &in, HugeInt &a) {
+  string str;
+  in >> str;
+  a.set(str);
+  return in;
 }
 
-ostream& operator<<(ostream &out, const HugeInt &a) {
-  if (a.minus) cout << "-";
+ostream& operator<<(ostream &out, HugeInt &a) {
+  if (a.minus) out << "-";
   for (int i = a.digit_count - 1; i > -1; i--)
-    cout << (char) (a.array[i] + '0');
+    out << (char) (a.array[i] + '0');
+  return out;
+}
+
+ofstream& operator<<(ofstream &out, HugeInt &a) {
+  out << a.to_str();
   return out;
 }
 
 // операторы сравнения
+// TODO: исправить работу +/-
 
 bool operator==(const HugeInt &a, const HugeInt &b) {
   if (a.digit_count == b.digit_count && a.minus == b.minus) {

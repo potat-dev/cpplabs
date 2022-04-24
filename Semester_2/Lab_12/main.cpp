@@ -11,7 +11,7 @@
 // Напишите конструктор копий, оператор присваивания, деструктор
 // Напишите программу для тестирования вашего класса
 
-// доп: перегрузить оператор считывания длинного числа из текстового файла
+// доп: перегрузить операторы считывания/записи длинного числа из/в текстовый файл
 
 #define DOP
 
@@ -113,18 +113,25 @@ using namespace std;
 #else
 
   int main() {
-    ifstream file("file.txt");
-    HugeInt test(42);
-    cout << "42: " << test << endl;
+    ifstream input("input.txt");
 
-    file >> test;
+    HugeInt test(42);
+    cout << "init 42: " << test << endl;
+
+    input >> test;
     cout << "from file: " << test << endl;
 
     HugeInt test2;
-    file >> test2;
+    input >> test2;
     cout << "from file: " << test2 << endl;
 
-    file.close();
+    input.close();
+
+    ofstream output("output.txt");
+    output << test;
+    output << endl << test2;
+
+    output.close();
   }
 
 #endif
