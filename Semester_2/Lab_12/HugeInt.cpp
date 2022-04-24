@@ -92,7 +92,7 @@ ifstream& operator>>(ifstream &in, HugeInt &a) {
   return in;
 }
 
-ostream& operator<<(ostream &out, HugeInt &a) {
+ostream& operator<<(ostream &out, const HugeInt &a) {
   if (a.minus) out << "-";
   for (int i = a.digit_count - 1; i > -1; i--)
     out << (char) (a.array[i] + '0');

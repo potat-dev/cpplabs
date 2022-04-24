@@ -28,7 +28,7 @@ class HugeInt {
     friend istream& operator>>(istream &in, HugeInt &a);
     friend ifstream& operator>>(ifstream &in, HugeInt &a);
 
-    friend ostream& operator<<(ostream &out, HugeInt &a);
+    friend ostream& operator<<(ostream &out, const HugeInt &a);
     friend ofstream& operator<<(ofstream &out, HugeInt &a);
 
     friend bool operator==(const HugeInt &a, const HugeInt &b);

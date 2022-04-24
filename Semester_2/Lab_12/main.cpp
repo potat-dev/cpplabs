@@ -13,7 +13,7 @@
 
 // доп: перегрузить операторы считывания/записи длинного числа из/в текстовый файл
 
-#define DOP
+// #define DOP
 
 #include "HugeInt.h"
 
@@ -22,10 +22,10 @@ using namespace std;
 #ifndef DOP
 
   int main() {
-    HugeInt test("618");   cout << test << endl;
-    HugeInt test2("618");  cout << test2 << endl;
-    HugeInt test3("619");  cout << test3 << endl;
-    HugeInt test4("-618"); cout << test4 << endl;
+    HugeInt test("618");   cout << "init 618: " << test << endl;
+    HugeInt test2("618");  cout << "init 618: " << test2 << endl;
+    HugeInt test3("619");  cout << "init 619: " << test3 << endl;
+    HugeInt test4("-618"); cout << "init -618: " << test4 << endl;
   
     cout << "618 == 618  : " << (test == test2) << endl;
     cout << "618 == 619  : " << (test == test3) << endl;
