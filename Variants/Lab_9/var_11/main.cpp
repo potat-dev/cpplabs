@@ -4,14 +4,14 @@
 
 #include "sequence.h"
 
-int main() {
+int main()
+{
   // вводим N
   unsigned long long N;
   printf("Enter N: ");
   scanf("%llu", &N);
 
   printf( // выводим результат
-    "%llu -> bin: %s\nMax length: %d\n",
-    N, dtoab(N), count_max_ones(N)
-  );
+      "%llu -> bin: %s\nMax length: %d\n",
+      N, dtoab(N), count_max_ones(N));
 }
