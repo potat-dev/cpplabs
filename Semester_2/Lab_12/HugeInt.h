@@ -26,7 +26,10 @@ class HugeInt {
     HugeInt& operator=(const string &str);
 
     friend istream& operator>>(istream &in, HugeInt &a);
+    friend ifstream& operator>>(ifstream &in, HugeInt &a);
+
     friend ostream& operator<<(ostream &out, const HugeInt &a);
+    friend ofstream& operator<<(ofstream &out, HugeInt &a);
 
     friend bool operator==(const HugeInt &a, const HugeInt &b);
     friend bool operator!=(const HugeInt &a, const HugeInt &b);
