@@ -21,9 +21,13 @@ class HugeInt {
     string to_str();
     void remove_leading_zeros();
 
+    // операторы присваивания
+
     HugeInt& operator=(const HugeInt &temp);
     HugeInt& operator=(const long long &temp);
     HugeInt& operator=(const string &str);
+
+    // операторы ввода / вывода
 
     friend istream& operator>>(istream &in, HugeInt &a);
     friend ifstream& operator>>(ifstream &in, HugeInt &a);
@@ -31,19 +35,37 @@ class HugeInt {
     friend ostream& operator<<(ostream &out, const HugeInt &a);
     friend ofstream& operator<<(ofstream &out, HugeInt &a);
 
+    // операторы стравнения
+
     friend bool operator==(const HugeInt &a, const HugeInt &b);
+    friend bool operator==(const HugeInt &a, long long b);
+    friend bool operator==(long long a, const HugeInt &b);
+
     friend bool operator!=(const HugeInt &a, const HugeInt &b);
+    friend bool operator!=(const HugeInt &a, long long b);
+    friend bool operator!=(long long a, const HugeInt &b);
 
     friend bool operator>(const HugeInt&a, const HugeInt &b);
+    friend bool operator>(const HugeInt &a, long long b);
+    friend bool operator>(long long a, const HugeInt &b);
+
     friend bool operator>=(const HugeInt &a, const HugeInt &b);
+    friend bool operator>=(const HugeInt &a, long long b);
+    friend bool operator>=(long long a, const HugeInt &b);
  
     friend bool operator<(const HugeInt &a, const HugeInt &b);
+    friend bool operator<(const HugeInt &a, long long b);
+    friend bool operator<(long long a, const HugeInt &b);
+
     friend bool operator<=(const HugeInt &a, const HugeInt &b);
+    friend bool operator<=(const HugeInt &a, long long b);
+    friend bool operator<=(long long a, const HugeInt &b);
 
     // friend HugeInt operator+(const HugeInt &a, const HugeInt &b);
     // friend HugeInt operator-(const HugeInt &a, const HugeInt &b);
   
-    const HugeInt operator-();
+    HugeInt operator-() const;
+    friend HugeInt habs(const HugeInt &value);
 
     friend HugeInt operator+(HugeInt a, const HugeInt &b);
     // friend HugeInt operator+(HugeInt &a, HugeInt &b);
@@ -54,7 +76,6 @@ class HugeInt {
     // friend HugeInt operator-(HugeInt &a, HugeInt &b);
 	  friend HugeInt operator-(const HugeInt &a, long long value);
 	  friend HugeInt operator-(long long value, const HugeInt &a);
-    
 
   private:
     vector <unsigned char> array;

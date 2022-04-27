@@ -35,9 +35,9 @@ void HugeInt::set(string str) {
     capacity = digit_count;
     array.resize(capacity);
   }
-
-  for (int i = 0; i < digit_count; i++)
+  for (int i = 0; i < digit_count; i++) {
     array[i] = str[digit_count - i - 1] - '0';
+  }
 }
 
 string HugeInt::to_str() {
@@ -105,7 +105,6 @@ ofstream& operator<<(ofstream &out, HugeInt &a) {
 }
 
 // операторы сравнения
-// TODO: исправить работу +/-
 
 bool operator==(const HugeInt &a, const HugeInt &b) {
   if (a.digit_count == b.digit_count && a.minus == b.minus) {
@@ -115,9 +114,27 @@ bool operator==(const HugeInt &a, const HugeInt &b) {
   } else return false;
 }
 
+bool operator==(const HugeInt &a, long long value) {
+  return a == (HugeInt) value;
+}
+
+bool operator==(long long value, const HugeInt &a) {
+  return a == (HugeInt) value;
+}
+
 bool operator!=(const HugeInt &a, const HugeInt &b) {
   return !(a == b);
 }
+
+bool operator!=(const HugeInt &a, long long value) {
+  return !(a == (HugeInt) value);
+}
+
+bool operator!=(long long value, const HugeInt &a) {
+  return !(a == (HugeInt) value);
+}
+
+// operator <
 
 bool operator<(const HugeInt &a, const HugeInt &b) {
   if (a.minus == b.minus) {
@@ -143,16 +160,58 @@ bool operator<(const HugeInt &a, const HugeInt &b) {
   } else return a.minus;
 }
 
+bool operator<(const HugeInt &a, long long b) {
+  return a < (HugeInt) b;
+}
+
+bool operator<(long long a, const HugeInt &b) {
+  return (HugeInt) a < b;
+}
+
+// operator <=
+
 bool operator<=(const HugeInt &a, const HugeInt &b) {
   return (a < b || a == b);
 }
+
+bool operator<=(const HugeInt &a, long long b) {
+  HugeInt temp(b);
+  return (a < temp || a == temp);
+}
+
+bool operator<=(long long a, const HugeInt &b) {
+  HugeInt temp(a);
+  return (temp < b || temp == b);
+}
+
+// operator >
 
 bool operator>(const HugeInt&a, const HugeInt &b) {
   return b < a;
 }
 
+bool operator>(const HugeInt &a, long long b) {
+  return (HugeInt) b < a;
+}
+
+bool operator>(long long a, const HugeInt &b) {
+  return b < (HugeInt) a;
+}
+
+// operator >=
+
 bool operator>=(const HugeInt &a, const HugeInt &b) {
   return (b < a || a == b);
+}
+
+bool operator>=(const HugeInt &a, long long b) {
+  HugeInt temp(b);
+  return (temp < a || a == temp);
+}
+
+bool operator>=(long long a, const HugeInt &b) {
+  HugeInt temp(a);
+  return (b < temp || temp == b);
 }
 
 // проверки на ноль и минус
@@ -167,11 +226,16 @@ bool HugeInt::has_minus() {
 
 // смена знака
 
-const HugeInt HugeInt::operator-() {
+HugeInt HugeInt::operator-() const {
   return HugeInt(*this, true);
 }
 
+HugeInt habs(const HugeInt &value) {
+  return value < 0 ? -value : value;
+}
+
 // операторы + -
+// TODO: исправить работу +/-
 
 HugeInt operator+(HugeInt a, const HugeInt &b) {
   // описано лишь сложение двух положительных чисел
@@ -199,11 +263,10 @@ HugeInt operator+(const HugeInt &a, long long value) {
 }
 
 HugeInt operator+(long long value, const HugeInt &a) {
-  return a + (HugeInt) value;
+  return (HugeInt) value + a;
 }
 
-HugeInt operator-(HugeInt a, const HugeInt &b)
-{
+HugeInt operator-(HugeInt a, const HugeInt &b) {
   HugeInt right(b);
   if (right.has_minus()) return a + (-right);
   else if (a.has_minus()) return -(-a + right);
@@ -225,5 +288,5 @@ HugeInt operator-(const HugeInt &a, long long value) {
 }
 
 HugeInt operator-(long long value, const HugeInt &a) {
-  return (HugeInt) value - (HugeInt) a;
+  return (HugeInt) value - a;
 }

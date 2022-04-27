@@ -108,6 +108,17 @@ using namespace std;
     a = -618; b = -42;
     cout << "-618 + -42 = " << ((-a) + (-b)) << endl;
     cout << "-618 - -42 = " << ((-a) - (-b)) << endl;
+
+    HugeInt ttt1("-618618618618618");
+    HugeInt ttt2("-11111000000");
+    HugeInt ttt3("111111111");
+
+    cout << ttt1 << endl
+         << ttt2 << endl
+         << ttt3 << endl
+         << habs(ttt1) << endl
+         << habs(ttt2) << endl
+         << habs(ttt3) << endl;
   }
 
 #else
