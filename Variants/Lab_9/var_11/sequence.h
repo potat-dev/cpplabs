@@ -12,3 +12,7 @@ char *dtoab(unsigned long long N);
 // нахождение длины максимальной
 // последовательности из единиц
 int count_max_ones(unsigned long long N);
+
+// нахождение количества серий
+// из единиц длинной больше 2
+int count_ones_series(unsigned long long N);
