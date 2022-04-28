@@ -51,3 +51,21 @@ int count_max_ones(unsigned long long N) {
   }
   return max;
 }
+
+// нахождение количества серий
+// из единиц длинной больше 2
+int count_ones_series(unsigned long long N) {
+  char *str = dtoab(N);
+  int count = 0, current = 0;
+
+  for (int i = 0; str[i] != 0; i++) {
+    if (str[i] == '1') {
+      current++;
+    } else {
+      if (current > 2) count++;
+      current = 0;
+    }
+  }
+  if (current > 2) count++;
+  return count;
+}

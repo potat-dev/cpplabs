@@ -16,4 +16,9 @@ int main() {
     "%llu -> bin: %s\nMax length: %d\n",
     N, dtoab(N), count_max_ones(N)
   );
+
+  printf(
+    "Series with length > 2: %d\n",
+    count_ones_series(N)
+  );
 }
