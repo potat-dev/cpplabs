@@ -5,6 +5,7 @@
 // доп: вывести кол во серий из единиц длинной больше 2
 
 #include "sequence.h"
+#define DOP
 
 int main() {
   // вводим N
@@ -17,8 +18,12 @@ int main() {
     N, dtoab(N), count_max_ones(N)
   );
 
-  printf(
+  #ifdef DOP
+
+  printf( // количество серий из единиц
     "Series with length > 2: %d\n",
     count_ones_series(N)
   );
+
+  #endif
 }

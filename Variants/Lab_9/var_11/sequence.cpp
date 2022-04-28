@@ -30,7 +30,6 @@ char *dtoab(unsigned long long N) {
     // сдвигаем чтобы получить следующий бит
     N = N >> 1;
   }
-
   // добавляем в конец \0 и выходим
   arr[len] = 0;
   return arr;
@@ -55,17 +54,22 @@ int count_max_ones(unsigned long long N) {
 // нахождение количества серий
 // из единиц длинной больше 2
 int count_ones_series(unsigned long long N) {
+  // преобразуем число в двоичную строку
   char *str = dtoab(N);
   int count = 0, current = 0;
 
+  // проходим по всем битам числа
   for (int i = 0; str[i] != 0; i++) {
     if (str[i] == '1') {
       current++;
     } else {
+      // увеличиваем счетчик если последовательность > 2
       if (current > 2) count++;
+      // обнуляем счетчик
       current = 0;
     }
   }
+  // не забываем про младшие биты
   if (current > 2) count++;
   return count;
 }
