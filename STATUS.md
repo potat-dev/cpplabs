@@ -1,8 +1,10 @@
 # Status Page ⚡
+
 Here are the completed variants for each laboratory work  
 Total progress: `29 / 260` (11.15 %)
 
 ## Lab 0
+
 Variants now ready: `1 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | 06 | [✅](Semester_1/Lab_0) | 08 | 09 | 10 |
@@ -10,6 +12,7 @@ Variants now ready: `1 / 20`
 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 1
+
 Variants now ready: `1 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | 06 | [✅](Semester_1/Lab_1) | 08 | 09 | 10 |
@@ -17,6 +20,7 @@ Variants now ready: `1 / 20`
 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 2
+
 Variants now ready: `1 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | 06 | [✅](Semester_1/Lab_2) | 08 | 09 | 10 |
@@ -24,6 +28,7 @@ Variants now ready: `1 / 20`
 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 3
+
 Variants now ready: `1 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | 06 | [✅](Semester_1/Lab_3) | 08 | 09 | 10 |
@@ -31,6 +36,7 @@ Variants now ready: `1 / 20`
 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 4
+
 Variants now ready: `3 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | 06 | [✅](Semester_1/Lab_4) | 08 | 09 | 10 |
@@ -38,6 +44,7 @@ Variants now ready: `3 / 20`
 | [✅](Variants/Lab_4/var_11) | 12 | 13 | 14 | 15 | 16 | [✅](Variants/Lab_4/var_17) | 18 | 19 | 20 |
 
 ## Lab 5
+
 Variants now ready: `4 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | 06 | [✅](Semester_1/Lab_5) | 08 | [✅](Variants/Lab_5/var_9) | 10 |
@@ -45,6 +52,7 @@ Variants now ready: `4 / 20`
 | [✅](Variants/Lab_5/var_11) | [✅](Variants/Lab_5/var_12) | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 6
+
 Variants now ready: `3 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | 06 | [✅](Semester_1/Lab_6) | 08 | [✅](Variants/Lab_6/var_9) | 10 |
@@ -52,6 +60,7 @@ Variants now ready: `3 / 20`
 | [✅](Variants/Lab_6/var_11) | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 7
+
 Variants now ready: `5 / 20`
 
 | 01 | 02 | 03 | 04 | [✅](Variants/Lab_7/var_5) | [✅](Semester_2/Lab_7) | [✅](Variants/Lab_7/var_7) | 08 | 09 | 10 |
@@ -59,6 +68,7 @@ Variants now ready: `5 / 20`
 | [✅](Variants/Lab_7/var_11) | [✅](Variants/Lab_7/var_12) | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 8
+
 Variants now ready: `2 / 20`
 
 | 01 | 02 | 03 | 04 | [✅](Variants/Lab_8/var_5) | [✅](Semester_2/Lab_8) | 07 | 08 | 09 | 10 |
@@ -66,6 +76,7 @@ Variants now ready: `2 / 20`
 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 9
+
 Variants now ready: `3 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | [✅](Semester_2/Lab_9) | 07 | 08 | 09 | 10 |
@@ -73,6 +84,7 @@ Variants now ready: `3 / 20`
 | [✅](Variants/Lab_9/var_11) | [✅](Variants/Lab_9/var_12) | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 10
+
 Variants now ready: `2 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | [✅](Semester_2/Lab_10) | [✅](Variants/Lab_10/var_7) | 08 | 09 | 10 |
@@ -80,6 +92,7 @@ Variants now ready: `2 / 20`
 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 11
+
 Variants now ready: `1 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | [✅](Semester_2/Lab_11) | 07 | 08 | 09 | 10 |
@@ -87,6 +100,7 @@ Variants now ready: `1 / 20`
 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 12
+
 Variants now ready: `1 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | [✅](Semester_2/Lab_12) | 07 | 08 | 09 | 10 |
@@ -94,6 +108,7 @@ Variants now ready: `1 / 20`
 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
 
 ## Lab 13
+
 Variants now ready: `1 / 20`
 
 | 01 | 02 | 03 | 04 | 05 | [✅](Semester_2/Lab_13) | 07 | 08 | 09 | 10 |
