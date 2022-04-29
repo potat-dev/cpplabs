@@ -4,12 +4,13 @@ using namespace std;
 
 // конструкторы
 
-HugeInt::HugeInt(string str, int digits) {
-  minus = (str[0] == '-');
+HugeInt::HugeInt(string str):
+  minus(str[0] == '-')
+{
   if (minus) str.erase(0, 1);
   digit_count = str.length();
-  capacity = digit_count > digits ? digit_count : digits;
-  array.resize(capacity);
+  array.resize(digit_count);
+
   for (int i = 0; i < digit_count; i++)
     array[i] = str[digit_count - i - 1] - '0';
 }
@@ -21,7 +22,6 @@ HugeInt::HugeInt(long long n):
 HugeInt::HugeInt(const HugeInt &temp, bool invert):
   array(temp.array), 
   digit_count(temp.digit_count),
-  capacity(temp.capacity),
   minus(temp.minus ^ invert) {
 }
 
@@ -31,10 +31,8 @@ void HugeInt::set(string str) {
   minus = (str[0] == '-');
   if (minus) str.erase(0, 1);
   digit_count = str.length();
-  if (digit_count > capacity) {
-    capacity = digit_count;
-    array.resize(capacity);
-  }
+  array.resize(digit_count);
+
   for (int i = 0; i < digit_count; i++) {
     array[i] = str[digit_count - i - 1] - '0';
   }
@@ -49,11 +47,10 @@ string HugeInt::to_str() {
 }
 
 void HugeInt::remove_leading_zeros() {
-  while (this->digit_count > 1 && this->array.back() == 0) {
+  while (this->digit_count-- > 1 && this->array.back() == 0)
     this->array.pop_back();
-    this->digit_count -= 1;
-  }
-  if (this->digit_count == 1 && this->array[0] == 0) this->minus = false;
+  if (this->digit_count == 1 && this->array[0] == 0)
+    this->minus = false;
 }
 
 // операторы присваивания
@@ -61,7 +58,6 @@ void HugeInt::remove_leading_zeros() {
 HugeInt& HugeInt::operator=(const HugeInt &temp) {
   array = temp.array;
   digit_count = temp.digit_count;
-  capacity = temp.capacity;
   minus = temp.minus;
   return *this;
 }
@@ -234,8 +230,8 @@ HugeInt habs(const HugeInt &value) {
   return value < 0 ? -value : value;
 }
 
-// операторы + -
 // TODO: исправить работу +/-
+// операторы + -
 
 HugeInt operator+(HugeInt a, const HugeInt &b) {
   // описано лишь сложение двух положительных чисел
