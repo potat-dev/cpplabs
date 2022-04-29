@@ -14,7 +14,6 @@ class HugeInt {
   private:
 
     vector <unsigned char> array;
-    unsigned int digit_count;
     bool minus = false;
 
   public:

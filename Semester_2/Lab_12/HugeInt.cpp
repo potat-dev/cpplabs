@@ -8,11 +8,10 @@ HugeInt::HugeInt(string str):
   minus(str[0] == '-')
 {
   if (minus) str.erase(0, 1);
-  digit_count = str.length();
-  array.resize(digit_count);
+  array.resize(str.length());
 
-  for (int i = 0; i < digit_count; i++)
-    array[i] = str[digit_count - i - 1] - '0';
+  for (int i = 0; i < array.size(); i++)
+    array[i] = str[array.size() - i - 1] - '0';
 }
 
 HugeInt::HugeInt(long long n):
@@ -21,7 +20,6 @@ HugeInt::HugeInt(long long n):
 
 HugeInt::HugeInt(const HugeInt &temp, bool invert):
   array(temp.array), 
-  digit_count(temp.digit_count),
   minus(temp.minus ^ invert) {
 }
 
@@ -30,26 +28,26 @@ HugeInt::HugeInt(const HugeInt &temp, bool invert):
 void HugeInt::set(string str) {
   minus = (str[0] == '-');
   if (minus) str.erase(0, 1);
-  digit_count = str.length();
-  array.resize(digit_count);
+  array.resize(str.length());
 
-  for (int i = 0; i < digit_count; i++) {
-    array[i] = str[digit_count - i - 1] - '0';
+  for (int i = 0; i < array.size(); i++) {
+    array[i] = str[array.size() - i - 1] - '0';
   }
 }
 
 string HugeInt::to_str() {
   string temp;
   if (minus) temp = "-";
-  for (int i = digit_count - 1; i > -1; i--)
+  for (int i = array.size() - 1; i > -1; i--)
     temp += (char) array[i] + '0';
   return temp;
 }
 
 void HugeInt::remove_leading_zeros() {
-  while (this->digit_count-- > 1 && this->array.back() == 0)
+  int digit_count = array.size();
+  while (digit_count-- > 1 && this->array.back() == 0)
     this->array.pop_back();
-  if (this->digit_count == 1 && this->array[0] == 0)
+  if (digit_count == 1 && this->array[0] == 0)
     this->minus = false;
 }
 
@@ -57,7 +55,6 @@ void HugeInt::remove_leading_zeros() {
 
 HugeInt& HugeInt::operator=(const HugeInt &temp) {
   array = temp.array;
-  digit_count = temp.digit_count;
   minus = temp.minus;
   return *this;
 }
@@ -90,7 +87,7 @@ ifstream& operator>>(ifstream &in, HugeInt &a) {
 
 ostream& operator<<(ostream &out, const HugeInt &a) {
   if (a.minus) out << "-";
-  for (int i = a.digit_count - 1; i > -1; i--)
+  for (int i = a.array.size() - 1; i > -1; i--)
     out << (char) (a.array[i] + '0');
   return out;
 }
@@ -103,8 +100,8 @@ ofstream& operator<<(ofstream &out, HugeInt &a) {
 // операторы сравнения
 
 bool operator==(const HugeInt &a, const HugeInt &b) {
-  if (a.digit_count == b.digit_count && a.minus == b.minus) {
-    for (int i = 0; i < a.digit_count; i++)
+  if (a.array.size() == b.array.size() && a.minus == b.minus) {
+    for (int i = 0; i < a.array.size(); i++)
       if (a.array[i] != b.array[i]) return false;
     return true;
   } else return false;
@@ -136,22 +133,22 @@ bool operator<(const HugeInt &a, const HugeInt &b) {
   if (a.minus == b.minus) {
     if (a.minus) {
       // если оба отрицательные
-      if (a.digit_count == b.digit_count) {
+      if (a.array.size() == b.array.size()) {
         // сравниваем каждую цифру
-        for (int i = 0; i < a.digit_count; i++)
+        for (int i = 0; i < a.array.size(); i++)
           if (a.array[i] == b.array[i]) continue;
           else return (a.array[i] > b.array[i]);
         return false;
-      } else return (a.digit_count > b.digit_count);
+      } else return (a.array.size() > b.array.size());
     } else {
       // если оба положительные
-      if (a.digit_count == b.digit_count) {
-        for (int i = 0; i < a.digit_count; i++)
+      if (a.array.size() == b.array.size()) {
+        for (int i = 0; i < a.array.size(); i++)
           if (a.array[i] == b.array[i]) continue;
           else return (a.array[i] < b.array[i]);
         return false;
         // сравниваем каждую цифру
-      } else return (a.digit_count < b.digit_count);
+      } else return (a.array.size() < b.array.size());
     }
   } else return a.minus;
 }
@@ -244,9 +241,9 @@ HugeInt operator+(HugeInt a, const HugeInt &b) {
   } else if (right.has_minus()) return a - (-right);
 
   int carry = 0; // флаг переноса
-  for (int i = 0; i < max(a.digit_count, right.digit_count) || carry != 0; ++i) {
-    if (i == a.digit_count) a.array.push_back(0);
-    a.array[i] += carry + (i < right.digit_count ? right.array[i] : 0);
+  for (int i = 0; i < max(a.array.size(), right.array.size()) || carry != 0; ++i) {
+    if (i == a.array.size()) a.array.push_back(0);
+    a.array[i] += carry + (i < right.array.size() ? right.array[i] : 0);
     carry = a.array[i] >= 10;
     if (carry != 0) a.array[i] -= 10;
   }
@@ -269,8 +266,8 @@ HugeInt operator-(HugeInt a, const HugeInt &b) {
   else if (a < right) return -(right - a);
 
   int carry = 0;
-  for (int i = 0; i < right.digit_count || carry != 0; ++i) {
-    a.array[i] -= carry + (i < right.digit_count ? right.array[i] : 0);
+  for (int i = 0; i < right.array.size() || carry != 0; ++i) {
+    a.array[i] -= carry + (i < right.array.size() ? right.array[i] : 0);
     carry = a.array[i] < 0;
     if (carry != 0) a.array[i] += 10;
   }
