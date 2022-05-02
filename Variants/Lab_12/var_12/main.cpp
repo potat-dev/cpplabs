@@ -58,7 +58,7 @@ class Matrix {
       return arr.size();
     }
 
-    void set(unsigned int x, unsigned int y, double value) {
+    Matrix& set(unsigned int x, unsigned int y, double value) {
       try {
         if (x < arr.size() && y < arr.size()) {
           arr[y][x] = value;
@@ -69,9 +69,11 @@ class Matrix {
         cerr << "Error in 'set' operator: " << s << endl;
         exit(1);
       }
+      return *this;
     }
 
-    void set(vector <vector <double>> temp) {
+    Matrix& set(vector <vector <double>> temp) {
+      // TODO: сделать присваивание матрицы другого разера
       try {
         if (get_size(temp) == arr.size()) {
           arr = temp;
@@ -82,6 +84,11 @@ class Matrix {
         cerr << "Error in 'set' operator: " << s << endl;
         exit(1);
       }
+      return *this;
+    }
+
+    Matrix& set(Matrix& m) {
+      this->arr = m.arr;
     }
 
     double get(int x, int y) {}
@@ -146,6 +153,53 @@ int main() {
   m7.set(4, 2, 3.14);
   m7.print();
 
+  /*
+  // Error in 'set' operator: Invalid index
   m7.set(m7.size(), m7.size() + 1, 0);
   m7.print();
+  */
+
+  m7.set(
+    {
+      {1, 2, 3, 4, 5},
+      {1, 2, 3, 4, 5},
+      {1, 2, 3, 4, 5},
+      {1, 2, 3, 4, 5},
+      {1, 2, 3, 4, 5}
+    }
+  );
+  m7.print();
+
+  /*
+  // Error in 'set' operator: Target matrix has different size
+  m7.set(
+    {
+      {1, 2},
+      {3, 4}
+    }
+  );
+  m7.print();
+  */
+  
+  m7.set(0, 0, 0)
+    .set(0, m7.size()-1, 0)
+    .set(m7.size()-1, 0, 0)
+    .set(m7.size()-1, m7.size()-1, 0);
+  m7.print();
+
+  Matrix m8(3, 0.1);
+  m8.print();
+
+  m8.set(
+    {
+      {9, 8, 7},
+      {6, 5, 4},
+      {3, 2, 1}
+    }
+  ).set(2, 2, 0);
+  m8.print();
+
+  Matrix m9(3);
+  m9.set(m8).set(2, 2, 1);
+  m9.print();
 }
