@@ -6,9 +6,10 @@
 // TODO:
 //* Используйте приватные поля для данных
 //* Реализуйте конструктор, который должен устанавливать значения по умолчанию, 
-// Реализуйте методы для чтения и записи значений полей (set, get), а также ввода и вывода (перегрузка operator<< и operator>> не требуется)
-// Если требуется, напишите конструктор копий, оператор присваивания и деструктор 
-// Напишите программу для тестирования вашего класса
+//* Реализуйте методы для чтения и записи значений полей (set, get), а также ввода и вывода (перегрузка operator<< и operator>> не требуется)
+//* Если требуется, напишите конструктор копий, оператор присваивания и деструктор 
+//* Напишите программу для тестирования вашего класса
+// Операторы + - * / *(int)
 
 #include <vector>
 #include <iostream>
@@ -89,9 +90,21 @@ class Matrix {
 
     Matrix& set(Matrix& m) {
       this->arr = m.arr;
+      return *this;
     }
 
-    double get(int x, int y) {}
+    double get(unsigned int x, unsigned int y) {
+      try {
+        if (x < arr.size() && y < arr.size()) {
+          return arr[y][x];
+        } else {
+          throw "Invalid index";
+        }
+      } catch (const char *s) {
+        cerr << "Error in 'get' operator: " << s << endl;
+        exit(1);
+      }
+    }
 
     void print() {
       for (int y = 0; y < arr.size(); y++) {
@@ -202,4 +215,17 @@ int main() {
   Matrix m9(3);
   m9.set(m8).set(2, 2, 1);
   m9.print();
+
+  Matrix m10(10);
+  m10.set(0, 0, 2).set(9, 9, 9);
+  m10.print();
+
+  cout << m10.get(0, 0) << " at 0, 0" << endl
+       << m10.get(9, 9) << " at 9, 9" << endl
+       << m10.get(5, 5) << " at 5, 5" << endl;
+  
+  /*
+  // Error in 'get' operator: Invalid index
+  cout << m10.get(10, 10) << " at 10, 10" << endl;
+  */
 }
