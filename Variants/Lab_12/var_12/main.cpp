@@ -31,15 +31,18 @@ class Matrix {
     vector <vector <double>> arr;
 
   public:
-    Matrix(unsigned int size = 1) {
+    Matrix(unsigned int size = 1, double def = 0) {
       try {
         if (size > 0) {
           arr.resize(size);
           for (int i = 0; i < size; i++) {
             arr[i].resize(size);
+            if (def) {
+              fill(arr[i].begin(), arr[i].end(), def);
+            }
           }
         } else {
-          throw "Matrix is not square!";
+          throw "Matrix is not square";
         }
       } catch (const char *s) {
         cerr << "Error in class constructor: " << s << endl;
@@ -50,9 +53,36 @@ class Matrix {
     Matrix(vector <vector <double>> temp) : Matrix (get_size(temp)) {
       arr = temp;
     }
+    
+    const unsigned int size() {
+      return arr.size();
+    }
 
-    Matrix& set(int x, int y, double value) {}
-    Matrix& set(vector <vector <double>> a) {}
+    void set(unsigned int x, unsigned int y, double value) {
+      try {
+        if (x < arr.size() && y < arr.size()) {
+          arr[y][x] = value;
+        } else {
+          throw "Invalid index";
+        }
+      } catch (const char *s) {
+        cerr << "Error in 'set' operator: " << s << endl;
+        exit(1);
+      }
+    }
+
+    void set(vector <vector <double>> temp) {
+      try {
+        if (get_size(temp) == arr.size()) {
+          arr = temp;
+        } else {
+          throw "Target matrix has different size";
+        }
+      } catch (const char *s) {
+        cerr << "Error in 'set' operator: " << s << endl;
+        exit(1);
+      }
+    }
 
     double get(int x, int y) {}
 
@@ -97,6 +127,8 @@ int main() {
   m5 = m3;
   m5.print();
 
+  /* 
+  // Error in class constructor: Matrix is not square
   Matrix m6(
     {
       {1, 1, 0, 0, 1},
@@ -105,4 +137,15 @@ int main() {
     }
   );
   m6.print();
+  */
+
+  Matrix m7(5, 0.01);
+  for (int i = 0; i < m7.size(); i++)
+    m7.set(i, i, 9.99);
+  
+  m7.set(4, 2, 3.14);
+  m7.print();
+
+  m7.set(m7.size(), m7.size() + 1, 0);
+  m7.print();
 }
