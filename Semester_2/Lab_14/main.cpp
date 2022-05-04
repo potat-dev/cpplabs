@@ -12,10 +12,26 @@
 // Связаный список должен быть реализован с помощью двух классов
 // Node (элемент списка) и List (сам список)
 
+// TODO:
+// связный список (List) элементов (Node)
+// вывод параметров фигуры через метод print()
+// Circle: радиус, надпись произвольной длины
+// Segment: координаты начала и коодинаты конца
+
+#include <iostream>
 #include <cstdlib>
 #include <string>
 
 using namespace std;
+
+class Point {
+  public:
+    int x, y;
+
+    Point(int x = 0, int y = 0):
+      x(x), y(y) {
+    };
+};
 
 class Shape {
   protected:
@@ -23,8 +39,13 @@ class Shape {
     int x, y;
 
   public:
-    Shape(int id, int x, int y);
-    void print();
+    Shape(int id = 0, int x = 0, int y = 0):
+      id(id), x(x), y(y) {
+    }
+
+    virtual void print() {
+      cout << id << ", " << x << ", " << y << endl;
+    }
 };
 
 class Circle : public Shape {
@@ -33,17 +54,36 @@ class Circle : public Shape {
     string text;
 
   public:
-    Circle(int id, int x, int y, int r, string text);
-    void print();
+    Circle(int id, int x, int y, int r, string text):
+      Shape(id, x, y), r(r), text(text) {
+    }
+    
+    virtual void print() {
+      cout << id << ", " << x << ", " << y << endl;
+    }
 };
 
 class Segment : public Shape {
   protected:
-    int x_start, y_start, x_end, y_end;
+    int x_start, y_start;
+    int x_end, y_end;
   
   public:
-    Segment(int id, int x_start, int y_start, int x_end, int y_end);
-    void print();
+    Segment(int id, int x_start, int y_start, int x_end, int y_end):
+      Shape(id, x_start, y_start),
+      x_start(x_start), y_start(y_start),
+      x_end(x_end), y_end(y_end) {
+    }
+
+    virtual void print() {
+      cout << "id: " << id
+           << ", x: " << x
+           << ", y: " << y << endl;
+      cout << "x_start: " << x_start
+           << ", y_start: " << y_start
+           << ", x_end: " << x_end
+           << ", y_end: " << y_end << endl;
+    }
 };
 
 class FigureList {
@@ -52,16 +92,25 @@ class FigureList {
     int size = 0;
 
   public:
-    void add(Shape* s);
+    void add(Shape* s) {
+      // if (size) arr[size-1]->print();
+      arr[size++] = s;
+    }
 
-    Shape &get(int id);
-
+    Shape &get(int id) {
+      return *arr[id];
+    }
+  
     // найти фигуру всписке по идентификатору
-    Shape& findFigure(int id);
-
+    Shape& findFigure(int id) {
+      return *arr[id];
+    }
+    
     // удалить фигуру из списка
-    void erase(int id);
-
+    void erase(int id) {
+      
+    }
+  
     // вывести на экран в текстовом режиме информацию о всех фигурах в списке
     void printAll();
 };
@@ -69,4 +118,18 @@ class FigureList {
 
 int main() {
   FigureList list;
+
+  Circle *c1 = new Circle(42, 0, 0, 1, "hello");
+  cout << "c1->print(): ";
+  c1->print();
+
+  Circle *c2 = new Circle(24, 6, 1, 8, "hello2");
+  Segment *s1 = new Segment(1, 0, 0, 42, 42);
+
+  list.add(c1);
+  list.add(c2);
+  list.add(s1);
+
+  cout << "list.get(2).print(): ";
+  list.get(2).print();
 }
