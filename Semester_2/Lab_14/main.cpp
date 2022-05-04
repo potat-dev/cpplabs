@@ -13,8 +13,8 @@
 // Node (элемент списка) и List (сам список)
 
 // TODO:
-// связный список (List) элементов (Node)
-// вывод параметров фигуры через метод print()
+//* связный список (List) элементов (Node)
+//* вывод параметров фигуры через метод print()
 // Circle: радиус, надпись произвольной длины
 // Segment: координаты начала и коодинаты конца
 
@@ -34,6 +34,18 @@ int main() {
   list.push_front(c2);
   list.push_front(s1);
 
-  cout << "list.get(2).print(): ";
+  list.printAll();
+
+  cout << endl << "----------" << endl;
+
+  Segment *s2 = new Segment(2, 6, 18, 4, 2);
+  list.push_back(s2);
+  list.printAll();
+
+  cout << endl << "----------" << endl;
+
   list.get(2).print();
+
+  // cout << "list.get(2).print(): ";
+  // list.get(2).print();
 }

@@ -24,6 +24,7 @@ class Shape {
   public:
     Shape(int id = 0, int x = 0, int y = 0);
     virtual void print();
+    int get_id();
 };
 
 class Circle : public Shape {
@@ -45,9 +46,16 @@ class Segment : public Shape {
     virtual void print();
 };
 
+class Node {
+  public:
+    Shape* shape;
+    Node* next;
+    Node(Shape* s = NULL, Node* next = NULL);
+};
+
 class FigureList {
   private:
-    Shape* head;
+    Node* head;
     int size;
 
   public:
@@ -55,6 +63,9 @@ class FigureList {
 
     // добавить фигуру в начало списка
     void push_front(Shape* s);
+
+    // добавить фигуру в конец списка
+    void push_back(Shape* s);
 
     // найти фигуру всписке по идентификатору
     Shape &get(int id);
