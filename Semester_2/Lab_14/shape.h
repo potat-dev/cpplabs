@@ -7,13 +7,10 @@
 using namespace std;
 
 class Point {
-  private:
-    int _x, _y;
-
   public:
+    int x, y;
     Point(int x = 0, int y = 0);
-    const int x();
-    const int y();
+    friend ostream& operator<<(ostream &out, Point &p);
 };
 
 class Shape {
@@ -74,5 +71,5 @@ class FigureList {
     void erase(int id);
   
     // вывести на экран в текстовом режиме информацию о всех фигурах в списке
-    void printAll();
+    void print_all();
 };

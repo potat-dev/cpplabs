@@ -15,8 +15,8 @@
 // TODO:
 //* связный список (List) элементов (Node)
 //* вывод параметров фигуры через метод print()
-// Circle: радиус, надпись произвольной длины
-// Segment: координаты начала и коодинаты конца
+//* Circle: радиус, надпись произвольной длины
+//* Segment: координаты начала и коодинаты конца
 
 #include "shape.h"
 
@@ -34,18 +34,34 @@ int main() {
   list.push_front(c2);
   list.push_front(s1);
 
-  list.printAll();
+  list.print_all();
 
   cout << endl << "----------" << endl;
 
   Segment *s2 = new Segment(2, 6, 18, 4, 2);
   list.push_back(s2);
-  list.printAll();
+  
+  list.push_front(new Circle(618, 7, 7, 7, "kek"));
+  list.print_all();
 
   cout << endl << "----------" << endl;
 
   list.get(2).print();
+  cout << "---------\n";
+  list.get(42).print();
 
   // cout << "list.get(2).print(): ";
   // list.get(2).print();
+
+  cout << endl << "----------del 42----------" << endl;
+  list.erase(42);
+  list.print_all();
+
+  cout << endl << "----------del 2--------" << endl;
+  list.erase(2);
+  list.print_all();
+
+  cout << endl << "----------del 618--------" << endl;
+  list.erase(618);
+  list.print_all();
 }

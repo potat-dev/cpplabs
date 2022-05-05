@@ -5,15 +5,12 @@ using namespace std;
 // class Point
 
 Point::Point(int x, int y):
-  _x(x), _y(y) {
+  x(x), y(y) {
 }
 
-const int Point::x() {
-  return _x;
-}
-
-const int Point::y() {
-  return _y;
+ostream& operator<<(ostream &out, Point &p) {
+  out << "(" << p.x << ", " << p.y << ")";
+  return out;
 }
 
 // class Shape
@@ -39,6 +36,7 @@ Circle::Circle(int id, int x, int y, int r, string text):
 }
 
 void Circle::print() {
+  cout << "type: Circle" << endl;
   Shape::print();
   cout << "r: " << r << endl;
   cout << "text: " << text << endl;
@@ -53,9 +51,12 @@ Segment::Segment(int id, int x_start, int y_start, int x_end, int y_end):
 }
 
 void Segment::print() {
+  cout << "type: Segment" << endl;
   Shape::print();
-  cout << "start: x: " << x_start << ", y: " << y_start << endl;
-  cout << "end: x: " << x_end << ", y: " << y_end << endl;
+  cout << "start x: " << x_start << endl
+       << "start y: " << y_start << endl;
+  cout << "end x: " << x_end << endl
+       << "end y: " << y_end << endl;
 }
 
 // class Node
@@ -106,14 +107,30 @@ Shape& FigureList::get(int id) {
 }
 
 void FigureList::erase(int id) {
-
+  Node *curr = head, *prev = NULL;
+  while (curr) {
+    if (curr->shape->get_id() == id) {
+      if (curr == head) { // первый элемент
+        head = head->next;
+      } else if (curr->next) { // элемент посередине
+        prev->next = curr->next;
+      } else { // последний элемент
+        prev->next = NULL;
+      }
+      delete curr->shape;
+      delete curr;
+      return;
+    }
+    prev = curr;
+    curr = curr->next;
+  }
 }
 
-void FigureList::printAll() {
+void FigureList::print_all() {
   Node* curr = head;
   int i = 1;
   while (curr) {
-    cout << "\nitem " << i << endl;
+    cout << "\nitem: " << i++ << endl;
     curr->shape->print();
     curr = curr->next;
   }
