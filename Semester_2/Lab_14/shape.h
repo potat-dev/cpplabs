@@ -16,10 +16,10 @@ class Point {
 class Shape {
   protected:
     int id;
-    int x, y;
+    Point pos;
 
   public:
-    Shape(int id = 0, int x = 0, int y = 0);
+    Shape(int id, Point pos = {0});
     virtual void print();
     int get_id();
 };
@@ -30,16 +30,16 @@ class Circle : public Shape {
     string text;
 
   public:
-    Circle(int id, int x, int y, int r, string text);
+    Circle(int id, Point pos = {0}, int r = 1, string text = "");
     virtual void print();
 };
 
 class Segment : public Shape {
   protected:
-    int x_start, y_start, x_end, y_end;
+    Point start, end;
   
   public:
-    Segment(int id, int x_start, int y_start, int x_end, int y_end);
+    Segment(int id, Point start = {0}, Point end = {0});
     virtual void print();
 };
 

@@ -1,5 +1,4 @@
 #include "shape.h"
-
 using namespace std;
 
 // class Point
@@ -15,14 +14,13 @@ ostream& operator<<(ostream &out, Point &p) {
 
 // class Shape
 
-Shape::Shape(int id, int x, int y):
-  id(id), x(x), y(y) {
+Shape::Shape(int id, Point pos):
+  id(id), pos(pos) {
 }
 
 void Shape::print() {
   cout << "id: " << id << endl;
-  cout << "x: " << x << endl;
-  cout << "y: " << y << endl;
+  cout << "pos: " << pos << endl;
 }
 
 int Shape::get_id() {
@@ -31,32 +29,28 @@ int Shape::get_id() {
 
 // class Circle
 
-Circle::Circle(int id, int x, int y, int r, string text):
-  Shape(id, x, y), r(r), text(text) {
+Circle::Circle(int id, Point pos, int r, string text):
+  Shape(id, pos), r(r), text(text) {
 }
 
 void Circle::print() {
   cout << "type: Circle" << endl;
   Shape::print();
-  cout << "r: " << r << endl;
+  cout << "radius: " << r << endl;
   cout << "text: " << text << endl;
 }
 
 // class Segment
 
-Segment::Segment(int id, int x_start, int y_start, int x_end, int y_end):
-  Shape(id, x_start, y_start),
-  x_start(x_start), y_start(y_start),
-  x_end(x_end), y_end(y_end) {
+Segment::Segment(int id, Point start, Point end):
+  Shape(id, start), start(start), end(end) {
 }
 
 void Segment::print() {
   cout << "type: Segment" << endl;
   Shape::print();
-  cout << "start x: " << x_start << endl
-       << "start y: " << y_start << endl;
-  cout << "end x: " << x_end << endl
-       << "end y: " << y_end << endl;
+  cout << "start pos: " << start << endl;
+  cout << "end pos: " << end << endl;
 }
 
 // class Node

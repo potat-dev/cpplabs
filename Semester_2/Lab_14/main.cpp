@@ -23,25 +23,20 @@
 int main() {
   FigureList list;
 
-  Circle *c1 = new Circle(42, 0, 0, 1, "hello");
-  cout << "c1->print(): ";
-  c1->print();
+  Circle *c_1 = new Circle(42, {0, 0}, 1, "lol kek");
+  Circle *c_2 = new Circle(24, {4, 2}, 7, "cheburek");
+  Segment *s_1 = new Segment(1, {0, 0}, {42, 42});
 
-  Circle *c2 = new Circle(24, 6, 1, 8, "hello2");
-  Segment *s1 = new Segment(1, 0, 0, 42, 42);
-
-  list.push_front(c1);
-  list.push_front(c2);
-  list.push_front(s1);
+  list.push_front(c_1);
+  list.push_front(c_2);
+  list.push_front(s_1);
 
   list.print_all();
 
   cout << endl << "----------" << endl;
 
-  Segment *s2 = new Segment(2, 6, 18, 4, 2);
-  list.push_back(s2);
-  
-  list.push_front(new Circle(618, 7, 7, 7, "kek"));
+  list.push_back(new Segment(2, {6, 18}, {4, 2}));
+  list.push_front(new Circle(618, {7, 7}, 7, "kek"));
   list.print_all();
 
   cout << endl << "----------" << endl;
@@ -63,5 +58,9 @@ int main() {
 
   cout << endl << "----------del 618--------" << endl;
   list.erase(618);
+  list.print_all();
+
+  cout << endl << "----------" << endl;
+  list.push_front(new Segment(42));
   list.print_all();
 }
