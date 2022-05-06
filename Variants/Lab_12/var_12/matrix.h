@@ -22,4 +22,14 @@ class Matrix {
     const unsigned int size();
 
     void print();
+
+    // преобразования
+
+    Matrix& transpose();
+
+    // операторы
+
+    Matrix& operator+=(const Matrix& x);
+    friend Matrix operator+(Matrix a, const Matrix &b);
+
 };

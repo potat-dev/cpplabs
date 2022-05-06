@@ -102,3 +102,45 @@ unsigned int get_size(vector <vector <double>> arr) {
   }
   return size;
 }
+
+// преобразования
+
+void swap(double *d1, double *d2) {
+  double temp = *d1;
+  *d1 = *d2;
+  *d2 = temp;
+}
+
+Matrix& Matrix::transpose() {
+  for (int y = 0; y < this->size() - 1; y++) {
+    for (int x = y + 1; x < this->size(); x++) {
+      swap(&arr[y][x], &arr[x][y]);
+    }
+  }
+  return *this;
+}
+
+// операторы
+
+Matrix& Matrix::operator+=(const Matrix& m) {
+  try {
+    if (arr.size() == m.arr.size()) {
+      for (int x = 0; x < m.arr.size(); x++) {
+        for (int y = 0; y < m.arr.size(); y++) {
+          arr[y][x] += m.arr[y][x];
+        }
+      }
+    } else {
+      throw "Matrices have different sizes";
+    }
+  } catch (const char *s) {
+    cerr << "Error in + operator: " << s << endl;
+    exit(1);
+  }
+  return *this;
+}
+
+Matrix operator+(Matrix a, const Matrix& b) {
+  a += b;
+  return a;
+}

@@ -119,12 +119,29 @@ int main() {
 
   cout << m10.get(0, 0) << " at 0, 0" << endl
        << m10.get(9, 9) << " at 9, 9" << endl
-       << m10.get(5, 5) << " at 5, 5" << endl;
+       << m10.get(5, 5) << " at 5, 5" << endl << endl;
   
   /*
   // Error in 'get' operator: Invalid index
   cout << m10.get(10, 10) << " at 10, 10" << endl;
   */
 
-  
+  m10.transpose().print();
+  m9.transpose().print();
+
+  Matrix test(
+    {
+      {1, 2, 3},
+      {4, 5, 6},
+      {7, 8, 9}
+    }
+  );
+
+  test.print();
+  test.transpose().print();
+
+  // operators test
+
+  Matrix summ = Matrix(5, 1) + Matrix(5, 2);
+  summ.print();
 }
