@@ -144,4 +144,28 @@ int main() {
 
   Matrix summ = Matrix(5, 1) + Matrix(5, 2);
   summ.print();
+  summ -= Matrix(5, 4);
+  summ.print();
+
+  // проверка умножения
+
+  Matrix mult1({
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9},
+  });
+  
+  Matrix mult2({
+    {6, 1, 8},
+    {0, 4, 2},
+    {6, 1, 8},
+  });
+
+  mult1.print();
+  cout << "  *\n" << endl;
+  mult2.print();
+
+  cout << "  =\n" << endl;
+  mult1 *= mult2;
+  mult1.print();
 }

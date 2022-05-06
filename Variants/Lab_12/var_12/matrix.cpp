@@ -140,7 +140,50 @@ Matrix& Matrix::operator+=(const Matrix& m) {
   return *this;
 }
 
+Matrix& Matrix::operator-=(const Matrix& m) {
+  try {
+    if (arr.size() == m.arr.size()) {
+      for (int x = 0; x < m.arr.size(); x++) {
+        for (int y = 0; y < m.arr.size(); y++) {
+          arr[y][x] -= m.arr[y][x];
+        }
+      }
+    } else {
+      throw "Matrices have different sizes";
+    }
+  } catch (const char *s) {
+    cerr << "Error in + operator: " << s << endl;
+    exit(1);
+  }
+  return *this;
+}
+
 Matrix operator+(Matrix a, const Matrix& b) {
   a += b;
+  return a;
+}
+
+Matrix operator-(Matrix a, const Matrix& b) {
+  a -= b;
+  return a;
+}
+
+Matrix& Matrix::operator*=(const Matrix& right) {
+  unsigned int size = this->size();
+  Matrix result(size, 0);
+  for (int result_x = 0; result_x < size; result_x++) {
+    for (int result_y = 0; result_y < size; result_y++) {
+      double summ = 0;
+      for (int i = 0; i < size; i++)
+        summ += arr[result_y][i] * right.arr[i][result_x];
+      result.arr[result_y][result_x] = summ;
+    }
+  }
+  *this = result;
+  return *this;
+}
+
+Matrix operator*(Matrix a, const Matrix& b) {
+  a *= b;
   return a;
 }
