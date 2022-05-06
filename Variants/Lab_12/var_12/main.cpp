@@ -11,110 +11,7 @@
 //* Напишите программу для тестирования вашего класса
 // Операторы + - * / *(int)
 
-#include <vector>
-#include <iostream>
-#include <cstdlib> // для exit()
-
-using namespace std;
-
-unsigned int get_size(vector <vector <double>> arr) {
-  unsigned int size = arr.size();
-  for (int i = 0; i < size; i++) {
-    if (arr[i].size() != size) {
-      return 0;
-    }
-  }
-  return size;
-}
-
-class Matrix {
-  private:
-    vector <vector <double>> arr;
-
-  public:
-    Matrix(unsigned int size = 1, double def = 0) {
-      try {
-        if (size > 0) {
-          arr.resize(size);
-          for (int i = 0; i < size; i++) {
-            arr[i].resize(size);
-            if (def) {
-              fill(arr[i].begin(), arr[i].end(), def);
-            }
-          }
-        } else {
-          throw "Matrix is not square";
-        }
-      } catch (const char *s) {
-        cerr << "Error in class constructor: " << s << endl;
-        exit(1);
-      }
-    }
-    
-    Matrix(vector <vector <double>> temp) : Matrix (get_size(temp)) {
-      arr = temp;
-    }
-    
-    const unsigned int size() {
-      return arr.size();
-    }
-
-    Matrix& set(unsigned int x, unsigned int y, double value) {
-      try {
-        if (x < arr.size() && y < arr.size()) {
-          arr[y][x] = value;
-        } else {
-          throw "Invalid index";
-        }
-      } catch (const char *s) {
-        cerr << "Error in 'set' operator: " << s << endl;
-        exit(1);
-      }
-      return *this;
-    }
-
-    Matrix& set(vector <vector <double>> temp) {
-      // TODO: сделать присваивание матрицы другого разера
-      try {
-        if (get_size(temp) == arr.size()) {
-          arr = temp;
-        } else {
-          throw "Target matrix has different size";
-        }
-      } catch (const char *s) {
-        cerr << "Error in 'set' operator: " << s << endl;
-        exit(1);
-      }
-      return *this;
-    }
-
-    Matrix& set(Matrix& m) {
-      this->arr = m.arr;
-      return *this;
-    }
-
-    double get(unsigned int x, unsigned int y) {
-      try {
-        if (x < arr.size() && y < arr.size()) {
-          return arr[y][x];
-        } else {
-          throw "Invalid index";
-        }
-      } catch (const char *s) {
-        cerr << "Error in 'get' operator: " << s << endl;
-        exit(1);
-      }
-    }
-
-    void print() {
-      for (int y = 0; y < arr.size(); y++) {
-        for (int x = 0; x < arr[y].size(); x++)
-          cout << arr[y][x] << " ";
-        cout << endl;
-      }
-      cout << endl;
-    }
-};
+#include "matrix.h"
 
 int main() {
   Matrix m1;
@@ -228,4 +125,6 @@ int main() {
   // Error in 'get' operator: Invalid index
   cout << m10.get(10, 10) << " at 10, 10" << endl;
   */
+
+  
 }
