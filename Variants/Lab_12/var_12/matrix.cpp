@@ -187,3 +187,31 @@ Matrix operator*(Matrix a, const Matrix& b) {
   a *= b;
   return a;
 }
+
+Matrix& Matrix::operator*=(const double& n) {
+  for (int x = 0; x < arr.size(); x++) {
+    for (int y = 0; y < arr.size(); y++) {
+      arr[y][x] *= n;
+    }
+  }
+  return *this;
+}
+
+Matrix operator*(Matrix a, const double &b) {
+  a *= b;
+  return a;
+}
+
+Matrix& Matrix::operator/=(const double& n) {
+  for (int x = 0; x < arr.size(); x++) {
+    for (int y = 0; y < arr.size(); y++) {
+      arr[y][x] /= n;
+    }
+  }
+  return *this;
+}
+
+Matrix operator/(Matrix a, const double &b) {
+  a /= b;
+  return a;
+}

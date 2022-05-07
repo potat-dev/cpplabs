@@ -168,4 +168,11 @@ int main() {
   cout << "  =\n" << endl;
   mult1 *= mult2;
   mult1.print();
+
+  Matrix mult3(6, 6);
+  mult3.print();
+  cout << "* 6 =\n" << endl;
+  
+  mult3 *= 6;
+  mult3.print();
 }

@@ -32,11 +32,17 @@ class Matrix {
 
     // операторы
 
-    Matrix& operator+=(const Matrix& x);
-    Matrix& operator-=(const Matrix& x);
-    Matrix& operator*=(const Matrix& x);
+    Matrix& operator+=(const Matrix& x); // сложение с матрицей
+    Matrix& operator-=(const Matrix& x); // вычитание матрицы
+    Matrix& operator*=(const Matrix& x); // умножение на матрицу
+    Matrix& operator*=(const double& x); // умножение на скаляр
+    Matrix& operator/=(const Matrix& x); // деление на матрицу
+    Matrix& operator/=(const double& x); // деление на скаляр
     
     friend Matrix operator+(Matrix a, const Matrix &b);
     friend Matrix operator-(Matrix a, const Matrix &b);
     friend Matrix operator*(Matrix a, const Matrix &b);
+    friend Matrix operator*(Matrix a, const double &b);
+    friend Matrix operator/(Matrix a, const Matrix &b);
+    friend Matrix operator/(Matrix a, const double &b);
 };
