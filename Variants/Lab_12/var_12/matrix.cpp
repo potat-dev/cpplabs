@@ -111,13 +111,53 @@ void swap(double *d1, double *d2) {
   *d2 = temp;
 }
 
-Matrix& Matrix::transpose() {
+Matrix Matrix::transpose() {
+  Matrix temp(*this);
   for (int y = 0; y < this->size() - 1; y++) {
     for (int x = y + 1; x < this->size(); x++) {
-      swap(&arr[y][x], &arr[x][y]);
+      swap(&temp.arr[y][x], &temp.arr[x][y]);
     }
   }
-  return *this;
+  return temp;
+}
+
+Matrix Matrix::minor(int _y, int _x) {
+  Matrix temp(arr.size() - 1);
+  bool skip_x, skip_y = 0;
+  for (int y = 0; y < temp.arr.size(); y++) {
+    if (y == _y) skip_y = 1;
+    skip_x = 0;
+    for (int x = 0; x < temp.arr.size(); x++) {
+      if (x == _x) skip_x = 1;
+      temp.set(x, y, arr[y + skip_y][x + skip_x]);
+    }
+  }
+  return temp;
+}
+
+const double Matrix::determinant() {
+  double det = 0;
+  switch (arr.size()) {
+    case 1: {
+      det = arr[0][0];
+      break;
+    }
+    case 2: {
+      det = arr[0][0] * arr[1][1] - arr[1][0] * arr[0][1];
+      break;
+    }
+    default: {
+      for (int i = 0; i < arr.size(); i++) {
+        if (i % 2) {
+          det -= arr[i][0] * this->minor(i, 0).determinant();
+        } else {
+          det += arr[i][0] * this->minor(i, 0).determinant();
+        }
+      }
+      break;
+    }
+  }
+  return det;
 }
 
 // операторы

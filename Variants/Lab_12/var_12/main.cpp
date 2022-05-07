@@ -175,4 +175,11 @@ int main() {
   
   mult3 *= 6;
   mult3.print();
+  Matrix det_test({
+    {2, 4, 3},
+    {5, 7, 8},
+    {6, 9, 1},
+  });
+
+  cout << det_test.determinant() << endl;
 }

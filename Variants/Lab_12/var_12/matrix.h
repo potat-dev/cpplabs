@@ -23,12 +23,17 @@ class Matrix {
     // геттеры
     double get(unsigned int x, unsigned int y);
     const unsigned int size();
+    const double determinant();
 
     void print();
 
     // преобразования
 
-    Matrix& transpose();
+    Matrix transpose();
+    Matrix inverse();
+    Matrix minor(int i, int j);
+    Matrix minor_matrix();
+    Matrix algebraic_additions();
 
     // операторы
 
