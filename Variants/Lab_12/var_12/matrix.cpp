@@ -176,6 +176,12 @@ Matrix Matrix::algebraic_additions() {
   return temp;
 }
 
+Matrix Matrix::inverse() {
+  Matrix alg_add_T = this->algebraic_additions().transpose();
+  alg_add_T /= this->determinant();
+  return alg_add_T;
+}
+
 // операторы
 
 Matrix& Matrix::operator+=(const Matrix& m) {
@@ -256,6 +262,23 @@ Matrix& Matrix::operator*=(const double& n) {
 Matrix operator*(Matrix a, const double &b) {
   a *= b;
   return a;
+}
+
+Matrix& Matrix::operator/=(const Matrix &b) {
+  *this *= Matrix(b).inverse();
+  return *this;
+  
+  /* поэлементное деление - не гуд
+  for (int x = 0; x < b.arr.size(); x++)
+    for (int y = 0; y < b.arr.size(); y++)
+      arr[y][x] /= b.arr[y][x];
+  return *this;
+  */
+}
+
+Matrix operator/(Matrix a, const Matrix &b) {
+    a /= b;
+    return a;
 }
 
 Matrix& Matrix::operator/=(const double& n) {

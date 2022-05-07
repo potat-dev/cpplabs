@@ -186,4 +186,38 @@ int main() {
 
   det_test.minor_matrix().print();
   det_test.algebraic_additions().print();
+
+  Matrix aaa({
+    {1, 2},
+    {3, 4}
+  });
+  aaa.print();
+
+  aaa.inverse().print();
+
+  Matrix a100({
+    {1,  18, 4,  6,  9 },
+    {11, 17, 13, 14, 8 },
+    {25, 2,  19, 15, 21},
+    {10, 5,  12, 3,  7 },
+    {24, 20, 22, 16, 23}
+  });
+  a100.print();
+
+  cout << a100.determinant() << endl << endl;
+  a100.inverse().print();
+
+  Matrix mult_a({
+    {13, 26},
+    {39, 13}
+  });
+
+  Matrix mult_b({
+    {7, 4},
+    {2, 3}
+  });
+
+  // для проверки
+  // https://ru.wikihow.com/делить-матрицы
+  (mult_a / mult_b).print();
 }
