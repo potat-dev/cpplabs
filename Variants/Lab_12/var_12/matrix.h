@@ -12,15 +12,18 @@ class Matrix {
 
   public:
     // конструтроры (не лего)
+    
     Matrix(unsigned int size = 1, double def = 0);
     Matrix(vector <vector <double>> temp); 
 
     // сеттеры
+
     Matrix& set(unsigned int x, unsigned int y, double value);
     Matrix& set(vector <vector <double>> temp);
     Matrix& set(Matrix& m);
 
     // геттеры
+
     double get(unsigned int x, unsigned int y);
     const unsigned int size();
     const double determinant();

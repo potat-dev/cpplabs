@@ -148,16 +148,32 @@ const double Matrix::determinant() {
     }
     default: {
       for (int i = 0; i < arr.size(); i++) {
-        if (i % 2) {
-          det -= arr[i][0] * this->minor(i, 0).determinant();
-        } else {
-          det += arr[i][0] * this->minor(i, 0).determinant();
-        }
+        det += (i % 2 ? -1 : 1) * arr[i][0] * this->minor(i, 0).determinant();
       }
       break;
     }
   }
   return det;
+}
+
+Matrix Matrix::minor_matrix() {
+  Matrix temp(arr.size());
+  for (int y = 0; y < arr.size(); y ++) {
+    for (int x = 0; x < arr.size(); x++) {
+      temp.set(x, y, this->minor(y, x).determinant());
+    }
+  }
+  return temp;
+}
+
+Matrix Matrix::algebraic_additions() {
+  Matrix temp = this->minor_matrix();
+  for (int x = 0; x < arr.size(); x++) {
+    for (int y = 0; y < arr.size(); y++) {
+      if ((x + y) % 2) temp.arr[y][x] *= -1;
+    }
+  }
+  return temp;
 }
 
 // операторы
