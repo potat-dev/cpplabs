@@ -47,6 +47,7 @@ class Matrix {
     Matrix& operator/=(const Matrix& x); // деление на матрицу
     Matrix& operator/=(const double& x); // деление на скаляр
     
+    friend Matrix operator-(const Matrix &m); // унарный минус
     friend Matrix operator+(Matrix a, const Matrix &b);
     friend Matrix operator-(Matrix a, const Matrix &b);
     friend Matrix operator*(Matrix a, const Matrix &b);
