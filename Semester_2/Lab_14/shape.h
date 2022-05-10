@@ -54,6 +54,7 @@ class FigureList {
   private:
     Node* head;
     int size;
+    // int ids[];
 
   public:
     FigureList();
