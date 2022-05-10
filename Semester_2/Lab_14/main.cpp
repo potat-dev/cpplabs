@@ -12,61 +12,56 @@
 // Связаный список должен быть реализован с помощью двух классов
 // Node (элемент списка) и List (сам список)
 
-#include <cstdlib>
-#include <string>
+// TODO:
+//* связный список (List) элементов (Node)
+//* вывод параметров фигуры через метод print()
+//* Circle: радиус, надпись произвольной длины
+//* Segment: координаты начала и коодинаты конца
 
-using namespace std;
+//? исправить: сделать чтобы айдишники задавались по умолчанию автоматически
+//? доп: написать функцию сравнения длин контуров двух фигур
+// (круг сравнивать с отрезком -> длина окружности сравнивается с длиной отрезка)
 
-class Shape {
-  protected:
-    int id;
-    int x, y;
-
-  public:
-    Shape(int id, int x, int y);
-    void print();
-};
-
-class Circle : public Shape {
-  protected:
-    int r;
-    string text;
-
-  public:
-    Circle(int id, int x, int y, int r, string text);
-    void print();
-};
-
-class Segment : public Shape {
-  protected:
-    int x_start, y_start, x_end, y_end;
-  
-  public:
-    Segment(int id, int x_start, int y_start, int x_end, int y_end);
-    void print();
-};
-
-class FigureList {
-  private:
-    Shape* arr[100];
-    int size = 0;
-
-  public:
-    void add(Shape* s);
-
-    Shape &get(int id);
-
-    // найти фигуру всписке по идентификатору
-    Shape& findFigure(int id);
-
-    // удалить фигуру из списка
-    void erase(int id);
-
-    // вывести на экран в текстовом режиме информацию о всех фигурах в списке
-    void printAll();
-};
-
+#include "shape.h"
 
 int main() {
   FigureList list;
+
+  Circle *c_1 = new Circle(42, {0, 0}, 1, "lol kek");
+  Circle *c_2 = new Circle(24, {4, 2}, 7, "cheburek");
+  Segment *s_1 = new Segment(1, {0, 0}, {42, 42});
+
+  list.push_front(c_1);
+  list.push_front(c_2);
+  list.push_front(s_1);
+
+  list.print_all();
+
+  cout << endl << "----------" << endl;
+
+  list.push_back(new Segment(2, {6, 18}, {4, 2}));
+  list.push_front(new Circle(618, {7, 7}, 7, "kek"));
+  list.print_all();
+
+  cout << endl << "----------" << endl;
+
+  list.get(2).print();
+  cout << "---------\n";
+  list.get(42).print();
+
+  cout << endl << "----------del 42----------" << endl;
+  list.erase(42);
+  list.print_all();
+
+  cout << endl << "----------del 2--------" << endl;
+  list.erase(2);
+  list.print_all();
+
+  cout << endl << "----------del 618--------" << endl;
+  list.erase(618);
+  list.print_all();
+
+  cout << endl << "----------" << endl;
+  list.push_front(new Segment(42));
+  list.print_all();
 }
