@@ -22,6 +22,8 @@ class Shape {
     Shape(int id, Point pos = {0});
     virtual void print();
     int get_id();
+    virtual double get_contour_length();
+    bool operator==(Shape &s);
 };
 
 class Circle : public Shape {
@@ -32,6 +34,7 @@ class Circle : public Shape {
   public:
     Circle(int id, Point pos = {0}, int r = 1, string text = "");
     virtual void print();
+    virtual double get_contour_length();
 };
 
 class Segment : public Shape {
@@ -41,6 +44,7 @@ class Segment : public Shape {
   public:
     Segment(int id, Point start = {0}, Point end = {0});
     virtual void print();
+    virtual double get_contour_length();
 };
 
 class Node {
@@ -58,19 +62,9 @@ class FigureList {
 
   public:
     FigureList();
-
-    // добавить фигуру в начало списка
     void push_front(Shape* s);
-
-    // добавить фигуру в конец списка
     void push_back(Shape* s);
-
-    // найти фигуру всписке по идентификатору
     Shape &get(int id);
-    
-    // удалить фигуру из списка
     void erase(int id);
-  
-    // вывести на экран в текстовом режиме информацию о всех фигурах в списке
     void print_all();
 };

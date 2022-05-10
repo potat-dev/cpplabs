@@ -19,8 +19,8 @@
 //* Segment: координаты начала и коодинаты конца
 
 //? исправить: сделать чтобы айдишники задавались по умолчанию автоматически
-//? доп: написать функцию сравнения длин контуров двух фигур
-// (круг сравнивать с отрезком -> длина окружности сравнивается с длиной отрезка)
+//? доп: написать функцию сравнения длин контуров(!) двух фигур
+//? (круг сравнивать с отрезком -> длина окружности сравнивается с длиной отрезка)
 
 #include "shape.h"
 
@@ -64,4 +64,22 @@ int main() {
   cout << endl << "----------" << endl;
   list.push_front(new Segment(42));
   list.print_all();
+
+  cout << endl << "---------- dop ----------" << endl;
+
+  cout << "id_42 == id_24: "
+       << (list.get(42) == list.get(24) ? "True" : "False")
+       << endl;
+
+  cout << "contour id24: " << list.get(24).get_contour_length() << endl;
+  cout << "contour id42: " << list.get(42).get_contour_length() << endl;
+
+  // для теста нужно создать одинаковые Circle и Segment
+
+  list.push_front(new Circle(123, {0, 0}, 0, "нет слов, одни эмоции"));
+  list.push_front(new Segment(321, {0, 0}, {0, 0}));
+
+  cout << "id_123 == id_321: "
+       << (list.get(123) == list.get(321) ? "True" : "False")
+       << endl;
 }

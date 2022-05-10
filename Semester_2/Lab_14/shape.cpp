@@ -1,4 +1,8 @@
 #include "shape.h"
+
+#include "math.h"
+#define PI 3.1415926535898
+
 using namespace std;
 
 // class Point
@@ -27,6 +31,14 @@ int Shape::get_id() {
   return id;
 }
 
+double Shape::get_contour_length() {
+  return 0;
+}
+
+bool Shape::operator==(Shape &s) {
+  return get_contour_length() == s.get_contour_length();
+}
+
 // class Circle
 
 Circle::Circle(int id, Point pos, int r, string text):
@@ -40,6 +52,10 @@ void Circle::print() {
   cout << "text: " << text << endl;
 }
 
+double Circle::get_contour_length() {
+  return 2 * PI * r;
+}
+
 // class Segment
 
 Segment::Segment(int id, Point start, Point end):
@@ -51,6 +67,10 @@ void Segment::print() {
   Shape::print();
   cout << "start pos: " << start << endl;
   cout << "end pos: " << end << endl;
+}
+
+double Segment::get_contour_length() {
+  return sqrt(pow(end.x - start.x, 2) + pow(end.y - start.y, 2));
 }
 
 // class Node
