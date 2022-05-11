@@ -7,8 +7,9 @@ Time::Time(int hour, int minute, int second):
 Time::Time(const char *time):
   _hour(0), _minute(0), _second(0) {
   sscanf(time, "%d:%d:%d", &_hour, &_minute, &_second);
+  _hour %= 24; _minute %= 60; _second %= 60;
 }
-    
+
 // сеттеры
 
 void Time::set_hour(int h) {
