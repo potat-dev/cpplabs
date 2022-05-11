@@ -46,25 +46,3 @@ class Segment : public Shape {
     virtual void print();
     virtual double get_contour_length();
 };
-
-class Node {
-  public:
-    Shape* shape;
-    Node* next;
-    Node(Shape* s = NULL, Node* next = NULL);
-};
-
-class FigureList {
-  private:
-    Node* head;
-    int size;
-    // int ids[];
-
-  public:
-    FigureList();
-    void push_front(Shape* s);
-    void push_back(Shape* s);
-    Shape &get(int id);
-    void erase(int id);
-    void print_all();
-};

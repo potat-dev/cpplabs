@@ -23,6 +23,7 @@
 //? (круг сравнивать с отрезком -> длина окружности сравнивается с длиной отрезка)
 
 #include "shape.h"
+#include "list.h"
 
 int main() {
   FigureList list;
@@ -67,7 +68,7 @@ int main() {
 
   cout << endl << "---------- dop ----------" << endl;
 
-  cout << "id_42 == id_24: "
+  cout << endl << "id_42 == id_24: "
        << (list.get(42) == list.get(24) ? "True" : "False")
        << endl;
 
