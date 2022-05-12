@@ -75,7 +75,7 @@ void FigureList::print_all() {
   Node* curr = head;
   int i = 1;
   while (curr) {
-    cout << "\nitem: " << i++ << endl;
+    cout << endl << "item: " << i++ << endl;
     curr->shape->print();
     curr = curr->next;
   }

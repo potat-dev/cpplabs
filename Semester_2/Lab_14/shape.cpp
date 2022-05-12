@@ -6,7 +6,7 @@ using namespace std;
 
 // class Point
 
-Point::Point(int x, int y):
+Point::Point(double x, double y):
   x(x), y(y) {
 }
 
@@ -17,8 +17,13 @@ ostream& operator<<(ostream &out, Point &p) {
 
 // class Shape
 
-Shape::Shape(int id, Point pos):
-  id(id), pos(pos) {
+Shape::Shape(Point pos):
+  id(next_id()), pos(pos) {
+}
+
+unsigned long Shape::next_id() {
+  static unsigned long next_id = 0;
+  return next_id++;
 }
 
 void Shape::print() {
@@ -26,7 +31,7 @@ void Shape::print() {
   cout << "pos: " << pos << endl;
 }
 
-int Shape::get_id() {
+unsigned long Shape::get_id() {
   return id;
 }
 
@@ -40,8 +45,8 @@ bool Shape::operator==(Shape &s) {
 
 // class Circle
 
-Circle::Circle(int id, Point pos, int r, string text):
-  Shape(id, pos), r(r), text(text) {
+Circle::Circle(Point pos, double r, string text):
+  Shape(pos), r(r), text(text) {
 }
 
 void Circle::print() {
@@ -57,8 +62,8 @@ double Circle::get_contour_length() {
 
 // class Segment
 
-Segment::Segment(int id, Point start, Point end):
-  Shape(id, start), start(start), end(end) {
+Segment::Segment(Point start, Point end):
+  Shape(start), start(start), end(end) {
 }
 
 void Segment::print() {
