@@ -28,59 +28,85 @@
 int main() {
   FigureList list;
 
-  Circle *c_1 = new Circle(42, {0, 0}, 1, "lol kek");
-  Circle *c_2 = new Circle(24, {4, 2}, 7, "cheburek");
-  Segment *s_1 = new Segment(1, {0, 0}, {42, 42});
+  cout << endl << "---- id_2 id_1 id_0 -> [] ----" << endl;
 
-  list.push_front(c_1);
-  list.push_front(c_2);
-  list.push_front(s_1);
+  Circle *c1 = new Circle({0, 0}, 1, "lol kek");
+  Circle *c2 = new Circle({4, 2}, 7, "cheburek");
+  Segment *s1 = new Segment({0, 0}, {42, 42});
 
-  list.print_all();
+  list.push_front(c1);
+  list.push_front(c2);
+  list.push_front(s1);
 
-  cout << endl << "----------" << endl;
+  list.print_all(); // list now: [id_2, id_1, id_0]
 
-  list.push_back(new Segment(2, {6, 18}, {4, 2}));
-  list.push_front(new Circle(618, {7, 7}, 7, "kek"));
-  list.print_all();
+  cout << endl << "---- id_4 -> [] <- id_3 ----" << endl;
 
-  cout << endl << "----------" << endl;
+  list.push_back(new Segment({6, 18}, {4, 2}));
+  list.push_front(new Circle({7, 7}, 7, "kek"));
 
-  list.get(2).print();
-  cout << "---------\n";
-  list.get(42).print();
+  list.print_all(); // list now: [id_4, id_2, id_1, id_0, id_3]
 
-  cout << endl << "----------del 42----------" << endl;
-  list.erase(42);
-  list.print_all();
+  cout << endl << "---- [] -> id_3 id_1 ----" << endl;
 
-  cout << endl << "----------del 2--------" << endl;
-  list.erase(2);
-  list.print_all();
+  cout << endl; list.get(3).print();
+  cout << endl; list.get(1).print();
 
-  cout << endl << "----------del 618--------" << endl;
-  list.erase(618);
-  list.print_all();
+  cout << endl << "---- [] -x-> id_4 ----" << endl;
 
-  cout << endl << "----------" << endl;
-  list.push_front(new Segment(42));
-  list.print_all();
+  list.erase(4);
+  list.print_all(); // list now: [id_2, id_1, id_0, id_3]
 
-  cout << endl << "---------- dop ----------" << endl;
+  cout << endl << "---- [] -x-> id_0 ----" << endl;
 
-  cout << endl << "id_42 == id_24: "
-       << (list.get(42) == list.get(24) ? "True" : "False")
-       << endl;
+  list.erase(0);
+  list.print_all(); // list now: [id_2, id_1, id_3]
 
-  cout << "contour id24: " << list.get(24).get_contour_length() << endl;
-  cout << "contour id42: " << list.get(42).get_contour_length() << endl;
+  cout << endl << "---- [] -x-> id_3 ----" << endl;
 
-  // для теста нужно создать одинаковые Circle и Segment
+  list.erase(3);
+  list.print_all(); // list now: [id_2, id_1]
 
-  list.push_front(new Circle(123, {0, 0}, 0, "нет слов, одни эмоции"));
-  list.push_front(new Segment(321, {0, 0}, {0, 0}));
+  cout << endl << "---- id_5 -> [] ----" << endl;
 
-  cout << "id_123 == id_321: "
-       << (list.get(123) == list.get(321) ? "True" : "False")
-       << endl;
+  list.push_front(new Segment);
+
+  list.print_all(); // list now: [id_5, id_2, id_1]
+
+  cout << endl << "-------- dop --------" << endl;
+
+  cout << endl << "contour id_1: " << list.get(1).get_contour_length();
+  cout << endl << "contour id_2: " << list.get(2).get_contour_length();
+  cout << endl << "contour id_5: " << list.get(5).get_contour_length();
+
+  cout << endl << endl << "id_1 == id_2: ";
+  cout << (list.get(1) == list.get(2) ? "True" : "False");
+
+  cout << endl << "id_1 == id_5: ";
+  cout << (list.get(1) == list.get(5) ? "True" : "False");
+
+  cout << endl << "id_2 == id_5: ";
+  cout << (list.get(2) == list.get(5) ? "True" : "False");
+
+  // для теста нужно создать одинаковые Circle и Segment (например равные нулю)
+
+  cout << endl << endl << "---- [] <- id_6 ----" << endl;
+
+  list.push_back(new Circle); // list now: [id_5, id_2, id_1, id_6]
+
+  cout << endl << "contour id_6: " << list.get(6).get_contour_length();
+
+  cout << endl << "id_5 == id_6: ";
+  cout << (list.get(5) == list.get(6) ? "True" : "False") << endl;
+
+  cout << endl << "------ list_2 ------" << endl;
+
+  FigureList list2;
+  for (double i = 0; i < 5; i++) {
+    list2.push_front(new Circle({0, 0}, i));
+    list2.push_back(new Segment({0, 0}, {i, i}));
+  }
+
+  list2.print_all();
+  // list_2 now: [id_15, id_13, id_11, id_9, id_7, id_8, id_10, id_12, id_14, id_16]
 }
