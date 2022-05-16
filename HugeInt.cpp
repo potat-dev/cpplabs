@@ -17,8 +17,8 @@ HugeInt::HugeInt(int d) {
   negative = false;
 }
 
-HugeInt::HugeInt(int num[41], int dep) {
-  for (int i = 0; i < 41; i++) {
+HugeInt::HugeInt(int num[40], int dep) {
+  for (int i = 0; i < 40; i++) {
     number[i] = num[i];
   }
   depth = dep;
@@ -43,7 +43,13 @@ void HugeInt::set(string str) {
   }
 }
 
-string HugeInt::get() {
+void HugeInt::set(int num[40]) {
+  for (int i = 0; i < 40; i++) {
+    number[i] = num[i];
+  }
+}
+
+string HugeInt::get() const {
   string str;
   if (negative) {
     str += '-';
@@ -58,14 +64,40 @@ string HugeInt::get() {
   return str;
 }
 
-bool HugeInt::check_zero() {
+bool HugeInt::check_zero() const {
   for (int i = 0; i < depth; i++) {
     if (number[i]) return false;
   }
   return true;
 }
 
-int HugeInt::compare(HugeInt &b) {
+void HugeInt::set_minus(bool state) {
+  negative = state;
+}
+
+bool HugeInt::has_minus() const {
+  return negative;
+}
+
+int HugeInt::get_depth() const {
+  return depth;
+}
+
+void HugeInt::set_depth(int dep) {
+  depth = dep;
+}
+
+void HugeInt::set_digit(int index, int digit) {
+  number[index] = digit;
+}
+
+int HugeInt::get_digit(int index) const {
+  return number[index];
+}
+
+
+
+int HugeInt::compare(HugeInt &b) const {
   if (negative && !b.negative) {
     return -1;
   } else if (!negative && b.negative) {
@@ -216,4 +248,12 @@ HugeInt HugeInt::dif(HugeInt &b) {
   } else if (!negative && b.negative) {
     return this->simple_sum(b);
   }
+}
+
+// операторы
+
+HugeInt HugeInt::operator-() const {
+	HugeInt temp(*this);
+  temp.negative = !temp.negative;
+  return temp;
 }
