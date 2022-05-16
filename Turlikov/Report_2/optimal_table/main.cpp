@@ -1,17 +1,9 @@
-#include <iostream>
-#include "stdio.h"
+#include <stdio.h>
+#include <math.h>
 
 #define FREE 0
 #define BAD  1
 #define USED 2
-
-using namespace std;
-
-unsigned int pow2(int p) {
-  unsigned int temp = 1;
-  while (p-- > 0) temp *= 2;
-  return temp;
-}
 
 unsigned char count_ones(unsigned char n) {
   unsigned char w = 0;
@@ -22,17 +14,11 @@ unsigned char count_ones(unsigned char n) {
   return w;
 }
 
-void debug(unsigned char *arr1, unsigned char *arr2, int size) {
-  cout << "A   : ";
+void debug(unsigned char *arr, int size) {
+  printf("[ ");
   for (int i = 0; i < size; i++)
-    printf("%d, ", arr1[i]);
-    // cout << '0' + arr1[i] << ", ";
-  cout << endl;
-  cout << "mark: ";
-  for (int i = 0; i < size; i++)
-    printf("%d, ", arr2[i]);
-    // cout << '0' + arr2[i] << ", ";
-  cout << endl;
+    printf("%d ", arr[i]);
+  printf("]\n");
 }
 
 bool has_free(unsigned char *arr, int size) {
@@ -42,37 +28,28 @@ bool has_free(unsigned char *arr, int size) {
 }
 
 int main() {
-  unsigned int n, d, size, count = 0;
-  cout << "Enter n, d: ";
-  cin >> n; cin >> d;
+  unsigned int n = 5, d = 3;
+  unsigned int size = pow(2, n);
+  unsigned int next_free, count = 0;
 
-  size = pow2(n);
   unsigned char mark[size] = { FREE };
-  unsigned char A[size] = { FREE };
+  unsigned char table[size] = { FREE };
 
-  // A[0] = 0;
-  // mark[0] = USED;
-  // count++;
+  table[count] = 0;
+  mark[table[count++]] = USED;
 
   while (has_free(mark, size)) {
-    // A[0] = 0;
-    // mark[0] = USED;
-    // count++;
-
-    // шаг 1
-    for (int i = 0; i < size; i++)
-      if (mark[i] == FREE) {
-        A[count++] = i;
-        mark[i] = USED;
-      }
-
-    // шаг 2
-    for (int i = 0; i < size; i++)
-      if (mark[i] == FREE && count_ones(i ^ A[count - 1]) < d)
+    for (unsigned int i = 0; i < size; i++)
+      if (mark[i] == FREE && count_ones(i ^ table[count - 1]) < d)
         mark[i] = BAD;
 
-    cout << "iter: " << count << endl;
-    debug(A, mark, size);
-    cout << endl;
+    debug(mark, size);
+
+    for (next_free = 0; mark[next_free] != FREE; next_free++);
+    table[count] = next_free;
+    mark[table[count++]] = USED;
   }
+
+  printf("code table: ");
+  debug(table, count);
 }

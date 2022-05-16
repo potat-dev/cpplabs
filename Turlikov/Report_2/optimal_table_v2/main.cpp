@@ -23,34 +23,37 @@ bool has_free(int *arr, int size) {
 }
 
 int main() {
-  int count = 0;
-  int next_free = 0;
-  int size = pow(2, N);
-  int mark[size] = {FREE};
-  int CodeBook[size] = {FREE};
+  int count = 0;               // счетчик слов в кодовой книге
+  int next_free = 0;           // следующее свободное слово
+  int size = pow(2, N);        // максимальное количество кодовых слов
+  int mark[size] = {FREE};     // отметки об использовании кодовых слов
+  int CodeBook[size] = {FREE}; // кодовая книга
 
-  CodeBook[count] = 0; // шаг 1. Выбираем первое кодовое слово
-  mark[CodeBook[count++]] = USED; // Отметим взятое слово в массиве пометок
+  CodeBook[count] = 0;            // выбираем первое кодовое слово
+  mark[CodeBook[count++]] = USED; // отметим его в массиве пометок
 
   while (has_free(mark, size)) {
-    // Шаг 2. отметим все слова в кандатах на расстоянии меньше d от выбранного
+    // проходимся по всем словам
     for (int i = 0; i < size; i++) {
-      if (mark[i] == 0 && (count_ones(i ^ CodeBook[count - 1]) < D))
-        mark[i] = BAD;
-      printf("%d ", mark[i]);
+      // если слово свободно и его расстояние Хэмминга меньше чем нужно
+      if (mark[i] == FREE && (count_ones(i ^ CodeBook[count - 1]) < D)) {
+        mark[i] = BAD; // то отмечаем как неподходящее
+      }
+      printf("%d ", mark[i]); // выводим на экран
     }
     printf("\n");
 
-    // шаг 1. Выбираем второе кодовое слово
+    // выбираем следующее кодовое слово
     for (next_free = 0; mark[next_free] != FREE; next_free++);
     CodeBook[count] = next_free;    // заносим это слово в словарь
     mark[CodeBook[count++]] = USED; // отметим это слово в массиве отметок
   }
 
-  printf("code: ");
-  for (int i = 0; i < count; i++)
+  // выводим кодовую книгу на экран
+  printf("\ncode: ");
+  for (int i = 0; i < count; i++) {
     printf("%d ", CodeBook[i]);
-
-  // теперь понимаю
+  }
+  
   return 0;
 }
