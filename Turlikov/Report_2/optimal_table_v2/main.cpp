@@ -3,6 +3,10 @@
 #define N 5
 #define D 3
 
+#define FREE 0
+#define BAD  1
+#define USED 2
+
 unsigned char count_ones(unsigned char n) {
   unsigned char w = 0;
   while (n > 0) {
@@ -12,60 +16,41 @@ unsigned char count_ones(unsigned char n) {
   return w;
 }
 
+bool has_free(int *arr, int size) {
+  for (int i = 0; i < size; i++)
+    if (arr[i] == FREE) return true;
+  return false;
+}
+
 int main() {
   int count = 0;
+  int next_free = 0;
   int size = pow(2, N);
-  int mark[size] = {0};
-  int CodeBook[size] = {0};
+  int mark[size] = {FREE};
+  int CodeBook[size] = {FREE};
 
-  CodeBook[0] = 0; // шаг 1. Выбираем первое кодовое слово
-  mark[0] = 2; // Отметим взятое слово в массиве пометок
-  count++;
+  CodeBook[count] = 0; // шаг 1. Выбираем первое кодовое слово
+  mark[CodeBook[count++]] = USED; // Отметим взятое слово в массиве пометок
 
-  // Шаг 2. отметим все слова в кандатах на расстоянии меньше d от выбранного
-  for (int i = 0; i < size; i++) {
-    if (mark[i] == 0 && (count_ones(i ^ CodeBook[count - 1]) < D))
-      mark[i] = 1;
-    printf("%d ", mark[i]);
+  while (has_free(mark, size)) {
+    // Шаг 2. отметим все слова в кандатах на расстоянии меньше d от выбранного
+    for (int i = 0; i < size; i++) {
+      if (mark[i] == 0 && (count_ones(i ^ CodeBook[count - 1]) < D))
+        mark[i] = BAD;
+      printf("%d ", mark[i]);
+    }
+    printf("\n");
+
+    // шаг 1. Выбираем второе кодовое слово
+    for (next_free = 0; mark[next_free] != FREE; next_free++);
+    CodeBook[count] = next_free;    // заносим это слово в словарь
+    mark[CodeBook[count++]] = USED; // отметим это слово в массиве отметок
   }
 
-  printf("\n");
+  printf("code: ");
+  for (int i = 0; i < count; i++)
+    printf("%d ", CodeBook[i]);
 
-  // шаг 1. Выбираем второе кодовое слово
-  int zero = 0;
-  for (zero = 0; mark[zero] != 0; zero++);
-  // printf("%d", zero);
-  CodeBook[count] = zero;
-
-  mark[zero] = 2; // Отметим взятое слово в массиве пометок
-  count++;
-
-  // Шаг 2. отметим все слова в кандатах на расстоянии меньше d от выбранного
-  for (int i = 0; i < size; i++) {
-    if (mark[i] == 0 && (count_ones(i ^ CodeBook[count - 1]) < D))
-      mark[i] = 1;
-    printf("%d ", mark[i]);
-  }
-
-  printf("\n");
-
-  // шаг 1. Выбираем второе кодовое слово
-  zero = 0;
-  for (zero = 0; mark[zero] != 0; zero++);
-  // printf("%d", zero);
-
-  CodeBook[count] = zero;
-  mark[zero] = 2; // Отметим взятое слово в массиве пометок
-  count++;
-
-  // Шаг 2. отметим все слова в кандатах на расстоянии меньше d от выбранного
-  for (int i = 0; i < size; i++) {
-    if (mark[i] == 0 && (count_ones(i ^ CodeBook[count - 1]) < D))
-      mark[i] = 1;
-    printf("%d ", mark[i]);
-  }
-
-  printf("%d, %d, %d", CodeBook[0], CodeBook[1], CodeBook[2]);
-  // я не понимаю почему, но оно работает
+  // теперь понимаю
   return 0;
 }
