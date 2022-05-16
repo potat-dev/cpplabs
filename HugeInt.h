@@ -36,6 +36,10 @@ class HugeInt {
 
     // операторы
     HugeInt operator-() const;
+
+    void shrink_to_fit();
+    void print_full(); // print для теста
+    void print();      // print для теста
 };
 
 #endif

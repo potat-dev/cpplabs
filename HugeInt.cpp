@@ -2,7 +2,7 @@
 using namespace std;
 
 HugeInt::HugeInt() {
-  for (int i = 0; i < 41; i++) {
+  for (int i = 0; i < 40; i++) {
     number[i] = 0;
   }
   depth = 0;
@@ -10,7 +10,7 @@ HugeInt::HugeInt() {
 }
 
 HugeInt::HugeInt(int d) {
-  for (int i = 0; i < 41; i++) {
+  for (int i = 0; i < 40; i++) {
     number[i] = 0;
   }
   depth = d;
@@ -70,6 +70,8 @@ bool HugeInt::check_zero() const {
   }
   return true;
 }
+
+// геттеры и сеттеры
 
 void HugeInt::set_minus(bool state) {
   negative = state;
@@ -256,4 +258,25 @@ HugeInt HugeInt::operator-() const {
 	HugeInt temp(*this);
   temp.negative = !temp.negative;
   return temp;
+}
+
+void HugeInt::shrink_to_fit() {
+  for (int i = 39; i > -1; i--) {
+    if (number[i] != 0) {
+      depth = i + 1;
+      break;
+    } 
+  }
+}
+
+void HugeInt::print_full() {
+  if (negative) cout << "-";
+  for (int i = 39; i > -1; cout << number[i--]);
+  cout << endl;
+}
+
+void HugeInt::print() {
+  if (negative) cout << "-";
+  for (int i = depth - 1; i > -1; cout << number[i--]);
+  cout << endl;
 }
