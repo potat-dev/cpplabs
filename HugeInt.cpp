@@ -97,8 +97,6 @@ int HugeInt::get_digit(int index) const {
   return number[index];
 }
 
-
-
 int HugeInt::compare(HugeInt &b) const {
   if (negative && !b.negative) {
     return -1;
@@ -135,6 +133,30 @@ int HugeInt::compare(HugeInt &b) const {
       return 0;
     }
   }
+}
+
+bool operator==(HugeInt &n1, HugeInt &n2) {
+  return (n1.compare(n2) == 0);
+}
+
+bool operator!=(HugeInt &n1, HugeInt &n2) {
+  return (n1.compare(n2) != 0);
+}
+
+bool operator>(HugeInt &n1, HugeInt &n2) {
+  return (n1.compare(n2) == 1);
+}
+
+bool operator<=(HugeInt &n1, HugeInt &n2) {
+  return (n1 < n2 || n1 == n2);
+}
+
+bool operator<(HugeInt &n1, HugeInt &n2) {
+  return (n1.compare(n2) == -1);
+}
+
+bool operator>=(HugeInt &n1, HugeInt &n2) {
+  return (n1 > n2 || n1 == n2);
 }
 
 HugeInt HugeInt::simple_sum(HugeInt &b) {

@@ -13,6 +13,8 @@
 //* урезать размер числа, чтобы не было нулей
 //? ДОП:
 //  перегрузка операторов
+//* - операторы сравнения
+//  - математические операторы
 //  умножение
 //  нахождение остатка от деления
 
@@ -43,11 +45,11 @@ int main() {
     cout << b.get() << " - not zero " << endl;
   }
 
-  if (a.compare(b) == 1) {
+  if (a > b) {
     cout << a.get() << " > " << b.get() << endl;
-  } else if (a.compare(b) == -1) {
+  } else if (a < b) {
     cout << a.get() << " < " << b.get() << endl;
-  } else if (a.compare(b) == 0) {
+  } else if (a == b) {
     cout << a.get() << " = " << b.get() << endl;
   }
 

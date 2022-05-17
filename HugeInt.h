@@ -27,6 +27,15 @@ class HugeInt {
     void set_digit(int index, int digit); // set для разряда числа
     int get_digit(int index) const;       // get для разряда числа
 
+    friend bool operator== (HugeInt &n1, HugeInt &n2);
+    friend bool operator!= (HugeInt &n1, HugeInt &n2);
+
+    friend bool operator> (HugeInt &d1, HugeInt &d2);
+    friend bool operator<= (HugeInt &d1, HugeInt &d2);
+ 
+    friend bool operator< (HugeInt &d1, HugeInt &d2);
+    friend bool operator>= (HugeInt &d1, HugeInt &d2);
+
     bool check_zero() const;
     int compare(HugeInt &b) const;
     HugeInt simple_sum(HugeInt &b);
@@ -37,7 +46,8 @@ class HugeInt {
     // операторы
     HugeInt operator-() const;
 
-    void shrink_to_fit();
+    void shrink_to_fit(); // обрезаем ненужные нули
+    
     void print_full(); // print для теста
     void print();      // print для теста
 };
