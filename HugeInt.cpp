@@ -1,6 +1,10 @@
 #include "HugeInt.h"
 using namespace std;
 
+// статьи в помощь, если захочешь разобраться:
+// https://habr.com/ru/post/172285/ (перегрузка оперторов)
+// https://habr.com/ru/post/124258/ (умножение)
+
 HugeInt::HugeInt() {
   for (int i = 0; i < 40; i++) {
     number[i] = 0;
@@ -286,11 +290,28 @@ HugeInt HugeInt::operator-() const {
 }
 
 HugeInt operator+(HugeInt &n1, HugeInt &n2) {
-  return n1.sum(n2);
+  HugeInt res = n1.sum(n2);
+  res.shrink_to_fit();
+  return res;
 }
 
 HugeInt operator-(HugeInt &n1, HugeInt &n2) {
-  return n1.dif(n2);
+  HugeInt res = n1.dif(n2);
+  res.shrink_to_fit();
+  return res;
+}
+
+HugeInt operator*(HugeInt &n1, HugeInt &n2) {
+  HugeInt temp;
+  temp.negative = n1.negative != n2.negative;
+  for (int i = 0; i < n1.depth; i++) {
+    for (int j = 0; j < n2.depth; j++) {
+      temp.number[i + j] += n1.get_digit(i) * n2.get_digit(j);
+    }
+  }
+  temp.normalize();
+  temp.shrink_to_fit();
+  return temp;
 }
 
 void HugeInt::shrink_to_fit() {
@@ -299,6 +320,17 @@ void HugeInt::shrink_to_fit() {
       depth = i + 1;
       break;
     } 
+  }
+}
+
+void HugeInt::normalize() {
+  for (int i = 0; i < 40; i++) {
+    if (number[i] > 9) {
+      if (i == 39) cout << " [HugeInt owerflow] ";
+      int carry = number[i] / 10;
+      number[i + 1] += carry;
+      number[i] -= carry * 10;
+    }
   }
 }
 
@@ -316,7 +348,7 @@ std::istream& operator>>(std::istream &in, HugeInt &n) {
 
 void HugeInt::print_full() {
   if (negative) cout << "-";
-  for (int i = 39; i > -1; cout << number[i--]);
+  for (int i = 39; i > -1; cout << number[i--] << " ");
   cout << endl;
 }
 

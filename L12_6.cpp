@@ -24,13 +24,9 @@ using namespace std;
 
 int main() {
   HugeInt a, b, s;
-  a.print_full();
-  a.print();
 
   a.set("1000");
   b.set("7");
-  a.print_full();
-  a.print();
 
   if (a.check_zero()) {
     cout << a << " - its zero " << endl;
@@ -54,18 +50,20 @@ int main() {
 
   s = a - b;
   cout << "Difference = " << s << endl;
-  s.print_full();
-  s.print();
-  s.shrink_to_fit();
-  s.print();
 
   s = a + b;
   cout << "Summ = " << s << endl;
 
   s = -s;
   cout << s << endl;
-  s.shrink_to_fit();
-  s.print();
+
+  // проверка умножения
+  HugeInt test1, test2;
+  test1.set("123");
+  test2.set("-42");
+
+  HugeInt test_mult = test1 * test2;
+  cout << "123 * 42 = " << test_mult << endl;
 
   return 0;
 }

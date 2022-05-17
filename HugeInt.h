@@ -10,6 +10,9 @@ class HugeInt {
     int depth;
     bool negative;
 
+    void normalize();     // приводим число к 10-чной системе счисления
+    void shrink_to_fit(); // обрезаем ненужные нули
+
     int compare(HugeInt &b) const;
     HugeInt simple_sum(HugeInt &b);
     HugeInt simple_dif(HugeInt &b);
@@ -21,17 +24,22 @@ class HugeInt {
     HugeInt(int depth);
     HugeInt(int numbers[40], int depth);
 
-    void set(std::string str); // set для массива цифр
-    void set(int numbers[40]); // set для массива цифр
-    std::string to_str() const;   // get для массива цифр
+    void set(std::string str);  // set для массива цифр
+    void set(int numbers[40]);  // set для массива цифр
+    std::string to_str() const; // get для массива цифр
 
     void set_minus(bool state); // set для знака
     bool has_minus() const;     // get для знака
     void set_depth(int dep);    // set для длины числа
     int get_depth() const;      // get для длины числа
+    bool check_zero() const;
 
     void set_digit(int index, int digit); // set для разряда числа
     int get_digit(int index) const;       // get для разряда числа
+
+    // операторы
+
+    HugeInt operator-() const;
 
     friend bool operator== (HugeInt &n1, HugeInt &n2);
     friend bool operator!= (HugeInt &n1, HugeInt &n2);
@@ -44,17 +52,13 @@ class HugeInt {
 
     friend HugeInt operator+(HugeInt &n1, HugeInt &n2);
     friend HugeInt operator-(HugeInt &n1, HugeInt &n2);
+    friend HugeInt operator*(HugeInt &n1, HugeInt &n2);
 
-    bool check_zero() const;
-
-    // операторы
-    HugeInt operator-() const;
-
-    void shrink_to_fit(); // обрезаем ненужные нули
+    
 
     friend std::ostream& operator<<(std::ostream &out, const HugeInt &n);
     friend std::istream& operator>>(std::istream &in, HugeInt &n);
-    //?  тест
+
     void print_full(); //?  print для теста
     void print();      //?  print для теста
 };
