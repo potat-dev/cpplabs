@@ -4,6 +4,7 @@ using namespace std;
 // статьи в помощь, если захочешь разобраться:
 // https://habr.com/ru/post/172285/ (перегрузка оперторов)
 // https://habr.com/ru/post/124258/ (умножение)
+// https://www.cyberforum.ru/cpp-beginners/thread1955526.html (остаток от деления)
 
 HugeInt::HugeInt() {
   for (int i = 0; i < 40; i++) {
@@ -11,6 +12,11 @@ HugeInt::HugeInt() {
   }
   depth = 0;
   negative = false;
+}
+
+HugeInt::HugeInt(string str) : HugeInt(str.size()) {
+  set(str);
+  shrink_to_fit();
 }
 
 HugeInt::HugeInt(int d) {
@@ -45,12 +51,14 @@ void HugeInt::set(string str) {
       number[j++] = str[i] - 48;
     }
   }
+  shrink_to_fit();
 }
 
 void HugeInt::set(int num[40]) {
   for (int i = 0; i < 40; i++) {
     number[i] = num[i];
   }
+  shrink_to_fit();
 }
 
 string HugeInt::to_str() const {
@@ -162,6 +170,28 @@ bool operator<(HugeInt &n1, HugeInt &n2) {
 
 bool operator>=(HugeInt &n1, HugeInt &n2) {
   return (n1 > n2 || n1 == n2);
+}
+
+HugeInt& HugeInt::operator++() {
+  ++(*this);
+  return *this;
+}
+ 
+HugeInt& HugeInt::operator--() {
+  --(*this);
+  return *this;
+}
+ 
+HugeInt HugeInt::operator++(int) {
+  HugeInt temp(*this), c1("1");
+  *this = *this + c1;
+  return temp;
+}
+ 
+HugeInt HugeInt::operator--(int) {
+  HugeInt temp(*this), c1("1");
+  *this = *this - c1;
+  return temp;
 }
 
 HugeInt HugeInt::simple_sum(HugeInt &b) {
@@ -314,6 +344,30 @@ HugeInt operator*(HugeInt &n1, HugeInt &n2) {
   return temp;
 }
 
+HugeInt operator%(HugeInt &n1, HugeInt &n2) {
+  if (n1 < n2) return n1;
+  HugeInt a(n1), b(n2), main_sum("1");
+  if (b.negative) {
+    b = -b;
+    a = -a;
+  }
+  for (HugeInt i("0"); i <= a; i = i + b) {
+    main_sum++;
+  }
+  cout << " main sum: " << main_sum << endl;
+  HugeInt last_sum = b * main_sum;
+  cout << " last sum: " << last_sum << endl;
+
+  if (!a.negative) {
+    // last_sum = a - last_sum;
+    return a - last_sum;
+  } else {
+    // last_sum = b * main_sum;
+    // last_sum = a + last_sum;
+    return a + last_sum;
+  }
+}
+
 void HugeInt::shrink_to_fit() {
   for (int i = 39; i > -1; i--) {
     if (number[i] != 0) {
@@ -321,6 +375,7 @@ void HugeInt::shrink_to_fit() {
       break;
     } 
   }
+  if (depth == 0) depth++;
 }
 
 void HugeInt::normalize() {

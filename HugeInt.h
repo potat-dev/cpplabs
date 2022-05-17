@@ -21,6 +21,7 @@ class HugeInt {
 
   public:
     HugeInt(); // конструктор по умолчанию
+    HugeInt(std::string str);
     HugeInt(int depth);
     HugeInt(int numbers[40], int depth);
 
@@ -50,11 +51,16 @@ class HugeInt {
     friend bool operator< (HugeInt &n1, HugeInt &n2);
     friend bool operator>= (HugeInt &n1, HugeInt &n2);
 
+    HugeInt& operator++(); // версия префикс
+    HugeInt& operator--(); // версия префикс
+ 
+    HugeInt operator++(int); // версия постфикс
+    HugeInt operator--(int); // версия постфикс
+
     friend HugeInt operator+(HugeInt &n1, HugeInt &n2);
     friend HugeInt operator-(HugeInt &n1, HugeInt &n2);
     friend HugeInt operator*(HugeInt &n1, HugeInt &n2);
-
-    
+    friend HugeInt operator%(HugeInt &n1, HugeInt &n2);
 
     friend std::ostream& operator<<(std::ostream &out, const HugeInt &n);
     friend std::istream& operator>>(std::istream &in, HugeInt &n);
