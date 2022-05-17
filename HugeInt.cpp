@@ -354,16 +354,13 @@ HugeInt operator%(HugeInt &n1, HugeInt &n2) {
   for (HugeInt i("0"); i <= a; i = i + b) {
     main_sum++;
   }
-  cout << " main sum: " << main_sum << endl;
+  // cout << " main sum: " << main_sum << endl;
   HugeInt last_sum = b * main_sum;
-  cout << " last sum: " << last_sum << endl;
+  // cout << " last sum: " << last_sum << endl;
 
   if (!a.negative) {
-    // last_sum = a - last_sum;
     return a - last_sum;
   } else {
-    // last_sum = b * main_sum;
-    // last_sum = a + last_sum;
     return a + last_sum;
   }
 }

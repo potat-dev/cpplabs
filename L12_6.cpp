@@ -19,15 +19,71 @@
 //* умножение
 //* нахождение остатка от деления
 
+// менять знак числа
+// менять позицию на разряде
+
 #include "HugeInt.h"
 using namespace std;
 
 int main() {
-  HugeInt a, b, s;
+  setlocale(LC_ALL, "Russian");
 
-  a.set("1000");
-  b.set("7");
+  HugeInt a, b("7"), s;
 
+  wcout << L"Введите первое число: ";
+  cin >> a;
+  wcout << L"Введите второе число: ";
+  cin >> b;
+
+  while (1) {
+    int num;
+    wcout << L"С каким числом вы хотите работать (0 - a, 1 - b): " << endl;
+    cin >> num;
+
+    wcout << L"Введите что вам нужно сделать:" << endl;
+    wcout << L"1 - Менять знак числа" << endl;
+    wcout << L"2 - Менять позицию на разряде" << endl;
+    wcout << L"0 - Выйти" << endl;
+
+    cout  << ">> ";
+    int to_do;
+    cin >> to_do;
+
+    switch (to_do) {
+      case 1: {
+        wcout << L"Исходное число: ";
+        cout << (num ? b : a) << endl;
+        (num ? b : a) = -(num ? b : a);
+        wcout << L"Измененное число: ";
+        cout << (num ? b : a) << endl;
+        break;
+      }
+
+      case 2: {
+        wcout << L"Исходное число: ";
+        cout << (num ? b : a) << endl;
+        wcout << L"Введите индекс и цифру: ";
+        int index, digit;
+        cin >> index >> digit;
+        (num ? b : a).set_digit(index, digit);
+        wcout << L"Измененное число: ";
+        cout << (num ? b : a) << endl;
+        break;
+      }
+
+      case 0: {
+        goto end;
+      }
+    }
+  }
+  
+  end:
+  
+  // a.set_minus(!a.has_minus()); -- изменение знака
+  // a.set_digit(1, 2);
+  // cout << a << " " << a.get_digit(1) << endl;
+
+  cout << endl;
   if (a.check_zero()) {
     cout << a << " - its zero " << endl;
   } else {
@@ -55,18 +111,15 @@ int main() {
   cout << "Summ = " << s << endl;
 
   s = -s;
-  cout << s << endl;
+  cout << "-s = " << s << endl;
 
   // проверка умножения
-  HugeInt test1, test2;
-  test1.set("123");
-  test2.set("42");
 
-  HugeInt test_mult = test1 * test2;
-  cout << "123 * 42 = " << test_mult << endl;
+  HugeInt test_mult = a * b;
+  cout << "a * b = " << test_mult << endl;
 
-  HugeInt test_mod = test1 % test2;
-  cout << "123 % 42 = " << test_mod << endl;
+  HugeInt test_mod = a % b;
+  cout << "a % b = " << test_mod << endl;
 
   return 0;
 }
