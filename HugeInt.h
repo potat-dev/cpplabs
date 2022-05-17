@@ -10,6 +10,12 @@ class HugeInt {
     int depth;
     bool negative;
 
+    int compare(HugeInt &b) const;
+    HugeInt simple_sum(HugeInt &b);
+    HugeInt simple_dif(HugeInt &b);
+    HugeInt sum(HugeInt &b);
+    HugeInt dif(HugeInt &b);
+
   public:
     HugeInt(); // конструктор по умолчанию
     HugeInt(int depth);
@@ -17,7 +23,7 @@ class HugeInt {
 
     void set(std::string str); // set для массива цифр
     void set(int numbers[40]); // set для массива цифр
-    std::string get() const;   // get для массива цифр
+    std::string to_str() const;   // get для массива цифр
 
     void set_minus(bool state); // set для знака
     bool has_minus() const;     // get для знака
@@ -33,15 +39,13 @@ class HugeInt {
     friend bool operator> (HugeInt &d1, HugeInt &d2);
     friend bool operator<= (HugeInt &d1, HugeInt &d2);
  
-    friend bool operator< (HugeInt &d1, HugeInt &d2);
-    friend bool operator>= (HugeInt &d1, HugeInt &d2);
+    friend bool operator< (HugeInt &n1, HugeInt &n2);
+    friend bool operator>= (HugeInt &n1, HugeInt &n2);
+
+    friend HugeInt operator+(HugeInt &n1, HugeInt &n2);
+    friend HugeInt operator-(HugeInt &n1, HugeInt &n2);
 
     bool check_zero() const;
-    int compare(HugeInt &b) const;
-    HugeInt simple_sum(HugeInt &b);
-    HugeInt simple_dif(HugeInt &b);
-    HugeInt sum(HugeInt &b);
-    HugeInt dif(HugeInt &b);
 
     // операторы
     HugeInt operator-() const;

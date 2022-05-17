@@ -49,7 +49,7 @@ void HugeInt::set(int num[40]) {
   }
 }
 
-string HugeInt::get() const {
+string HugeInt::to_str() const {
   string str;
   if (negative) {
     str += '-';
@@ -133,6 +133,7 @@ int HugeInt::compare(HugeInt &b) const {
       return 0;
     }
   }
+  return 0;
 }
 
 bool operator==(HugeInt &n1, HugeInt &n2) {
@@ -235,6 +236,7 @@ HugeInt HugeInt::sum(HugeInt &b) {
       return result;
     }
   }
+  return *this;
 }
 
 HugeInt HugeInt::dif(HugeInt &b) {
@@ -272,6 +274,7 @@ HugeInt HugeInt::dif(HugeInt &b) {
   } else if (!negative && b.negative) {
     return this->simple_sum(b);
   }
+  return *this;
 }
 
 // операторы
@@ -280,6 +283,14 @@ HugeInt HugeInt::operator-() const {
 	HugeInt temp(*this);
   temp.negative = !temp.negative;
   return temp;
+}
+
+HugeInt operator+(HugeInt &n1, HugeInt &n2) {
+  return n1.sum(n2);
+}
+
+HugeInt operator-(HugeInt &n1, HugeInt &n2) {
+  return n1.dif(n2);
 }
 
 void HugeInt::shrink_to_fit() {
@@ -292,7 +303,7 @@ void HugeInt::shrink_to_fit() {
 }
 
 std::ostream& operator<<(std::ostream &out, const HugeInt &n) {
-  out << n.get();
+  out << n.to_str();
   return out;
 }
 
