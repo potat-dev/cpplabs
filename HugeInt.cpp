@@ -291,6 +291,18 @@ void HugeInt::shrink_to_fit() {
   }
 }
 
+std::ostream& operator<<(std::ostream &out, const HugeInt &n) {
+  out << n.get();
+  return out;
+}
+
+std::istream& operator>>(std::istream &in, HugeInt &n) {
+  string temp;
+  in >> temp;
+  n.set(temp);
+  return in;
+}
+
 void HugeInt::print_full() {
   if (negative) cout << "-";
   for (int i = 39; i > -1; cout << number[i--]);

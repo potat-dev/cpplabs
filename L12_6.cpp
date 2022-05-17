@@ -14,6 +14,7 @@
 //? ДОП:
 //  перегрузка операторов
 //* - операторы сравнения
+//* - операторы вывода на экран
 //  - математические операторы
 //  умножение
 //  нахождение остатка от деления
@@ -22,9 +23,7 @@
 using namespace std;
 
 int main() {
-  HugeInt a;
-  HugeInt b;
-  HugeInt s;
+  HugeInt a, b, s;
   a.print_full();
   a.print();
 
@@ -34,37 +33,37 @@ int main() {
   a.print();
 
   if (a.check_zero()) {
-    cout << a.get() << " - its zero " << endl;
+    cout << a << " - its zero " << endl;
   } else {
-    cout << a.get() << " - not zero " << endl;
+    cout << a << " - not zero " << endl;
   }
 
   if (b.check_zero()) {
-    cout << b.get() << " - its zero " << endl;
+    cout << b << " - its zero " << endl;
   } else {
-    cout << b.get() << " - not zero " << endl;
+    cout << b << " - not zero " << endl;
   }
 
   if (a > b) {
-    cout << a.get() << " > " << b.get() << endl;
+    cout << a << " > " << b << endl;
   } else if (a < b) {
-    cout << a.get() << " < " << b.get() << endl;
+    cout << a << " < " << b << endl;
   } else if (a == b) {
-    cout << a.get() << " = " << b.get() << endl;
+    cout << a << " = " << b << endl;
   }
 
   s = a.dif(b);
-  cout << "Difference = " << s.get() << endl;
+  cout << "Difference = " << s << endl;
   s.print_full();
   s.print();
   s.shrink_to_fit();
   s.print();
 
   s = a.sum(b);
-  cout << "Summ = " << s.get() << endl;
+  cout << "Summ = " << s << endl;
 
   s = -s;
-  cout << s.get() << endl;
+  cout << s << endl;
   s.shrink_to_fit();
   s.print();
 

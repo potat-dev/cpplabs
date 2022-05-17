@@ -47,9 +47,12 @@ class HugeInt {
     HugeInt operator-() const;
 
     void shrink_to_fit(); // обрезаем ненужные нули
-    
-    void print_full(); // print для теста
-    void print();      // print для теста
+
+    friend std::ostream& operator<<(std::ostream &out, const HugeInt &n);
+    friend std::istream& operator>>(std::istream &in, HugeInt &n);
+    //?  тест
+    void print_full(); //?  print для теста
+    void print();      //?  print для теста
 };
 
 #endif
