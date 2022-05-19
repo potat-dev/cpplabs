@@ -23,6 +23,25 @@
 using namespace std;
 
 int main() {
+  HugeInt a, b, c, d;
+  a.set("618"); b.set("42"); c.set("123"); d.set("98765");
+  unsigned int at(618), bt(42), ct(123), dt(98765);
+
+  cout << a << "\t% " << b << "\t= " << (a % b) << "\t(" << (at % bt) << ")" << endl;
+  cout << a << "\t% " << c << "\t= " << (a % c) << "\t(" << (at % ct) << ")" << endl;
+  cout << a << "\t% " << d << "\t= " << (a % d) << "\t(" << (at % dt) << ")" << endl;
+  cout << b << "\t% " << a << "\t= " << (b % a) << "\t(" << (bt % at) << ")" << endl;
+  cout << b << "\t% " << c << "\t= " << (b % c) << "\t(" << (bt % ct) << ")" << endl;
+  cout << b << "\t% " << d << "\t= " << (b % d) << "\t(" << (bt % dt) << ")" << endl;
+  cout << c << "\t% " << a << "\t= " << (c % a) << "\t(" << (ct % at) << ")" << endl;
+  cout << c << "\t% " << b << "\t= " << (c % b) << "\t(" << (ct % bt) << ")" << endl;
+  cout << c << "\t% " << d << "\t= " << (c % d) << "\t(" << (ct % dt) << ")" << endl;
+  cout << d << "\t% " << a << "\t= " << (d % a) << "\t(" << (dt % at) << ")" << endl;
+  cout << d << "\t% " << b << "\t= " << (d % b) << "\t(" << (dt % bt) << ")" << endl;
+  cout << d << "\t% " << c << "\t= " << (d % c) << "\t(" << (dt % ct) << ")" << endl;
+}
+
+int main_test() {
   setlocale(LC_ALL, "Russian");
 
   HugeInt a, b("7"), s;

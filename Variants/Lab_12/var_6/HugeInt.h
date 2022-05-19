@@ -42,14 +42,14 @@ class HugeInt {
 
     HugeInt operator-() const;
 
-    friend bool operator== (HugeInt &n1, HugeInt &n2);
-    friend bool operator!= (HugeInt &n1, HugeInt &n2);
+    friend bool operator==(HugeInt &n1, HugeInt &n2);
+    friend bool operator!=(HugeInt &n1, HugeInt &n2);
 
-    friend bool operator> (HugeInt &d1, HugeInt &d2);
-    friend bool operator<= (HugeInt &d1, HugeInt &d2);
+    friend bool operator>(HugeInt &d1, HugeInt &d2);
+    friend bool operator<=(HugeInt &d1, HugeInt &d2);
  
-    friend bool operator< (HugeInt &n1, HugeInt &n2);
-    friend bool operator>= (HugeInt &n1, HugeInt &n2);
+    friend bool operator<(HugeInt &n1, HugeInt &n2);
+    friend bool operator>=(HugeInt &n1, HugeInt &n2);
 
     HugeInt& operator++(); // версия префикс
     HugeInt& operator--(); // версия префикс
@@ -60,6 +60,7 @@ class HugeInt {
     friend HugeInt operator+(HugeInt &n1, HugeInt &n2);
     friend HugeInt operator-(HugeInt &n1, HugeInt &n2);
     friend HugeInt operator*(HugeInt &n1, HugeInt &n2);
+    friend HugeInt operator/(HugeInt &n1, HugeInt &n2);
     friend HugeInt operator%(HugeInt &n1, HugeInt &n2);
 
     friend std::ostream& operator<<(std::ostream &out, const HugeInt &n);

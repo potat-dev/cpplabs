@@ -176,7 +176,7 @@ HugeInt& HugeInt::operator++() {
   ++(*this);
   return *this;
 }
- 
+
 HugeInt& HugeInt::operator--() {
   --(*this);
   return *this;
@@ -209,6 +209,7 @@ HugeInt HugeInt::simple_sum(HugeInt &b) {
   }
   if (result[max]) max++;
   HugeInt res(result, max);
+  res.shrink_to_fit();
   return res;
 }
 
@@ -228,6 +229,7 @@ HugeInt HugeInt::simple_dif(HugeInt &b) {
     }
   }
   HugeInt res(result, depth);
+  res.shrink_to_fit();
   return res;
 }
 
@@ -344,26 +346,15 @@ HugeInt operator*(HugeInt &n1, HugeInt &n2) {
   return temp;
 }
 
-HugeInt operator%(HugeInt &n1, HugeInt &n2) {
-  // максимально неоптимальная реализация
-  // для оптимизации нужно сначала реализовать оператор деления
-  // TODO: когда-нибудь исправить!!
+HugeInt operator%(HugeInt &n1, HugeInt &n2) { 
+  HugeInt cn1(n1), cn2(n2);
 
-  if (n1 < n2) return n1;
-  HugeInt a(n1), b(n2), main_sum("1");
-  if (b.negative) {
-    b = -b;
-    a = -a;
+  while (cn2 < cn1) {
+    cn1 = cn1.dif(cn2);
+    cn1.shrink_to_fit();
   }
-  for (HugeInt i("0"); i <= a; i = i + b) {
-    main_sum++;
-  }
-  HugeInt last_sum = b * main_sum;
-  if (!a.negative) {
-    return a - last_sum;
-  } else {
-    return a + last_sum;
-  }
+  cn1.shrink_to_fit();
+  return cn1;
 }
 
 void HugeInt::shrink_to_fit() {
@@ -371,7 +362,7 @@ void HugeInt::shrink_to_fit() {
     if (number[i] != 0) {
       depth = i + 1;
       break;
-    } 
+    }
   }
   if (depth == 0) depth++;
 }
