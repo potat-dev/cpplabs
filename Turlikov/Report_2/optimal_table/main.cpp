@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 
+#define DEBUG
+
 #define FREE 0
 #define BAD  1
 #define USED 2
@@ -14,12 +16,14 @@ unsigned char count_ones(unsigned char n) {
   return w;
 }
 
-void debug(unsigned char *arr, int size) {
-  printf("[ ");
-  for (int i = 0; i < size; i++)
-    printf("%d ", arr[i]);
-  printf("]\n");
-}
+#ifdef DEBUG
+  void debug(unsigned char *arr, int size) {
+    printf("[ ");
+    for (int i = 0; i < size; i++)
+      printf("%d ", arr[i]);
+    printf("]\n");
+  }
+#endif
 
 bool has_free(unsigned char *arr, int size) {
   for (int i = 0; i < size; i++)
@@ -35,21 +39,21 @@ int main() {
   unsigned char mark[size] = { FREE };
   unsigned char table[size] = { FREE };
 
-  table[count] = 0;
-  mark[table[count++]] = USED;
-
   while (has_free(mark, size)) {
+    for (next_free = 0; mark[next_free] != FREE; next_free++);
+    table[count] = next_free;
+    mark[table[count++]] = USED;
+
     for (unsigned int i = 0; i < size; i++)
       if (mark[i] == FREE && count_ones(i ^ table[count - 1]) < d)
         mark[i] = BAD;
 
-    debug(mark, size);
-
-    for (next_free = 0; mark[next_free] != FREE; next_free++);
-    table[count] = next_free;
-    mark[table[count++]] = USED;
+    #ifdef DEBUG
+      debug(mark, size);
+    #endif
   }
 
   printf("code table: ");
-  debug(table, count);
+  for (int i = 0; i < count; i++)
+    printf("%d ", table[i]);
 }
