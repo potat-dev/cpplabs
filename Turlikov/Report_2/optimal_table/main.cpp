@@ -7,7 +7,18 @@
 #define BAD  1
 #define USED 2
 
-unsigned char count_ones(unsigned char n) {
+typedef unsigned long long uint64;
+
+#ifdef DEBUG
+  void debug(uint64 *arr, int size) {
+    printf("[ ");
+    for (uint64 i = 0; i < size; i++)
+      printf("%d ", arr[i]);
+    printf("]\n");
+  }
+#endif
+
+unsigned char count_ones(uint64 n) {
   unsigned char w = 0;
   while (n > 0) {
     w += n & 1;
@@ -16,44 +27,37 @@ unsigned char count_ones(unsigned char n) {
   return w;
 }
 
-#ifdef DEBUG
-  void debug(unsigned char *arr, int size) {
-    printf("[ ");
-    for (int i = 0; i < size; i++)
-      printf("%d ", arr[i]);
-    printf("]\n");
-  }
-#endif
-
-bool has_free(unsigned char *arr, int size) {
-  for (int i = 0; i < size; i++)
+bool has_free(uint64 *arr, int size) {
+  for (uint64 i = 0; i < size; i++)
     if (arr[i] == FREE) return true;
   return false;
 }
 
 int main() {
-  unsigned int n = 5, d = 3;
-  unsigned int size = pow(2, n);
-  unsigned int next_free, count = 0;
+  uint64 n = 5, d = 3;
+  uint64 size = pow(2, n);
+  uint64 next_free, count = 0;
 
-  unsigned char mark[size] = { FREE };
-  unsigned char table[size] = { FREE };
+  uint64 *marks = new uint64[size];
+  uint64 *table = new uint64[size];
+  for (uint64 i = 0; i < size; i++)
+    marks[i] = table[i] = FREE;
 
-  while (has_free(mark, size)) {
-    for (next_free = 0; mark[next_free] != FREE; next_free++);
+  while (has_free(marks, size)) {
+    for (next_free = 0; marks[next_free] != FREE; next_free++);
     table[count] = next_free;
-    mark[table[count++]] = USED;
+    marks[table[count++]] = USED;
 
-    for (unsigned int i = 0; i < size; i++)
-      if (mark[i] == FREE && count_ones(i ^ table[count - 1]) < d)
-        mark[i] = BAD;
+    for (uint64 i = 0; i < size; i++)
+      if (marks[i] == FREE && count_ones(i ^ table[count - 1]) < d)
+        marks[i] = BAD;
 
     #ifdef DEBUG
-      debug(mark, size);
+      debug(marks, size);
     #endif
   }
 
   printf("code table: ");
-  for (int i = 0; i < count; i++)
+  for (uint64 i = 0; i < count; i++)
     printf("%d ", table[i]);
 }
