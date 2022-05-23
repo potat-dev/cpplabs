@@ -1,7 +1,7 @@
 # Status Page ⚡
 
 Here are the completed variants for each laboratory work  
-Total progress: `31 / 260` (11.92 %)
+Total progress: `32 / 264` (11.92 %)
 
 ## Lab 0
 
@@ -114,3 +114,10 @@ Variants now ready: `1 / 20`
 | 01 | 02 | 03 | 04 | 05 | [✅](Semester_2/Lab_13) | 07 | 08 | 09 | 10 |
 |---|---|---|---|---|---|---|---|---|---|
 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 |
+
+## Lab 14
+
+Variants now ready: `1 / 4`
+
+| 01 | [✅](Semester_2/Lab_14) | 03 | 04 |
+|---|---|---|---|
