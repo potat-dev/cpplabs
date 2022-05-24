@@ -7,74 +7,75 @@ using namespace std;
 
 #define INVERSE true
 
-class Rational {
+class Rational
+{
 private:
-    long long _numerator;   // ÷èñëèòåëü
-    long long _denominator; // çíàìèíàòåëü
+  long long _numerator;   // Ñ‡Ð¸ÑÐ»Ð¸Ñ‚ÐµÐ»ÑŒ
+  long long _denominator; // Ð·Ð½Ð°Ð¼Ð¸Ð½Ð°Ñ‚ÐµÐ»ÑŒ
 
 public:
-    Rational(long long numerator = 0, long long denominator = 1);
-    Rational(const Rational& temp, bool invert = false);
+  Rational(long long numerator = 0, long long denominator = 1);
+  Rational(const Rational &temp, bool invert = false);
 
-    Rational& set(long long numerator, long long denominator);
-    long long& numerator();
-    long long& denominator();
+  Rational &set(long long numerator, long long denominator);
+  long long &numerator();
+  long long &denominator();
 
-    double get_value();
-    Rational& simplify();
+  double get_value();
+  Rational &simplify();
 
-    friend istream& operator>>(istream& in, Rational& temp);
-    friend ostream& operator<<(ostream& out, const Rational& temp);
+  friend istream &operator>>(istream &in, Rational &temp);
+  friend ostream &operator<<(ostream &out, const Rational &temp);
 
-    Rational& operator=(const Rational& temp);
-    Rational& operator=(const long long& temp);
+  Rational &operator=(const Rational &temp);
+  Rational &operator=(const long long &temp);
 
-    friend bool operator==(const Rational& r1, const Rational& r2);
-    friend bool operator!=(const Rational& r1, const Rational& r2);
+  friend bool operator==(const Rational &r1, const Rational &r2);
+  friend bool operator!=(const Rational &r1, const Rational &r2);
 
-    // óíàðíûå îïåðàòîðû
-    const Rational operator+(); // = delete; // óíàðíûé ïëþñ áåñïîëåçåí
-    const Rational operator-();
+  // ÑƒÐ½Ð°Ñ€Ð½Ñ‹Ðµ Ð¾Ð¿ÐµÑ€Ð°Ñ‚Ð¾Ñ€Ñ‹
+  const Rational operator+(); // = delete; // ÑƒÐ½Ð°Ñ€Ð½Ñ‹Ð¹ Ð¿Ð»ÑŽÑ Ð±ÐµÑÐ¿Ð¾Ð»ÐµÐ·ÐµÐ½
+  const Rational operator-();
 
-    // ïðåôèêñíûé èíêðåìåíò
-    Rational& operator++();
-    Rational& operator--();
+  // Ð¿Ñ€ÐµÑ„Ð¸ÐºÑÐ½Ñ‹Ð¹ Ð¸Ð½ÐºÑ€ÐµÐ¼ÐµÐ½Ñ‚
+  Rational &operator++();
+  Rational &operator--();
 
-    // ïîñòôèêñíûé èíêðåìåíò
-    Rational operator++(int);
-    Rational operator--(int);
+  // Ð¿Ð¾ÑÑ‚Ñ„Ð¸ÐºÑÐ½Ñ‹Ð¹ Ð¸Ð½ÐºÑ€ÐµÐ¼ÐµÐ½Ñ‚
+  Rational operator++(int);
+  Rational operator--(int);
 
-    friend Rational operator+(const Rational& r1, const Rational& r2);
-    friend Rational operator+(const Rational& r, long long value);
-    friend Rational operator+(long long value, const Rational& r);
+  friend Rational operator+(const Rational &r1, const Rational &r2);
+  friend Rational operator+(const Rational &r, long long value);
+  friend Rational operator+(long long value, const Rational &r);
 
-    friend Rational operator-(const Rational& r1, const Rational& r2);
-    friend Rational operator-(const Rational& r, long long value);
-    friend Rational operator-(long long value, const Rational& r);
+  friend Rational operator-(const Rational &r1, const Rational &r2);
+  friend Rational operator-(const Rational &r, long long value);
+  friend Rational operator-(long long value, const Rational &r);
 
-    friend Rational operator*(const Rational& r1, const Rational& r2);
-    friend Rational operator*(const Rational& r, long long value);
-    friend Rational operator*(long long value, const Rational& r);
+  friend Rational operator*(const Rational &r1, const Rational &r2);
+  friend Rational operator*(const Rational &r, long long value);
+  friend Rational operator*(long long value, const Rational &r);
 
-    friend Rational operator/(const Rational& r1, const Rational& r2);
-    friend Rational operator/(const Rational& r, long long value);
-    friend Rational operator/(long long value, const Rational& r);
+  friend Rational operator/(const Rational &r1, const Rational &r2);
+  friend Rational operator/(const Rational &r, long long value);
+  friend Rational operator/(long long value, const Rational &r);
 
-    friend Rational& operator+=(Rational& left, const Rational& right);
-    friend Rational& operator+=(Rational& left, const long long& right);
+  friend Rational &operator+=(Rational &left, const Rational &right);
+  friend Rational &operator+=(Rational &left, const long long &right);
 
-    friend Rational& operator-=(Rational& left, const Rational& right);
-    friend Rational& operator-=(Rational& left, const long long& right);
+  friend Rational &operator-=(Rational &left, const Rational &right);
+  friend Rational &operator-=(Rational &left, const long long &right);
 
-    friend Rational& operator*=(Rational& left, const Rational& right);
-    friend Rational& operator*=(Rational& left, const long long& right);
+  friend Rational &operator*=(Rational &left, const Rational &right);
+  friend Rational &operator*=(Rational &left, const long long &right);
 
-    friend Rational& operator/=(Rational& left, const Rational& right);
-    friend Rational& operator/=(Rational& left, const long long& right);
+  friend Rational &operator/=(Rational &left, const Rational &right);
+  friend Rational &operator/=(Rational &left, const long long &right);
 
-    friend bool operator>(const Rational& r1, const Rational& r2);
-    friend bool operator<=(const Rational& r1, const Rational& r2);
+  friend bool operator>(const Rational &r1, const Rational &r2);
+  friend bool operator<=(const Rational &r1, const Rational &r2);
 
-    friend bool operator<(const Rational& r1, const Rational& r2);
-    friend bool operator>=(const Rational& r1, const Rational& r2);
+  friend bool operator<(const Rational &r1, const Rational &r2);
+  friend bool operator>=(const Rational &r1, const Rational &r2);
 };

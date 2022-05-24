@@ -1,159 +1,178 @@
-// Создайте класс Rational (рациональная дробь)
+// РЎРѕР·РґР°Р№С‚Рµ РєР»Р°СЃСЃ Rational (СЂР°С†РёРѕРЅР°Р»СЊРЅР°СЏ РґСЂРѕР±СЊ)
 
-// ЛАБА 14 ВАРИАНТ 4
+// Р›РђР‘Рђ 14 Р’РђР РРђРќРў 4
 
 // TODO:
-// приватные поля для данных
-// конструктор, содержащий значения по умолчанию
-// функции-элементы установки и извлечения значений
-// перегруженные операторы ввода и вывода
-// конструктор копий
-// оператор присваивания
+// РїСЂРёРІР°С‚РЅС‹Рµ РїРѕР»СЏ РґР»СЏ РґР°РЅРЅС‹С…
+// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ, СЃРѕРґРµСЂР¶Р°С‰РёР№ Р·РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+// С„СѓРЅРєС†РёРё-СЌР»РµРјРµРЅС‚С‹ СѓСЃС‚Р°РЅРѕРІРєРё Рё РёР·РІР»РµС‡РµРЅРёСЏ Р·РЅР°С‡РµРЅРёР№
+// РїРµСЂРµРіСЂСѓР¶РµРЅРЅС‹Рµ РѕРїРµСЂР°С‚РѕСЂС‹ РІРІРѕРґР° Рё РІС‹РІРѕРґР°
+// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёР№
+// РѕРїРµСЂР°С‚РѕСЂ РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 
-// указанные в задании перегруженные операции
+// СѓРєР°Р·Р°РЅРЅС‹Рµ РІ Р·Р°РґР°РЅРёРё РїРµСЂРµРіСЂСѓР¶РµРЅРЅС‹Рµ РѕРїРµСЂР°С†РёРё
 // ++ -- -n == != = + += - -= * *= / /= > < >= <=
 
-
 /*
-НЕ ДОП:
-поправить вывод
-!!!учесть отрицательные числа
-ДОП:
-добавить целую часть (в сам класс)
-операции, соотв., с учетом целой части дробей
-сортировка Шелла массива дробей
+РќР• Р”РћРџ:
+РїРѕРїСЂР°РІРёС‚СЊ РІС‹РІРѕРґ
+!!!СѓС‡РµСЃС‚СЊ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅС‹Рµ С‡РёСЃР»Р°
+Р”РћРџ:
+РґРѕР±Р°РІРёС‚СЊ С†РµР»СѓСЋ С‡Р°СЃС‚СЊ (РІ СЃР°Рј РєР»Р°СЃСЃ)
+РѕРїРµСЂР°С†РёРё, СЃРѕРѕС‚РІ., СЃ СѓС‡РµС‚РѕРј С†РµР»РѕР№ С‡Р°СЃС‚Рё РґСЂРѕР±РµР№
+СЃРѕСЂС‚РёСЂРѕРІРєР° РЁРµР»Р»Р° РјР°СЃСЃРёРІР° РґСЂРѕР±РµР№
 */
 #include "rational.h"
 using namespace std;
 
-// тестирование функций класса
-int main() {
-    int test_n = 0;
-    cout << "Run test #";
-    cin >> test_n;
+// С‚РµСЃС‚РёСЂРѕРІР°РЅРёРµ С„СѓРЅРєС†РёР№ РєР»Р°СЃСЃР°
+int main()
+{
+  int test_n = 0;
+  cout << "Run test #";
+  cin >> test_n;
 
-    switch (test_n) {
-    case 1: {
-        // тут тестируются:
-        // конструкторы, геттеры, сеттеры,
-        // вывод, конструктор копий, присваивания
+  switch (test_n)
+  {
+  case 1:
+  {
+    // С‚СѓС‚ С‚РµСЃС‚РёСЂСѓСЋС‚СЃСЏ:
+    // РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹, РіРµС‚С‚РµСЂС‹, СЃРµС‚С‚РµСЂС‹,
+    // РІС‹РІРѕРґ, РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёР№, РїСЂРёСЃРІР°РёРІР°РЅРёСЏ
 
-        Rational lol(1, 2), kek = { 2, 3 };
-        cout << "Rational 1 / 2: " << lol << endl;
-        cout << "Rational 2 / 3: " << kek << endl;
+    Rational lol(1, 2), kek = {2, 3};
+    cout << "Rational 1 / 2: " << lol << endl;
+    cout << "Rational 2 / 3: " << kek << endl;
 
-        Rational temp(618);
-        cout << "Int 618 to Rational: " << temp << endl;
+    Rational temp(618);
+    cout << "Int 618 to Rational: " << temp << endl;
 
-        Rational test(42, 618);
-        cout << "42 / 618 = " << test << " -> ";
+    Rational test(42, 618);
+    cout << "42 / 618 = " << test << " -> ";
 
-        test.set(618, 42);
-        cout << test << " -> ";
-        cout << test.numerator() << " / "
-            << test.denominator() << " -> ";
+    test.set(618, 42);
+    cout << test << " -> ";
+    cout << test.numerator() << " / "
+         << test.denominator() << " -> ";
 
-        test.numerator() = 6;
-        test.denominator() = 18;
-        cout << test << endl;
+    test.numerator() = 6;
+    test.denominator() = 18;
+    cout << test << endl;
 
-        Rational test_copy(test);
-        cout << test << " = " << test.simplify()
-            << " => copy: " << test_copy << endl;
+    Rational test_copy(test);
+    cout << test << " = " << test.simplify()
+         << " => copy: " << test_copy << endl;
 
-        lol = kek = temp = test;
-        cout << lol << ", "
-            << kek << ", "
-            << temp << endl;
-        break;
+    lol = kek = temp = test;
+    cout << lol << ", "
+         << kek << ", "
+         << temp << endl;
+    break;
+  }
+
+  case 2:
+  {
+    // С‚СѓС‚ С‚РµСЃС‚РёСЂСѓСЋС‚СЃСЏ:
+    // ++ -- -n + += - -= * *= / /=
+
+    Rational lol(42, 618);
+    Rational kek(69, 420);
+    long long abc = 777;
+
+    cout << "(" << lol << ")++ = (" << ++lol << ")\n";
+    cout << "(" << lol << ")-- = (" << --lol << ")\n";
+    cout << "-(" << lol << ") = (" << -lol << ")\n";
+
+    cout << "(" << lol << ") + (" << kek << ") = " << lol + kek << endl;
+    cout << "(" << lol << ") + (" << abc << ") = " << lol + abc << endl;
+    cout << "(" << abc << ") + (" << lol << ") = " << abc + lol << endl;
+
+    cout << "(" << lol << ") - (" << kek << ") = " << lol - kek << endl;
+    cout << "(" << lol << ") - (" << abc << ") = " << lol - abc << endl;
+    cout << "(" << abc << ") - (" << lol << ") = " << abc - lol << endl;
+
+    cout << "(" << lol << ") * (" << kek << ") = " << lol * kek << endl;
+    cout << "(" << lol << ") * (" << abc << ") = " << lol * abc << endl;
+    cout << "(" << abc << ") * (" << lol << ") = " << abc * lol << endl;
+
+    cout << "(" << lol << ") / (" << kek << ") = " << lol / kek << endl;
+    cout << "(" << lol << ") / (" << abc << ") = " << lol / abc << endl;
+    cout << "(" << abc << ") / (" << lol << ") = " << abc / lol << endl;
+
+    lol = {42, 618};
+    kek = {69, 420};
+    abc = 777;
+    cout << "(" << lol << ") += (" << kek << ") -> " << (lol += kek) << endl;
+    cout << "(" << lol << ") += (" << abc << ") -> " << (lol += abc) << endl;
+
+    lol = {42, 618};
+    kek = {69, 420};
+    abc = 777;
+    cout << "(" << lol << ") -= (" << kek << ") -> " << (lol -= kek) << endl;
+    cout << "(" << lol << ") -= (" << abc << ") -> " << (lol -= abc) << endl;
+
+    lol = {42, 618};
+    kek = {69, 420};
+    abc = 777;
+    cout << "(" << lol << ") *= (" << kek << ") -> " << (lol *= kek) << endl;
+    cout << "(" << lol << ") *= (" << abc << ") -> " << (lol *= abc) << endl;
+
+    lol = {42, 618};
+    kek = {69, 420};
+    abc = 777;
+    cout << "(" << lol << ") /= (" << kek << ") -> " << (lol /= kek) << endl;
+    cout << "(" << lol << ") /= (" << abc << ") -> " << (lol /= abc) << endl;
+
+    break;
+  }
+
+  case 3:
+  {
+    // С‚СѓС‚ С‚РµСЃС‚РёСЂСѓСЋС‚СЃСЏ:
+    // == != > >= < <=
+
+    Rational testA(1, 2);
+    Rational testB(1, 2);
+
+    if (testA == testB)
+      cout << "testA == testB" << endl;
+    if (testA == testA)
+      cout << "testA == testA" << endl;
+
+    Rational testNew(testA);
+    if (testA == testNew)
+      cout << "testA == testNew" << endl;
+
+    cout << ++testNew << ", " << testNew << endl;
+    if (testA == testNew)
+      cout << "testA == testNew" << endl;
+
+    cout << testA++ << ", " << testA << endl;
+    if (testA == testNew)
+      cout << "testA == testNew" << endl;
+
+    Rational temp(10, -20);
+    cout << temp << ", " << temp.simplify() << ", " << temp << endl;
+
+    Rational lol = {42, 618}, kek = {69, 420};
+    cout << lol << " > " << kek << (lol > kek ? " = True" : " = False") << endl;
+    cout << lol << " >= " << kek << (lol >= kek ? " = True" : " = False") << endl;
+    cout << lol << " < " << kek << (lol < kek ? " = True" : " = False") << endl;
+    cout << lol << " <= " << kek << (lol <= kek ? " = True" : " = False") << endl;
+    break;
+  }
+
+  case 4:
+  {
+    cout << "\n//-- Summ Test --//\n\n";
+    Rational rr;
+    for (int i = 1; i < 30; i++)
+    {
+      Rational temp(1, i);
+      rr = rr + temp;
+      cout << rr << " = " << rr.get_value() << endl;
     }
-
-    case 2: {
-        // тут тестируются:
-        // ++ -- -n + += - -= * *= / /=
-
-        Rational lol(42, 618);
-        Rational kek(69, 420);
-        long long abc = 777;
-
-        cout << "(" << lol << ")++ = (" << ++lol << ")\n";
-        cout << "(" << lol << ")-- = (" << --lol << ")\n";
-        cout << "-(" << lol << ") = (" << -lol << ")\n";
-
-        cout << "(" << lol << ") + (" << kek << ") = " << lol + kek << endl;
-        cout << "(" << lol << ") + (" << abc << ") = " << lol + abc << endl;
-        cout << "(" << abc << ") + (" << lol << ") = " << abc + lol << endl;
-
-        cout << "(" << lol << ") - (" << kek << ") = " << lol - kek << endl;
-        cout << "(" << lol << ") - (" << abc << ") = " << lol - abc << endl;
-        cout << "(" << abc << ") - (" << lol << ") = " << abc - lol << endl;
-
-        cout << "(" << lol << ") * (" << kek << ") = " << lol * kek << endl;
-        cout << "(" << lol << ") * (" << abc << ") = " << lol * abc << endl;
-        cout << "(" << abc << ") * (" << lol << ") = " << abc * lol << endl;
-
-        cout << "(" << lol << ") / (" << kek << ") = " << lol / kek << endl;
-        cout << "(" << lol << ") / (" << abc << ") = " << lol / abc << endl;
-        cout << "(" << abc << ") / (" << lol << ") = " << abc / lol << endl;
-
-        lol = { 42, 618 }; kek = { 69, 420 }; abc = 777;
-        cout << "(" << lol << ") += (" << kek << ") -> " << (lol += kek) << endl;
-        cout << "(" << lol << ") += (" << abc << ") -> " << (lol += abc) << endl;
-
-        lol = { 42, 618 }; kek = { 69, 420 }; abc = 777;
-        cout << "(" << lol << ") -= (" << kek << ") -> " << (lol -= kek) << endl;
-        cout << "(" << lol << ") -= (" << abc << ") -> " << (lol -= abc) << endl;
-
-        lol = { 42, 618 }; kek = { 69, 420 }; abc = 777;
-        cout << "(" << lol << ") *= (" << kek << ") -> " << (lol *= kek) << endl;
-        cout << "(" << lol << ") *= (" << abc << ") -> " << (lol *= abc) << endl;
-
-        lol = { 42, 618 }; kek = { 69, 420 }; abc = 777;
-        cout << "(" << lol << ") /= (" << kek << ") -> " << (lol /= kek) << endl;
-        cout << "(" << lol << ") /= (" << abc << ") -> " << (lol /= abc) << endl;
-
-        break;
-    }
-
-    case 3: {
-        // тут тестируются:
-        // == != > >= < <=
-
-        Rational testA(1, 2);
-        Rational testB(1, 2);
-
-        if (testA == testB) cout << "testA == testB" << endl;
-        if (testA == testA) cout << "testA == testA" << endl;
-
-        Rational testNew(testA);
-        if (testA == testNew) cout << "testA == testNew" << endl;
-
-        cout << ++testNew << ", " << testNew << endl;
-        if (testA == testNew) cout << "testA == testNew" << endl;
-
-        cout << testA++ << ", " << testA << endl;
-        if (testA == testNew) cout << "testA == testNew" << endl;
-
-        Rational temp(10, -20);
-        cout << temp << ", " << temp.simplify() << ", " << temp << endl;
-
-        Rational lol = { 42, 618 }, kek = { 69, 420 };
-        cout << lol << " > " << kek << (lol > kek ? " = True" : " = False") << endl;
-        cout << lol << " >= " << kek << (lol >= kek ? " = True" : " = False") << endl;
-        cout << lol << " < " << kek << (lol < kek ? " = True" : " = False") << endl;
-        cout << lol << " <= " << kek << (lol <= kek ? " = True" : " = False") << endl;
-        break;
-    }
-
-    case 4: {
-        cout << "\n//-- Summ Test --//\n\n";
-        Rational rr;
-        for (int i = 1; i < 30; i++) {
-            Rational temp(1, i);
-            rr = rr + temp;
-            cout << rr << " = " << rr.get_value() << endl;
-        }
-        break;
-    }
-    }
+    break;
+  }
+  }
 }
