@@ -10,6 +10,7 @@ using namespace std;
 class Rational
 {
 private:
+  long long _integer;     // целая часть
   long long _numerator;   // числитель
   long long _denominator; // знаминатель
 
@@ -18,11 +19,14 @@ public:
   Rational(const Rational &temp, bool invert = false);
 
   Rational &set(long long numerator, long long denominator);
+  long long &integer();
   long long &numerator();
   long long &denominator();
 
   double get_value();
   Rational &simplify();
+  Rational &normalize();   // вычисление целой части числа
+  Rational &denormalize(); // обратное действие для упрощения вычислений
 
   friend istream &operator>>(istream &in, Rational &temp);
   friend ostream &operator<<(ostream &out, const Rational &temp);
@@ -78,4 +82,6 @@ public:
 
   friend bool operator<(const Rational &r1, const Rational &r2);
   friend bool operator>=(const Rational &r1, const Rational &r2);
+
+  friend void ShellSort(int n, Rational *mass[]);
 };
