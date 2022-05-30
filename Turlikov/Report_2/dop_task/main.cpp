@@ -9,12 +9,19 @@
 // - алгоритм со вспомогательной таблицей
 
 #include <iostream>
+#include <chrono>
+#include <cstdlib>
 
-char smol_arr[16] = {
+using namespace std;
+using namespace std::chrono;
+
+#define ITERS 50000000
+
+char arr_small[16] = {
   0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4
 };
 
-char long_arr[256] = {
+char arr_big[256] = {
   0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
   1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
   1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
@@ -33,16 +40,16 @@ char long_arr[256] = {
   4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8
 };
 
-unsigned char count_ones_by_division(unsigned long long n) {
-  unsigned char count = 0;
+unsigned char count_ones_1(unsigned long long n) {
+  unsigned char w = 0;
   while (n) {
-    count += n % 2;
-    n /= 2;
+    w += n % 2;
+    n = n / 2;
   }
-  return count;
+  return w;
 }
 
-unsigned char count_ones_bit_shift(unsigned long long n) {
+unsigned char count_ones_2(unsigned long long n) {
   unsigned char w = 0;
   while (n > 0) {
     w += n & 1;
@@ -51,19 +58,19 @@ unsigned char count_ones_bit_shift(unsigned long long n) {
   return w;
 }
 
-unsigned char count_ones_small_array(unsigned long long n) {
+unsigned char count_ones_3 (unsigned long long n) {
   unsigned char w = 0;
   while (n > 0) {
-    w += smol_arr[n & 15];
+    w += arr_small[n & 15];
     n = n >> 4;
   }
   return w;
 }
 
-unsigned char count_ones_long_array(unsigned long long n) {
+unsigned char count_ones_4(unsigned long long n) {
   unsigned char w = 0;
   while (n > 0) {
-    w += long_arr[n & 255];
+    w += arr_big[n & 255];
     n = n >> 8;
   }
   return w;
@@ -71,4 +78,77 @@ unsigned char count_ones_long_array(unsigned long long n) {
 
 int main() {
 
+  // алгоритм с делением
+  cout << endl << "func: 1" << endl;
+  for (int bit = 0; bit < 64; bit++) {
+    int64_t duration = 0;
+    for (int i = 0; i < ITERS; i++) {
+      int64_t n = (1LL << bit) + rand() % (1LL << bit);
+      auto t1 = high_resolution_clock::now();
+      // ---- //
+      count_ones_1(n);
+      // ---- //
+      auto t2 = high_resolution_clock::now();
+      duration += duration_cast<microseconds>(t2 - t1).count();
+    }
+    cout << "bit: " << bit + 1
+         << " dur: " << (double) duration / ITERS << " us"
+         << endl;
+  }
+
+  // алгоритм с побитовыми операциями
+  cout << endl << "func: 2" << endl;
+  for (int bit = 0; bit < 64; bit++) {
+    int64_t duration = 0;
+    for (int i = 0; i < ITERS; i++) {
+      int64_t n = (1LL << bit) + rand() % (1LL << bit);
+      auto t1 = high_resolution_clock::now();
+      // ---- //
+      count_ones_2(n);
+      // ---- //
+      auto t2 = high_resolution_clock::now();
+      duration += duration_cast<microseconds>(t2 - t1).count();
+    }
+    cout << "bit: " << bit + 1
+         << " dur: " << (double) duration / ITERS << " us"
+         << endl;
+  }
+
+  // алгоритм со вспомогательной таблицей (маленькой)
+  cout << endl << "func: 3" << endl;
+  for (int bit = 0; bit < 64; bit++) {
+    int64_t duration = 0;
+    for (int i = 0; i < ITERS; i++) {
+      int64_t n = (1LL << bit) + rand() % (1LL << bit);
+      auto t1 = high_resolution_clock::now();
+      // ---- //
+      count_ones_3(n);
+      // ---- //
+      auto t2 = high_resolution_clock::now();
+      duration += duration_cast<microseconds>(t2 - t1).count();
+    }
+    cout << "bit: " << bit + 1
+         << " dur: " << (double) duration / ITERS << " us"
+         << endl;
+  }
+
+  // алгоритм со вспомогательной таблицей (большой)
+  cout << endl << "func: 4" << endl;
+  for (int bit = 0; bit < 64; bit++) {
+    int64_t duration = 0;
+    for (int i = 0; i < ITERS; i++) {
+      int64_t n = (1LL << bit) + rand() % (1LL << bit);
+      auto t1 = high_resolution_clock::now();
+      // ---- //
+      count_ones_4(n);
+      // ---- //
+      auto t2 = high_resolution_clock::now();
+      duration += duration_cast<microseconds>(t2 - t1).count();
+    }
+    cout << "bit: " << bit + 1
+         << " dur: " << (double) duration / ITERS << " us"
+         << endl;
+  }
+
+  return 0;
 }
