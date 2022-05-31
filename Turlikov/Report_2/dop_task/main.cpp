@@ -15,7 +15,7 @@
 using namespace std;
 using namespace std::chrono;
 
-#define ITERS 50000000
+#define ITERS 2000000
 
 char arr_small[16] = {
   0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4
@@ -37,7 +37,7 @@ char arr_big[256] = {
   2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
   3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
   3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
-  4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8
+  4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8,
 };
 
 unsigned char count_ones_1(unsigned long long n) {
@@ -58,7 +58,7 @@ unsigned char count_ones_2(unsigned long long n) {
   return w;
 }
 
-unsigned char count_ones_3 (unsigned long long n) {
+unsigned char count_ones_3(unsigned long long n) {
   unsigned char w = 0;
   while (n > 0) {
     w += arr_small[n & 15];
@@ -76,55 +76,24 @@ unsigned char count_ones_4(unsigned long long n) {
   return w;
 }
 
+void benchmark(string str, unsigned char (*cum)(uint64_t)) {
+  cout << endl << str << endl;
+  for (int bit = 0; bit < 64; bit++) {
+    int64_t n = (1LL << bit); // + rand() % (1LL << bit);
+    auto t1 = high_resolution_clock::now();
+    for (int i = 0; i < ITERS; i++) cum(n);
+    auto t2 = high_resolution_clock::now();
+    int64_t duration = duration_cast<microseconds>(t2 - t1).count();
+    cout << "bit " << bit + 1
+         << ": dur " << (double) duration / ITERS
+         << " us" << endl;
+  }
+}
+
 int main() {
-
-  // алгоритм с делением
-  cout << endl << "func: 1" << endl;
-  for (int bit = 0; bit < 64; bit++) {
-    int64_t n = (1LL << bit); // + rand() % (1LL << bit);
-    auto t1 = high_resolution_clock::now();
-    for (int i = 0; i < ITERS; i++, count_ones_1(n));
-    auto t2 = high_resolution_clock::now();
-    uint64_t duration = duration_cast<microseconds>(t2 - t1).count();
-    cout << "bit: " << bit + 1;
-    cout << "\tdur: " << (double) duration / ITERS << " us\n";
-  }
-
-  // алгоритм с побитовыми операциями
-  cout << endl << "func: 2" << endl;
-  for (int bit = 0; bit < 64; bit++) {
-    int64_t n = (1LL << bit); // + rand() % (1LL << bit);
-    auto t1 = high_resolution_clock::now();
-    for (int i = 0; i < ITERS; i++, count_ones_2(n));
-    auto t2 = high_resolution_clock::now();
-    uint64_t duration = duration_cast<microseconds>(t2 - t1).count();
-    cout << "bit: " << bit + 1;
-    cout << "\tdur: " << (double) duration / ITERS << " us\n";
-  }
-
-  // алгоритм со вспомогательной таблицей (маленькой)
-  cout << endl << "func: 3" << endl;
-  for (int bit = 0; bit < 64; bit++) {
-    int64_t n = (1LL << bit); // + rand() % (1LL << bit);
-    auto t1 = high_resolution_clock::now();
-    for (int i = 0; i < ITERS; i++, count_ones_3(n));
-    auto t2 = high_resolution_clock::now();
-    uint64_t duration = duration_cast<microseconds>(t2 - t1).count();
-    cout << "bit: " << bit + 1;
-    cout << "\tdur: " << (double) duration / ITERS << " us\n";
-  }
-
-  // алгоритм со вспомогательной таблицей (большой)
-  cout << endl << "func: 4" << endl;
-  for (int bit = 0; bit < 64; bit++) {
-    int64_t n = (1LL << bit); // + rand() % (1LL << bit);
-    auto t1 = high_resolution_clock::now();
-    for (int i = 0; i < ITERS; i++, count_ones_4(n));
-    auto t2 = high_resolution_clock::now();
-    uint64_t duration = duration_cast<microseconds>(t2 - t1).count();
-    cout << "bit: " << bit + 1;
-    cout << "\tdur: " << (double) duration / ITERS << " us\n";
-  }
-
+  benchmark("func: 1", count_ones_1);
+  benchmark("func: 2", count_ones_2);
+  benchmark("func: 3", count_ones_3);
+  benchmark("func: 4", count_ones_4);
   return 0;
 }
