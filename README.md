@@ -36,6 +36,16 @@ Labs now ready: `8 / 8`
 | Lab 13 | ✅ | ✅ | ✅ | ✅ |
 | Lab 14 | ✅ | ✅ | ✅ | ✅ |
 
+## Semester 3
+
+Labs now ready: `0 / 4`
+| Lab   | Dev | Ready | Pass | Dop |
+| :---- | :-: | :-: | :-: | :-: |
+| Lab 17 |  |  |  |  |
+| Lab 18 |  |  |  |  |
+| Lab 19 |  |  |  |  |
+| Lab 20 |  |  |  |  |
+
 ### Total time spent on labs  
 
 [![wakatime](https://wakatime.com/badge/user/44ab2413-c50e-4335-a9cd-7990b8ed9c8b/project/40f4ff13-1639-42ba-a9dd-a503aca9302c.svg)](https://wakatime.com/@CyberPotat42)
