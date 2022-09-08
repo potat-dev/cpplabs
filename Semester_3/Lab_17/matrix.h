@@ -55,6 +55,7 @@ class Matrix {
     size_t columns() const {
       return columns_;
     }
+    
     Matrix sum(const Matrix& m) {
       if (rows_ != m.rows_ || columns_ != m.columns_) {
         throw MatrixException("Different sizes");
