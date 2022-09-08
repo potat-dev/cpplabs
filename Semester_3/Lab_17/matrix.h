@@ -1,7 +1,12 @@
 #pragma once
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "exception.h"
+
+#include "includes/json.hpp"
+using json = nlohmann::json;
 
 template <typename T>
 class Matrix {
@@ -30,8 +35,54 @@ class Matrix {
       }
     }
 
+    // constructor from json file
+    Matrix(string file) {
+      ifstream input(file);
+      if (!input) throw MatrixException("Can't open file for save");
+      // try {
+        json j = json::parse(input);
+        rows_ = j["rows"];  
+        columns_ = j["columns"];
+        data_ = new T[rows_ * columns_];
+        for (size_t i = 0; i < rows_ * columns_; i++) {
+          data_[i] = j["data"][i];
+        }
+      // } catch () {
+      //   throw MatrixException("Can't parse json");
+      // }
+    }
+
     ~Matrix() {
       delete[] data_;
+    }
+
+    void load(string file) {
+      this->~Matrix();
+      ifstream input(file);
+      if (!input) throw MatrixException("Can't open file for load");
+      // try {
+        json j = json::parse(input);
+        rows_ = j["rows"];  
+        columns_ = j["columns"];
+        data_ = new T[rows_ * columns_];
+        for (size_t i = 0; i < rows_ * columns_; i++) {
+          data_[i] = j["data"][i];
+        }
+      // } catch (json::parse_error& e) {
+      //   throw MatrixException("Can't parse json");
+      // }
+    }
+
+    void save(string file) {
+      ofstream output(file);
+      if (!output) throw MatrixException("Can't open file for save");
+      json j;
+      j["rows"] = rows_;
+      j["columns"] = columns_;
+      for (size_t i = 0; i < rows_ * columns_; i++) {
+        j["data"].push_back(data_[i]);
+      }
+      output << j;
     }
 
     void set(size_t row, size_t column, T value) {
@@ -55,7 +106,7 @@ class Matrix {
     size_t columns() const {
       return columns_;
     }
-    
+
     Matrix sum(const Matrix& m) {
       if (rows_ != m.rows_ || columns_ != m.columns_) {
         throw MatrixException("Different sizes");

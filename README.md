@@ -41,7 +41,7 @@ Labs now ready: `8 / 8`
 Labs now ready: `1 / 4`
 | Lab   | Dev | Ready | Pass | Dop |
 | :---- | :-: | :-: | :-: | :-: |
-| Lab 17 | ✅ | ✅ |  |  |
+| Lab 17 | ✅ | ✅ | ✅ |  |
 | Lab 18 | ✅ |  |  |  |
 | Lab 19 |  |  |  |  |
 | Lab 20 |  |  |  |  |

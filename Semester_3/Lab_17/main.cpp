@@ -11,9 +11,12 @@
 // реализовать конструктор копий и оператор присваивания
 // В main должно быть продемонстрировано, что шаблонный класс работает
 
+// доп: сохранение в файл и загрузка из файла
+// с исключениями, причем сохранять в json
+
 #include <iostream>
-#include "matrix.h"
 #include "exception.h"
+#include "matrix.h"
 using namespace std;
 
 int main() {
@@ -61,31 +64,39 @@ int main() {
   cout << "m6.get(1, 1): " << m6.get(1, 1) << endl;
   cout << endl;
 
+  Matrix<int> m7(5, 7);
+  for (size_t i = 0; i < m7.rows(); i++)
+    for (size_t j = 0; j < m7.columns(); j++)
+      m7.set(i, j, rand() % 100);
+
+  // save to file matrix.json
+  m7.save("matrix.json");
+
+  // testing exceptions
+  /*
   try {
     cout << m6.get(2, 2) << endl;
+    cout << "test after exception in get()" << endl;
   } catch (MatrixException& e) {
     cerr << e << endl;
     throw e;
   }
-  
-  cout << "test after exception in get()" << endl;
   
   try {
     m6.set(2, 2, 42);
+    cout << "test after exception in set()" << endl;
   } catch (MatrixException& e) {
     cerr << e << endl;
     throw e;
   }
-
-  cout << "test after exception in set()" << endl;
 
   try {
     m6 = m2.sum(m3);
+    cout << "test after exception in sum()" << endl;
   } catch (MatrixException& e) {
     cerr << e << endl;
     throw e;
   }
-
-  cout << "test after exception in sum()" << endl;
+  */
   return 0;
 }
