@@ -16,13 +16,12 @@ class Matrix {
     T* data_;
   
   public:
-    Matrix(size_t row, size_t column) {
+    Matrix(size_t row, size_t column, T value = T()) {
       rows_ = row;
       columns_ = column;
       data_ = new T[rows_ * columns_];
-      // fill data with zeros
-      for (size_t i = 0; i < rows_ * columns_; ++i) {
-        data_[i] = 0;
+      for (size_t i = 0; i < rows_ * columns_; i++) {
+        data_[i] = value;
       }
     }
 
@@ -39,7 +38,7 @@ class Matrix {
     Matrix(string file) {
       ifstream input(file);
       if (!input) throw MatrixException("Can't open file for save");
-      // try {
+      try {
         json j = json::parse(input);
         rows_ = j["rows"];  
         columns_ = j["columns"];
@@ -47,9 +46,9 @@ class Matrix {
         for (size_t i = 0; i < rows_ * columns_; i++) {
           data_[i] = j["data"][i];
         }
-      // } catch () {
-      //   throw MatrixException("Can't parse json");
-      // }
+      } catch (json::parse_error& e) {
+        throw MatrixException("Can't parse json");
+      }
     }
 
     ~Matrix() {
@@ -60,7 +59,7 @@ class Matrix {
       this->~Matrix();
       ifstream input(file);
       if (!input) throw MatrixException("Can't open file for load");
-      // try {
+      try {
         json j = json::parse(input);
         rows_ = j["rows"];  
         columns_ = j["columns"];
@@ -68,12 +67,12 @@ class Matrix {
         for (size_t i = 0; i < rows_ * columns_; i++) {
           data_[i] = j["data"][i];
         }
-      // } catch (json::parse_error& e) {
-      //   throw MatrixException("Can't parse json");
-      // }
+      } catch (json::parse_error& e) {
+        throw MatrixException("Can't parse json");
+      }
     }
 
-    void save(string file) {
+    void save(string file, int indent = 2) {
       ofstream output(file);
       if (!output) throw MatrixException("Can't open file for save");
       json j;
@@ -82,7 +81,7 @@ class Matrix {
       for (size_t i = 0; i < rows_ * columns_; i++) {
         j["data"].push_back(data_[i]);
       }
-      output << j;
+      output << std::setw(indent) << j << endl;
     }
 
     void set(size_t row, size_t column, T value) {

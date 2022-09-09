@@ -11,92 +11,137 @@
 // реализовать конструктор копий и оператор присваивания
 // В main должно быть продемонстрировано, что шаблонный класс работает
 
-// доп: сохранение в файл и загрузка из файла
-// с исключениями, причем сохранять в json
+//* доп: сохранение в файл и загрузка из файла (с исключениями)
+//* причем сохранять в json, можно подключить библиотеку nlohmann/json
 
 #include <iostream>
 #include "exception.h"
 #include "matrix.h"
 using namespace std;
 
-int main() {
-  Matrix<int> m(2, 2);
-  m.set(0, 0, 1);
-  m.set(0, 1, 2);
-  m.set(1, 0, 3);
-  m.set(1, 1, 4);
-  cout << "m:\n";
-  m.print();
 
-  Matrix<int> m2(m);
-  cout << "m2:\n";
+struct Point {
+  int x, y, z;
+
+  friend ostream& operator<<(ostream& os, const Point& p) {
+    os << "(" << p.x << " " << p.y << " " << p.z << ")";
+    return os;
+  }
+};
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Point, x, y, z)
+// https://github.com/nlohmann/json#arbitrary-types-conversions
+// https://stackoverflow.com/a/60445044/15301038
+
+
+int main() {
+  Matrix<Point> mPoint(3, 3);
+  cout << "Matrix<Point> 3x3 before set:" << endl;
+  mPoint.print();
+
+  mPoint.set(0, 0, {1, 2, 3});
+  mPoint.set(0, 1, {4, 5, 6});
+  mPoint.set(0, 2, {7, 8, 9});
+  mPoint.set(1, 0, {10, 11, 12});
+  mPoint.set(1, 1, {13, 14, 15});
+  mPoint.set(1, 2, {16, 17, 18});
+  mPoint.set(2, 0, {19, 20, 21});
+  mPoint.set(2, 1, {22, 23, 24});
+  mPoint.set(2, 2, {25, 26, 27});
+
+  cout << "Matrix<Point> 3x3 after set:" << endl;
+  mPoint.print();
+  mPoint.save("point.json");
+
+  Matrix<int> m1(3, 3);
+  m1.set(0, 0, 1);
+  m1.set(0, 1, 2);
+  m1.set(1, 0, 3);
+  m1.set(1, 1, 4);
+  cout << "Matrix<int> m1(3, 3):" << endl;
+  m1.print();
+
+  Matrix<int> m2(m1);
+  cout << "m2 (copy of m1):\n";
   m2.print();
 
   Matrix<int> m3(5, 5);
-  cout << "m3:\n";
+  cout << "m3 (default):\n";
   m3.print();
 
   m3 = m2;
-  cout << "m3 = m2:\n";
+  cout << "after m3 = m2:\n";
   m3.print();
 
-  Matrix<int> m4(2, 2);
-  m4.set(0, 0, 1);
-  m4.set(0, 1, 2);
-  m4.set(1, 0, 3);
-  m4.set(1, 1, 4);
-  cout << "m4:\n";
-  m4.print();
+  Matrix<int> a(2, 2);
+  a.set(0, 0, 1);
+  a.set(0, 1, 2);
+  a.set(1, 0, 3);
+  a.set(1, 1, 4);
+  cout << "first term:" << endl;
+  a.print();
 
-  Matrix<int> m5(2, 2);
-  m5.set(0, 0, 1);
-  m5.set(0, 1, 2);
-  m5.set(1, 0, 3);
-  m5.set(1, 1, 4);
-  m5.print();
+  Matrix<int> b(2, 2);
+  b.set(0, 0, 1);
+  b.set(0, 1, 2);
+  b.set(1, 0, 3);
+  b.set(1, 1, 4);
+  cout << "second term:" << endl;
+  b.print();
 
-  Matrix<int> m6 = m4.sum(m5);
-  m6.print();
+  Matrix<int> sum = a.sum(b);
+  cout << "sum:" << endl;
+  sum.print();
 
-  cout << "m6.get(0, 0): " << m6.get(0, 0) << endl;
-  cout << "m6.get(0, 1): " << m6.get(0, 1) << endl;
-  cout << "m6.get(1, 0): " << m6.get(1, 0) << endl;
-  cout << "m6.get(1, 1): " << m6.get(1, 1) << endl;
+  cout << "sum.get(0, 0): " << sum.get(0, 0) << endl;
+  cout << "sum.get(0, 1): " << sum.get(0, 1) << endl;
+  cout << "sum.get(1, 0): " << sum.get(1, 0) << endl;
+  cout << "sum.get(1, 1): " << sum.get(1, 1) << endl;
   cout << endl;
 
-  Matrix<int> m7(5, 7);
-  for (size_t i = 0; i < m7.rows(); i++)
-    for (size_t j = 0; j < m7.columns(); j++)
-      m7.set(i, j, rand() % 100);
+  Matrix<int> forSave(5, 7);
+  for (size_t i = 0; i < forSave.rows(); i++)
+    for (size_t j = 0; j < forSave.columns(); j++)
+      forSave.set(i, j, rand() % 100);
+  forSave.print();
 
   // save to file matrix.json
-  m7.save("matrix.json");
+  forSave.save("matrix.json");
 
-  // testing exceptions
-  /*
+  // load from file matrix.json
   try {
-    cout << m6.get(2, 2) << endl;
+    Matrix<int> loaded("matrix.json");
+    loaded.print();
+  } catch (const MatrixException& e) {
+    cout << e << endl;
+  }
+  
+  // testing exceptions
+
+  try {
+    cout << a.get(2, 2) << endl;
     cout << "test after exception in get()" << endl;
   } catch (MatrixException& e) {
     cerr << e << endl;
-    throw e;
+    // throw e; // for program termination
   }
   
   try {
-    m6.set(2, 2, 42);
+    a.set(2, 2, 42);
     cout << "test after exception in set()" << endl;
   } catch (MatrixException& e) {
     cerr << e << endl;
-    throw e;
+    // throw e; // for program termination
   }
 
   try {
-    m6 = m2.sum(m3);
+    Matrix<int> test = a.sum(m1);
+    test.print();
     cout << "test after exception in sum()" << endl;
   } catch (MatrixException& e) {
     cerr << e << endl;
-    throw e;
+    // throw e; // for program termination
   }
-  */
+
   return 0;
 }
