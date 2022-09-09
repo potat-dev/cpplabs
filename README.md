@@ -38,11 +38,11 @@ Labs now ready: `8 / 8`
 
 ## Semester 3
 
-Labs now ready: `1 / 4`
+Labs now ready: `2 / 4`
 | Lab   | Dev | Ready | Pass | Dop |
 | :---- | :-: | :-: | :-: | :-: |
 | Lab 17 | ✅ | ✅ | ✅ | ✅ |
-| Lab 18 | ✅ |  |  |  |
+| Lab 18 | ✅ | ✅ | ✅ |  |
 | Lab 19 |  |  |  |  |
 | Lab 20 |  |  |  |  |
 

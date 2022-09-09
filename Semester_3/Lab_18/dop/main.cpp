@@ -7,6 +7,9 @@
 
 // написать тестирующую программу
 
+// доп: линкед лист со всеми словами для перевода,
+// текст переводится с помощью этих слов, слово сначала ищем в кеше а потом 
+
 #include "LFU_cache.h"
 #include <iostream>
 #include <string>
@@ -15,10 +18,10 @@ using namespace std;
 
 int main() {
   LfuCache cache(3);
-  cout << cache.find_and_add("AFFB")   << endl << cache << endl;
-  cout << cache.find_and_add("AFFB")   << endl << cache << endl;
-  cout << cache.find_and_add("AFFB")   << endl << cache << endl;
-  cout << cache.find_and_add("AFF")    << endl << cache << endl;
-  cout << cache.find_and_add("AFB")    << endl << cache << endl;
-  cout << cache.find_and_add("AFB123") << endl << cache << endl;
+  cout << cache.find_and_add("AFFB", "1kek")   << endl << cache << endl;
+  cout << cache.find_and_add("AFFB", "1kek")   << endl << cache << endl;
+  cout << cache.find_and_add("AFFB", "1kek")   << endl << cache << endl;
+  cout << cache.find_and_add("AFF", "2lol")    << endl << cache << endl;
+  cout << cache.find_and_add("AFB", "3lll")    << endl << cache << endl;
+  cout << cache.find_and_add("AFB123", "4ttt") << endl << cache << endl;
 }
