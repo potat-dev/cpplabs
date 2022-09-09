@@ -5,7 +5,8 @@
 #include <string>
 #include "exception.h"
 
-#include "includes/json.hpp"
+// pacman -S mingw-w64-x86_64-nlohmann-json
+#include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
 template <typename T>
@@ -37,7 +38,7 @@ class Matrix {
     // constructor from json file
     Matrix(string file) {
       ifstream input(file);
-      if (!input) throw MatrixException("Can't open file for save");
+      if (!input) throw MatrixException("Can't open file for load");
       try {
         json j = json::parse(input);
         rows_ = j["rows"];  
