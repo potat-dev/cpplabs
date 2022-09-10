@@ -10,18 +10,25 @@
 // доп: линкед лист со всеми словами для перевода,
 // текст переводится с помощью этих слов, слово сначала ищем в кеше а потом 
 
-#include "LFU_cache.h"
+#include "Translate.h"
 #include <iostream>
+#include <fstream>
 #include <string>
+
+#define CACHE_SIZE 10
 
 using namespace std;
 
 int main() {
-  LfuCache cache(3);
-  cout << cache.find_and_add("AFFB", "1kek")   << endl << cache << endl;
-  cout << cache.find_and_add("AFFB", "1kek")   << endl << cache << endl;
-  cout << cache.find_and_add("AFFB", "1kek")   << endl << cache << endl;
-  cout << cache.find_and_add("AFF", "2lol")    << endl << cache << endl;
-  cout << cache.find_and_add("AFB", "3lll")    << endl << cache << endl;
-  cout << cache.find_and_add("AFB123", "4ttt") << endl << cache << endl;
+    ifstream fin("input.txt");
+    string word;
+    Translate Trans("words.json", CACHE_SIZE);
+    Trans.print_words();
+    cout << endl << "Start translation:" << endl;
+    while (fin >> word) {
+      cout << Trans.translate(word) << endl;
+    }
+    cout << endl;
+    Trans.print_cache();
+    return 0;
 }
