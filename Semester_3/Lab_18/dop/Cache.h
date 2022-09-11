@@ -31,39 +31,19 @@ class LfuCache {
   public:
     LfuCache(size_t size) : size(size) {}
 
-/*
-    bool find_and_add(const string &address, const string &value) {
-        auto it = cache.find(address);
-        if (it != cache.end()) {
-            freq.erase(freq.find(it->second.second));
-            freq.insert({++it->second.second, address});
-            it->second.first = value; // update value
-            return true;
-        } else {
-            if (cache.size() == size) {
-                auto it2 = freq.begin();
-                cache.erase(it2->second);
-                freq.erase(it2);
-            }
-            cache.insert({address, {value, 1}});
-            freq.insert({1, address});
-            return false;
-        }
-    }
-*/
-
-    string get(const string &address) {
-        // if address is in cache, return value
+    string get(const string &str) {
+        // if str is in cache, return value
         // else return empty string
-        // if address is in cache, increase count
-        auto it = cache.find(address);
+        // if str is in cache, increase count
+        auto it = cache.find(str);
         if (it != cache.end()) {
-            freq.erase(freq.find(it->second.second));
-            freq.insert({++it->second.second, address});
+            auto it2 = freq.find(it->second.second);
+            while (it2->second != str) it2++; // search for str in freq
+            freq.erase(it2);
+            freq.insert({++it->second.second, str});
             return it->second.first;
-        } else {
-            return "";
         }
+        return "";
     }
 
     void add(const string &address, const string &value) {
@@ -79,13 +59,9 @@ class LfuCache {
     }
 
     friend ostream &operator<<(ostream &out, const LfuCache &cache) {
-        cout << "Freq: ";
+        cout << "Freq:" << endl;
         for (auto it = cache.freq.begin(); it != cache.freq.end(); ++it) {
-            out << it->second << " - " << it->first << " ";
-        }
-        cout << endl << "Map: ";
-        for (auto it = cache.cache.begin(); it != cache.cache.end(); ++it) {
-            out << it->first << " - " << it->second.first << " (" << it->second.second << ") ";
+            out << it->second << " - " << it->first << " " << endl;
         }
         return out;
     }

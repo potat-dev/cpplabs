@@ -15,20 +15,22 @@
 #include <fstream>
 #include <string>
 
-#define CACHE_SIZE 10
+#define CACHE_SIZE 32
 
 using namespace std;
 
 int main() {
-    ifstream fin("input.txt");
-    string word;
     Translate Trans("words.json", CACHE_SIZE);
     Trans.print_words();
     cout << endl << "Start translation:" << endl;
+
+    ifstream fin("input.txt");
+    string word;
     while (fin >> word) {
-      cout << Trans.translate(word) << endl;
+      cout << Trans.translate(word) << " ";
     }
-    cout << endl;
+
+    cout << endl << endl;
     Trans.print_cache();
     return 0;
 }

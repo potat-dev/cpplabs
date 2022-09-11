@@ -53,19 +53,17 @@ class Translate {
     string translate(const string& word) {
       string translation = cache.get(word);
       if (translation != "") {
-        cache.print();
         return translation;
       }
 
       for (auto& pair: words) {
         if (pair.first == word) {
           cache.add(word, pair.second);
-          cache.print();
           return pair.second;
         }
       }
 
-      return "";
+      return "<>";
     }
 
     // print cache
