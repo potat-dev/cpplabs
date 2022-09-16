@@ -1,24 +1,26 @@
-with open("num_1.txt", "r") as f:
-  number1 = f.read()
+from os.path import join
+folder = 'numbers'
 
-with open("num_2.txt", "r") as f:
-  number2 = f.read()
+with open(join(folder, '1.txt'), 'r') as f:
+  number_1 = f.read()
 
-with open("output.txt", "r") as f:
+with open(join(folder, '2.txt'), 'r') as f:
+  number_2 = f.read()
+
+with open(join(folder, 'answer.txt'), 'r') as f:
+  answer = f.read()
+
+with open(join(folder, 'output.txt'), 'r') as f:
   output = f.read()
 
-print("File 1 length:", len(number1))
-print("File 2 length:", len(number2))
-print("Answer length:", len(output))
-
-number1 = int(number1)
-number2 = int(number2)
-output = int(output)
-answer = number1 * number2
+print("Num 1  len:", len(number_1))
+print("Num 2  len:", len(number_2))
+print("Answer len:", len(answer))
+print("Output len:", len(output))
 
 dprint = lambda x: print('-' * len(x), x, sep='\n')
 dprint(
-  "Answer is correct!"
-  if answer == output
-  else "Answer is incorrect!"
+  "Output is correct!"
+  if output == answer
+  else "Output is incorrect!"
 )

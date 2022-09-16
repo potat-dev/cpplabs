@@ -63,20 +63,20 @@ int main() {
   vector<int> a, b;
   string s;
 
-  ifstream fin("num_1.txt");
+  ifstream fin("numbers/1.txt");
   fin >> s;
   fin.close();
   cout << "Number 1 size: " << s.size() << endl;
   for (int i = s.size() - 1; i >= 0; i--) a.push_back(s[i] - '0');
 
-  fin.open("num_2.txt");
+  fin.open("numbers/2.txt");
   fin >> s;
   fin.close();
   cout << "Number 2 size: " << s.size() << endl;
   for (int i = s.size() - 1; i >= 0; i--) b.push_back(s[i] - '0');
 
   vector<int> c = multiply(a, b);
-  ofstream fout("output.txt");
+  ofstream fout("numbers/output.txt");
   cout << "Result size: " << c.size() << endl;
   for (int i = c.size() - 1; i >= 0; i--) fout << c[i];
   return 0;
