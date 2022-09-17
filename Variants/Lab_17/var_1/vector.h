@@ -1,10 +1,11 @@
 // Сделать реализацию vector на шаблонах
+
 // функции:
 // vector(size_t size, const T& value)
-// push_back
-// size
+// push_back(const T& value)
+// size()
 // operator[]
-// at (бросает исключения)
+// at(size_t i) (бросает исключения)
 // insert(size_t i, const T& value) (бросает исключения)
 // erase(size_t i) (бросает исключения)
 
@@ -22,73 +23,80 @@ class vector {
   vector(size_t size, const T& value) {
     this->size = size;
     this->capacity = size;
-    this->data = new T[size];
+    this->data = new T[size];  // выделяем память
     for (size_t i = 0; i < size; i++) {
-      this->data[i] = value;
+      this->data[i] = value;  // заполняем
     }
   }
 
   void push_back(const T& value) {
-    if (this->size == this->capacity) {
-      this->capacity *= 2;
-      T* new_data = new T[this->capacity];
+    if (this->size == this->capacity) {  // если массив заполнен
+      this->capacity *= 2;  // увеличиваем его в 2 раза
+      T* new_data = new T[this->capacity];  // создаем новый массив
       for (size_t i = 0; i < this->size; i++) {
-        new_data[i] = this->data[i];
+        new_data[i] = this->data[i];  // копируем данные
       }
-      delete[] this->data;
-      this->data = new_data;
+      delete[] this->data;    // удаляем старый массив
+      this->data = new_data;  // меняем указатель
     }
-    this->data[this->size] = value;
-    this->size++;
+    this->data[this->size] = value;  // добавляем элемент
+    this->size++;                    // увеличиваем размер
   }
 
-  size_t get_size() { return this->size; }
+  size_t get_size() { return this->size; }  // возвращаем размер массива
 
-  T& operator[](size_t i) { return this->data[i]; }
+  T& operator[](size_t i) { return this->data[i]; }  // перегрузка оператора []
 
   T& at(size_t i) {
-    if (i >= this->size) {
-      throw std::out_of_range("Index out of range");
+    if (i >= this->size) {  // если индекс больше размера массива
+      throw std::out_of_range("Index out of range");  // бросаем исключение
     }
-    return this->data[i];
+    return this->data[i];  // возвращаем элемент
   }
 
   void insert(size_t i, const T& value) {
-    if (i >= this->size) {
-      throw std::out_of_range("Index out of range");
+    if (i >= this->size) {  // если индекс больше размера массива
+      throw std::out_of_range("Index out of range");  // бросаем исключение
     }
-    if (this->size == this->capacity) {
-      this->capacity *= 2;
-      T* new_data = new T[this->capacity];
+    if (this->size == this->capacity) {  // если массив заполнен
+      this->capacity *= 2;  // увеличиваем его в 2 раза
+      T* new_data = new T[this->capacity];  // создаем новый массив
       for (size_t j = 0; j < this->size; j++) {
-        new_data[j] = this->data[j];
+        new_data[j] = this->data[j];  // копируем данные
       }
-      delete[] this->data;
-      this->data = new_data;
+      delete[] this->data;    // удаляем старый массив
+      this->data = new_data;  // меняем указатель
     }
     for (size_t j = this->size; j > i; j--) {
-      this->data[j] = this->data[j - 1];
+      this->data[j] = this->data[j - 1];  // сдвигаем элементы
     }
-    this->data[i] = value;
-    this->size++;
+    this->data[i] = value;  // вставляем элемент
+    this->size++;  // увеличиваем размер массива
   }
 
   void erase(size_t i) {
-    if (i >= this->size) {
-      throw std::out_of_range("Index out of range");
+    if (i >= this->size) {  // если индекс больше размера массива
+      throw std::out_of_range("Index out of range");  // бросаем исключение
     }
     for (size_t j = i; j < this->size - 1; j++) {
-      this->data[j] = this->data[j + 1];
+      this->data[j] = this->data[j + 1];  // сдвигаем элементы
     }
-    this->size--;
+    this->size--;  // уменьшаем размер массива
   }
 
-  ~vector() { delete[] this->data; }
+  ~vector() { delete[] this->data; }  // деструктор
 
   void print() {
     for (size_t i = 0; i < this->size; i++) {
-      std::cout << this->data[i] << " ";
+      std::cout << this->data[i] << " ";  // выводим элементы массива
     }
     std::cout << std::endl;
+  }
+
+  friend std::ostream& operator<<(std::ostream& out, const vector<T>& v) {
+    for (size_t i = 0; i < v.size; i++) {
+      out << v.data[i] << " ";  // выводим элементы массива
+    }
+    return out;
   }
 };
