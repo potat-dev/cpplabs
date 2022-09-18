@@ -50,34 +50,71 @@ vector<int> multiply(vector<int> const &a, vector<int> const &b) {
   vector<int> result(n);
   for (int i = 0; i < n; i++) result[i] = int(fa[i].real() + 0.5);
 
-  // нормализация
   for (int i = 0; i < n - 1; i++) {
     result[i + 1] += result[i] / 10;
     result[i] %= 10;
   }
+
   while (result.size() > 1 && result.back() == 0) result.pop_back();
   return result;
 }
 
+class Number {
+  private:
+    vector<int> digits;
+    bool negative = false;
+  
+  public:
+    Number(const string &s) {
+      for (int i = s.size() - 1; i >= 0; i--) {
+        if (s[i] == '-') {
+          negative = true;
+          break;
+        }
+        if (s[i] >= '0' && s[i] <= '9') {
+          digits.push_back(s[i] - '0');
+        } else {
+          throw invalid_argument("Invalid number");
+        }
+      }
+    }
+
+    Number(const vector<int> &v, bool n = false) : digits(v), negative(n) {}
+    const size_t size() const { return digits.size(); }
+
+    friend ostream& operator<<(ostream& out, const Number& n) {
+      if (n.negative) out << '-';
+      for (int i = n.digits.size() - 1; i >= 0; i--) {
+        out << n.digits[i];
+      }
+      return out;
+    }
+
+    Number multiply(const Number &other) const {
+      vector<int> result = ::multiply(digits, other.digits);
+      return Number(result, negative ^ other.negative);
+    }
+};
+
 int main() {
-  vector<int> a, b;
   string s;
 
   ifstream fin("numbers/1.txt");
   fin >> s;
   fin.close();
   cout << "Number 1 size: " << s.size() << endl;
-  for (int i = s.size() - 1; i >= 0; i--) a.push_back(s[i] - '0');
+  Number n1(s);
 
   fin.open("numbers/2.txt");
   fin >> s;
   fin.close();
   cout << "Number 2 size: " << s.size() << endl;
-  for (int i = s.size() - 1; i >= 0; i--) b.push_back(s[i] - '0');
+  Number n2(s);
 
-  vector<int> c = multiply(a, b);
+  Number result = n1.multiply(n2);
+
   ofstream fout("numbers/output.txt");
-  cout << "Result size: " << c.size() << endl;
-  for (int i = c.size() - 1; i >= 0; i--) fout << c[i];
+  cout << "Result size: " << result.size() << endl;
+  fout << result;
   return 0;
 }
