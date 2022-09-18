@@ -39,11 +39,9 @@ vector<int> multiply(vector<int> const &a, vector<int> const &b) {
   vector<base> fa(a.begin(), a.end()), fb(b.begin(), b.end());
   int n = 1;
   while (n < a.size() + b.size()) n <<= 1;
-  fa.resize(n);
-  fb.resize(n);
+  fa.resize(n), fft(fa, false);
+  fb.resize(n), fft(fb, false);
 
-  fft(fa, false);
-  fft(fb, false);
   for (int i = 0; i < n; i++) fa[i] *= fb[i];
   fft(fa, true);
 
@@ -60,40 +58,41 @@ vector<int> multiply(vector<int> const &a, vector<int> const &b) {
 }
 
 class Number {
-  private:
-    vector<int> digits;
-    bool negative = false;
-  
-  public:
-    Number(const string &s) {
-      for (int i = s.size() - 1; i >= 0; i--) {
-        if (s[i] == '-') {
-          negative = true;
-          break;
-        }
-        if (s[i] >= '0' && s[i] <= '9') {
-          digits.push_back(s[i] - '0');
-        } else {
-          throw invalid_argument("Invalid number");
-        }
+ private:
+  vector<int> digits;
+  bool negative = false;
+
+ public:
+  Number(const string &s) {
+    for (int i = s.size() - 1; i >= 0; i--) {
+      if (s[i] == '-') {
+        negative = true;
+        break;
+      }
+      if (s[i] >= '0' && s[i] <= '9') {
+        digits.push_back(s[i] - '0');
+      } else {
+        throw invalid_argument("Invalid number");
       }
     }
+  }
 
-    Number(const vector<int> &v, bool n = false) : digits(v), negative(n) {}
-    const size_t size() const { return digits.size(); }
+  Number(const vector<int> &v, bool n = false) : digits(v), negative(n) {}
+  const size_t size() const { return digits.size(); }
 
-    friend ostream& operator<<(ostream& out, const Number& n) {
-      if (n.negative) out << '-';
-      for (int i = n.digits.size() - 1; i >= 0; i--) {
-        out << n.digits[i];
-      }
-      return out;
+  friend ostream &operator<<(ostream &out, const Number &n) {
+    if (n.negative) out << '-';
+    for (int i = n.digits.size() - 1; i >= 0; i--) {
+      out << n.digits[i];
     }
+    return out;
+  }
 
-    Number multiply(const Number &other) const {
-      vector<int> result = ::multiply(digits, other.digits);
-      return Number(result, negative ^ other.negative);
-    }
+  Number multiply(const Number &other) const {
+    // TODO: optimize on really big numbers (> 1M digits)
+    vector<int> result = ::multiply(digits, other.digits);
+    return Number(result, negative ^ other.negative);
+  }
 };
 
 int main() {
