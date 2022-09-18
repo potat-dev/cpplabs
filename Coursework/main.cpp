@@ -1,119 +1,115 @@
-// Реализовать умножение длинных чисел с помощью быстрого преобразования Фурье
-// (нерекурсивный вариант)
-
-#include <cmath>
-#include <complex>
-#include <fstream>
+#include <CLI/CLI.hpp>
 #include <iostream>
-#include <vector>
+#include <string>
+
+#include "fft.hpp"
 
 using namespace std;
-typedef complex<double> base;
 
-void fft(vector<base> &a, bool invert) {
-  int n = a.size();
-  for (int i = 1, j = 0; i < n; i++) {
-    int bit = n >> 1;
-    for (; j >= bit; bit >>= 1) j -= bit;
-    j += bit;
-    if (i < j) swap(a[i], a[j]);
-  }
-  for (int len = 2; len <= n; len <<= 1) {
-    double ang = 2 * M_PI / len * (invert ? -1 : 1);
-    base wlen(cos(ang), sin(ang));
-    for (int i = 0; i < n; i += len) {
-      base w(1);
-      for (int j = 0; j < len / 2; j++) {
-        base u = a[i + j], v = a[i + j + len / 2] * w;
-        a[i + j] = u + v;
-        a[i + j + len / 2] = u - v;
-        w *= wlen;
-      }
-    }
-  }
-  if (invert)
-    for (base &x : a) x /= n;
-}
+#define EXEC "multiplier.exe"
+#define TITLE "\nBig Number Multiplier - v0.2"
+#define FOOTER \
+  "Created with <3 by Cyber Potato (Denis Churilov) at SUAI University"
 
-vector<int> multiply(vector<int> const &a, vector<int> const &b) {
-  vector<base> fa(a.begin(), a.end()), fb(b.begin(), b.end());
-  int n = 1;
-  while (n < a.size() + b.size()) n <<= 1;
-  fa.resize(n), fft(fa, false);
-  fb.resize(n), fft(fb, false);
+int main(int argc, char** argv) {
+  CLI::App app(TITLE, EXEC);
+  app.footer(FOOTER);
 
-  for (int i = 0; i < n; i++) fa[i] *= fb[i];
-  fft(fa, true);
+  string file_1, file_2;
+  string file_out = "out.txt";
+  bool interactive = false;
+  bool verbose = false;
+  size_t iters = 1;
 
-  vector<int> result(n);
-  for (int i = 0; i < n; i++) result[i] = int(fa[i].real() + 0.5);
+  app.add_option("file 1", file_1, "First file")->option_text("FILE");
+  app.add_option("file 2", file_2, "Second file")->option_text("FILE");
+  app.add_option("output", file_out, "Output file")->option_text("FILE");
+  app.add_flag("-i, --interactive", interactive,
+               "Interactive mode (manual input)");
+  app.add_flag("-v, --verbose", verbose,
+               "Verbose output (digits count, time stats, etc.)");
+  app.add_option("-b, --benchmark", iters, "Benchmark mode (iterations count)")
+      ->option_text("N");
+  // app.add_option("-n, --iters", iters, "Number of iterations (for
+  // benchmark)")
+  // ->option_text("N");
 
-  for (int i = 0; i < n - 1; i++) {
-    result[i + 1] += result[i] / 10;
-    result[i] %= 10;
-  }
+  CLI11_PARSE(app, argc, argv);
 
-  while (result.size() > 1 && result.back() == 0) result.pop_back();
-  return result;
-}
+  cout << "File 1: " << file_1 << endl;
+  cout << "File 2: " << file_2 << endl;
+  cout << "Output: " << file_out << endl;
+  cout << "Interactive: " << interactive << endl;
+  cout << "Verbose: " << verbose << endl;
+  cout << "Iterations: " << iters << endl;
 
-class Number {
- private:
-  vector<int> digits;
-  bool negative = false;
+  if (verbose) cout << "Verbose output is not implemented yet" << endl;
 
- public:
-  Number(const string &s) {
-    for (int i = s.size() - 1; i >= 0; i--) {
-      if (s[i] == '-') {
-        negative = true;
-        break;
-      }
-      if (s[i] >= '0' && s[i] <= '9') {
-        digits.push_back(s[i] - '0');
-      } else {
-        throw invalid_argument("Invalid number");
-      }
-    }
+  if (interactive) {
+    cout << "Interactive mode is not implemented yet" << endl;
+  } else {
+    string s;
+    
+    ifstream fin(file_1);
+    fin >> s;
+    fin.close();
+    cout << "Number 1 size: " << s.size() << endl;
+    Number n1(s);
+
+    fin.open(file_2);
+    fin >> s;
+    fin.close();
+    cout << "Number 2 size: " << s.size() << endl;
+    Number n2(s);
+
+    Number result = n1.fft_multiply(n2);
+
+    ofstream fout(file_out);
+    cout << "Result size: " << result.size() << endl;
+    fout << result;
   }
 
-  Number(const vector<int> &v, bool n = false) : digits(v), negative(n) {}
-  const size_t size() const { return digits.size(); }
-
-  friend ostream &operator<<(ostream &out, const Number &n) {
-    if (n.negative) out << '-';
-    for (int i = n.digits.size() - 1; i >= 0; i--) {
-      out << n.digits[i];
-    }
-    return out;
-  }
-
-  Number multiply(const Number &other) const {
-    // TODO: optimize on really big numbers (> 1M digits)
-    vector<int> result = ::multiply(digits, other.digits);
-    return Number(result, negative ^ other.negative);
-  }
-};
-
-int main() {
-  string s;
-
-  ifstream fin("numbers/1.txt");
-  fin >> s;
-  fin.close();
-  cout << "Number 1 size: " << s.size() << endl;
-  Number n1(s);
-
-  fin.open("numbers/2.txt");
-  fin >> s;
-  fin.close();
-  cout << "Number 2 size: " << s.size() << endl;
-  Number n2(s);
-
-  Number result = n1.multiply(n2);
-
-  ofstream fout("numbers/output.txt");
-  cout << "Result size: " << result.size() << endl;
-  fout << result;
   return 0;
 }
+
+/*
+  // Number n1, n2, result;
+  cout << "Reading files..." << endl;
+  string s;
+  ifstream fin(file_1);
+  if (!fin) {  // check if file exists
+    cout << "File " << (file_1.length() ? file_1 : "1") << " does not exist";
+    return 1;
+  }
+  fin >> s;
+  fin.close();
+  Number n1(s);
+  cout << "Number 1 size: " << s.size() << endl;
+  fin.open(file_2);
+  if (!fin) {  // check if file exists
+    cout << "File " << (file_2.length() ? file_2 : "2") << " does not exist";
+    return 1;
+  }
+  fin >> s;
+  fin.close();
+  Number n2(s);
+  cout << "Number 2 size: " << s.size() << endl;
+  Number result(0);
+  if (iters > 1) {
+  // time measurement
+  auto start = chrono::high_resolution_clock::now();
+  for (size_t i = 0; i < iters; i++) {
+    result = n1.fft_multiply(n2);
+  }
+  auto end = chrono::high_resolution_clock::now();
+  auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+  cout << "Time taken by function: " << duration.count() / iters <<
+  "microseconds"
+           << endl;
+    } else {
+      result = n1.fft_multiply(n2);
+    }
+    ofstream fout(file_out);
+    cout << "Result size: " << result.size() << endl;
+    fout << result;
+*/
