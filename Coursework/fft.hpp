@@ -63,8 +63,8 @@ class Number {
   bool negative = false;
 
  public:
-  Number() {} // default constructor
-  
+  Number(): Number(0) {} // default constructor
+
   Number(const string &s) {
     for (int i = s.size() - 1; i >= 0; i--) {
       if (s[i] == '-') {
@@ -79,8 +79,35 @@ class Number {
     }
   }
 
+  Number(const int64_t &n) {
+    if (n < 0) {
+      negative = true;
+    }
+    int64_t m = abs(n);
+    while (m > 0) {
+      digits.push_back(m % 10);
+      m /= 10;
+    }
+  }
+
   Number(const vector<int> &v, bool n = false) : digits(v), negative(n) {}
   const size_t size() const { return digits.size(); }
+
+  void set(const string &s) {
+    digits.clear();
+    negative = false;
+    for (int i = s.size() - 1; i >= 0; i--) {
+      if (s[i] == '-') {
+        negative = true;
+        break;
+      }
+      if (s[i] >= '0' && s[i] <= '9') {
+        digits.push_back(s[i] - '0');
+      } else {
+        throw invalid_argument("Invalid number");
+      }
+    }
+  }
 
   friend ostream &operator<<(ostream &out, const Number &n) {
     if (n.negative) out << '-';

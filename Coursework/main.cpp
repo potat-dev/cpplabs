@@ -36,80 +36,63 @@ int main(int argc, char** argv) {
 
   CLI11_PARSE(app, argc, argv);
 
-  cout << "File 1: " << file_1 << endl;
-  cout << "File 2: " << file_2 << endl;
-  cout << "Output: " << file_out << endl;
-  cout << "Interactive: " << interactive << endl;
-  cout << "Verbose: " << verbose << endl;
-  cout << "Iterations: " << iters << endl;
+  if (verbose) {
+    cout << "File 1: " << file_1 << endl;
+    cout << "File 2: " << file_2 << endl;
+    cout << "Output: " << file_out << endl;
+    cout << "Interactive: " << interactive << endl;
+    cout << "Verbose: " << verbose << endl;
+    cout << "Iterations: " << iters << endl;
+  }
 
   if (verbose) cout << "Verbose output is not implemented yet" << endl;
 
   if (interactive) {
     cout << "Interactive mode is not implemented yet" << endl;
   } else {
+    Number n1, n2, res;
     string s;
-    
+
     ifstream fin(file_1);
+    if (!fin.is_open()) {
+      cout << "Error: cannot open file " << (file_1.length() ? file_1 : "1");
+      return 1;
+    }
+
     fin >> s;
     fin.close();
     cout << "Number 1 size: " << s.size() << endl;
-    Number n1(s);
+    n1.set(s);
 
     fin.open(file_2);
+    if (!fin.is_open()) {
+      cout << "Error: cannot open file " << (file_2.length() ? file_2 : "1");
+      return 1;
+    }
+
     fin >> s;
     fin.close();
     cout << "Number 2 size: " << s.size() << endl;
-    Number n2(s);
+    n2.set(s);
 
-    Number result = n1.fft_multiply(n2);
+    if (iters > 1) {
+      // measure time
+      auto start = chrono::high_resolution_clock::now();
+      for (size_t i = 0; i < iters; i++) {
+        res = n1.fft_multiply(n2);
+      }
+      auto end = chrono::high_resolution_clock::now();
+      auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
+      cout << "Time: " << (double)duration.count() / iters / 1000
+           << " ms / iter" << endl;
+    } else {
+      res = n1.fft_multiply(n2);
+    }
 
     ofstream fout(file_out);
-    cout << "Result size: " << result.size() << endl;
-    fout << result;
+    cout << "Result size: " << res.size() << endl;
+    fout << res;
   }
 
   return 0;
 }
-
-/*
-  // Number n1, n2, result;
-  cout << "Reading files..." << endl;
-  string s;
-  ifstream fin(file_1);
-  if (!fin) {  // check if file exists
-    cout << "File " << (file_1.length() ? file_1 : "1") << " does not exist";
-    return 1;
-  }
-  fin >> s;
-  fin.close();
-  Number n1(s);
-  cout << "Number 1 size: " << s.size() << endl;
-  fin.open(file_2);
-  if (!fin) {  // check if file exists
-    cout << "File " << (file_2.length() ? file_2 : "2") << " does not exist";
-    return 1;
-  }
-  fin >> s;
-  fin.close();
-  Number n2(s);
-  cout << "Number 2 size: " << s.size() << endl;
-  Number result(0);
-  if (iters > 1) {
-  // time measurement
-  auto start = chrono::high_resolution_clock::now();
-  for (size_t i = 0; i < iters; i++) {
-    result = n1.fft_multiply(n2);
-  }
-  auto end = chrono::high_resolution_clock::now();
-  auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-  cout << "Time taken by function: " << duration.count() / iters <<
-  "microseconds"
-           << endl;
-    } else {
-      result = n1.fft_multiply(n2);
-    }
-    ofstream fout(file_out);
-    cout << "Result size: " << result.size() << endl;
-    fout << result;
-*/
