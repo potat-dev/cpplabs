@@ -11,16 +11,21 @@
 // load(const std::string& filename)
 // save(const std::string& filename)
 
+#pragma once
+
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <string>
+#include <stdexcept>
 
 class Notebook {
  private:
   std::map<unsigned, std::string> phonebook;
 
  public:
+  Notebook() = default;
+
   Notebook(const std::string& filename) { load(filename); }
 
   void add(const std::string& name, unsigned phone) { phonebook[phone] = name; }
@@ -59,6 +64,8 @@ class Notebook {
       while (file >> phone >> name) {
         phonebook[phone] = name;
       }
+    } else {
+      throw std::runtime_error("File not found");
     }
   }
 

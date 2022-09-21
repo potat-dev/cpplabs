@@ -14,22 +14,31 @@
 // написать программу для тестирования функций класса
 
 #include <iostream>
-#include "notebook.h"
+#include <stdexcept>
+
+#include "notebook.hpp"
+
 using namespace std;
 
 int main() {
-  Notebook nb("notebook.txt");
-  cout << nb;
-  nb.add("Ivan", 123456);
-  nb.add("Petr", 654321);
-  nb.add("Oleg", 214365);
-  nb.add("Vlad", 987654);
+  Notebook nb;
 
-  cout << nb;
+  try {
+    nb.load("notebook.txt");
+  } catch (std::runtime_error& e) {
+    cout << e.what() << endl;
+    cout << "Creating new notebook:" << endl;
+    nb.add("Ivan", 123456);
+    nb.add("Petr", 654321);
+    nb.add("Oleg", 214365);
+    nb.add("Vlad", 987654);
+  }
+
+  cout << nb << endl;
   nb.save("notebook.txt");
 
   nb.erase("Ivan");
-  cout << nb;
+  cout << nb << endl;
   cout << nb.find(654321) << endl;
   cout << nb.find("Petr") << endl;
   return 0;
