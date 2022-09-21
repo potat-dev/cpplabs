@@ -1,5 +1,6 @@
 #include <iostream>
 #include "vector.h"
+
 using namespace std;
 
 struct Point {
@@ -14,7 +15,7 @@ struct Point {
 };
 
 int main() {
-  vector<int> v(5, 0);
+  Vector<int> v(5, 0);
   v.push_back(1);
   v.push_back(2);
   v.push_back(3);
@@ -26,7 +27,7 @@ int main() {
   v.push_back(9);
   cout << v << endl;
 
-  vector<Point> v2(2, {0, 0, 0});
+  Vector<Point> v2(2, {0, 0, 0});
   v2.push_back({1, 1, 1});
   v2.push_back({2, 2, 2});
   v2.push_back({3, 3, 3});
@@ -50,6 +51,24 @@ int main() {
   try {
     cout << "try to get v.at(100)" << endl;
     cout << v.at(100) << endl;
+  } catch (const std::out_of_range& e) {
+    cout << "Exception: " << e.what() << endl;
+  }
+
+  cout << endl;
+
+  try {
+    cout << "try to v.insert(100, 5)" << endl;
+    v.insert(100, 5);
+  } catch (const std::out_of_range& e) {
+    cout << "Exception: " << e.what() << endl;
+  }
+
+  cout << endl;
+
+  try {
+    cout << "try to v.erase(100)" << endl;
+    v.erase(100);
   } catch (const std::out_of_range& e) {
     cout << "Exception: " << e.what() << endl;
   }

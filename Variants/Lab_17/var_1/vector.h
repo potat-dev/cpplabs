@@ -13,14 +13,14 @@
 #include <stdexcept>
 
 template <typename T>
-class vector {
+class Vector {
  private:
   T* data;
   size_t size;
   size_t capacity;
 
  public:
-  vector(size_t size, const T& value) {
+  Vector(size_t size, const T& value) {
     this->size = size;
     this->capacity = size;
     this->data = new T[size];  // выделяем память
@@ -84,7 +84,7 @@ class vector {
     this->size--;  // уменьшаем размер массива
   }
 
-  ~vector() { delete[] this->data; }  // деструктор
+  ~Vector() { delete[] this->data; }  // деструктор
 
   void print() {
     for (size_t i = 0; i < this->size; i++) {
@@ -93,7 +93,7 @@ class vector {
     std::cout << std::endl;
   }
 
-  friend std::ostream& operator<<(std::ostream& out, const vector<T>& v) {
+  friend std::ostream& operator<<(std::ostream& out, const Vector<T>& v) {
     for (size_t i = 0; i < v.size; i++) {
       out << v.data[i] << " ";  // выводим элементы массива
     }
