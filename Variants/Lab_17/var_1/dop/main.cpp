@@ -1,5 +1,7 @@
 #include <iostream>
+
 #include "vector.h"
+
 
 using namespace std;
 
@@ -16,23 +18,11 @@ struct Point {
 
 int main() {
   Vector<int> v(5, 0);
-  v.push_back(1);
-  v.push_back(2);
-  v.push_back(3);
-  v.push_back(4);
-  v.push_back(5);
-  v.push_back(6);
-  v.push_back(7);
-  v.push_back(8);
-  v.push_back(9);
+  for (int i = 0; i < 10; i++) v.push_back(i);
   cout << v << endl;
 
   Vector<Point> v2(2, {0, 0, 0});
-  v2.push_back({1, 1, 1});
-  v2.push_back({2, 2, 2});
-  v2.push_back({3, 3, 3});
-  v2.push_back({4, 4, 4});
-  v2.push_back({5, 5, 5});
+  for (int i = 0; i < 10; i++) v2.push_back({i, i, i});
   cout << v2 << endl << endl;
 
   // test erase & at
@@ -73,19 +63,21 @@ int main() {
     cout << "Exception: " << e.what() << endl;
   }
 
-  Vector<int> BIBA(10, 0); 
-  Vector<int> BOBA(10, 0); 
- 
-  for(int i = 0; i < 10; i ++){ 
-    BIBA.push_back(i); 
-    BOBA.push_back(9 - i); 
-  } 
- 
-  cout << BIBA << endl << BOBA << endl; 
- 
-  Vector<int> ABOBA = BIBA + BOBA;  
+  // test dop (+ and -)
+
+  Vector<int> BIBA(1, 0);
+  Vector<int> BOBA(1, 0);
+
+  for (int i = 0; i < 10; i++) {
+    BIBA.push_back(i);
+    BOBA.push_back(9 - i);
+  }
+
+  cout << BIBA << endl << BOBA << endl;
+
+  Vector<int> ABOBA = BIBA + BOBA;
   cout << ABOBA << endl;
- 
-  Vector<int> AMOGUS = BIBA - BOBA;   
-  cout << AMOGUS << endl; 
+
+  Vector<int> AMOGUS = BIBA - BOBA;
+  cout << AMOGUS << endl;
 }

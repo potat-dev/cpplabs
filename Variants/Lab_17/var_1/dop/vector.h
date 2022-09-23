@@ -103,11 +103,12 @@ class Vector {
   // поразрядное сложение векторов
   Vector<T> operator+(const Vector<T>& v) {
     if (this->size != v.size) {  // если размеры массивов не равны
-      throw std::out_of_range("Vectors have different sizes");  // бросаем исключение
+      throw std::out_of_range(
+          "Vectors have different sizes");  // бросаем исключение
     }
     Vector<T> result(this->size, 0);  // создаем вектор для результата
     for (size_t i = 0; i < this->size; i++) {
-      result.data[i] = this->data[i] + v.data[i]; 
+      result.data[i] = this->data[i] + v.data[i];
     }
     return result;  // возвращаем результат
   }
@@ -115,7 +116,8 @@ class Vector {
   // поразрядное вычитание векторов
   Vector<T> operator-(const Vector<T>& v) {
     if (this->size != v.size) {  // если размеры массивов не равны
-      throw std::out_of_range("Vectors have different sizes");  // бросаем исключение
+      throw std::out_of_range(
+          "Vectors have different sizes");  // бросаем исключение
     }
     Vector<T> result(this->size, 0);  // создаем вектор для результата
     for (size_t i = 0; i < this->size; i++) {
