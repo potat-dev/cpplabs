@@ -1,7 +1,7 @@
 from random import randint
 from os.path import join
 
-folder = 'numbers'
+folder = 'test'
 digits_1 = 1000
 digits_2 = 1000
 
@@ -20,6 +20,6 @@ with open(join(folder, '2.txt'), 'w') as f:
   f.write(number_2)
 
 print()
-with open(join(folder, 'answer.txt'), 'w') as f:
+with open(join(folder, 'ans.txt'), 'w') as f:
   print("Multiplying numbers...") # just to show that the program is still running
   f.write(str(int(number_1) * int(number_2)))

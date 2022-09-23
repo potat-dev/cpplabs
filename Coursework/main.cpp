@@ -7,7 +7,7 @@
 using namespace std;
 
 #define EXEC "multiplier.exe"
-#define TITLE "\nBig Number Multiplier - v0.3"
+#define TITLE "\nBig Number Multiplier - v0.4"
 #define FOOTER \
   "Created with <3 by Cyber Potato (Denis Churilov) at SUAI University"
 

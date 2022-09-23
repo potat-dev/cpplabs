@@ -1,5 +1,5 @@
 from os.path import join
-folder = 'numbers'
+folder = 'test'
 
 with open(join(folder, '1.txt'), 'r') as f:
   number_1 = f.read()
@@ -7,10 +7,10 @@ with open(join(folder, '1.txt'), 'r') as f:
 with open(join(folder, '2.txt'), 'r') as f:
   number_2 = f.read()
 
-with open(join(folder, 'answer.txt'), 'r') as f:
+with open(join(folder, 'ans.txt'), 'r') as f:
   answer = f.read()
 
-with open(join(folder, 'output.txt'), 'r') as f:
+with open(join(folder, 'out.txt'), 'r') as f:
   output = f.read()
 
 print("Num 1  len:", len(number_1))

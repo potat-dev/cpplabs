@@ -5,8 +5,7 @@
 #include <iostream>
 #include <string>
 
-#include "multiply.hpp"
-#include "number.hpp"
+#include "number/number.h"
 
 using namespace std;
 

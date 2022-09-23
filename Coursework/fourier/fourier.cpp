@@ -1,18 +1,13 @@
 // Реализовать умножение длинных чисел с помощью быстрого преобразования Фурье
 // (нерекурсивный вариант)
 
-#pragma once
+#include "fourier.h"
 
 #include <cmath>
 #include <complex>
-#include <fstream>
-#include <iostream>
 #include <vector>
 
-#include "number.hpp"
-
 using namespace std;
-typedef complex<double> base;
 
 void fft(vector<base> &a, bool invert) {
   int n = a.size();
@@ -23,7 +18,7 @@ void fft(vector<base> &a, bool invert) {
     if (i < j) swap(a[i], a[j]);
   }
   for (int len = 2; len <= n; len <<= 1) {
-    double ang = 2 * M_PI / len * (invert ? -1 : 1);
+    double ang = M_2_PI / len * (invert ? -1 : 1);
     base wlen(cos(ang), sin(ang));
     for (int i = 0; i < n; i += len) {
       base w(1);
@@ -59,24 +54,4 @@ vector<int> multiply(vector<int> const &a, vector<int> const &b) {
 
   while (result.size() > 1 && result.back() == 0) result.pop_back();
   return result;
-}
-
-Number fft_multiply(const Number &a, const Number &b) {
-  vector<int> result = multiply(a.get_digits(), b.get_digits());
-  return Number(result, a.is_negative() ^ b.is_negative());
-}
-
-Number column_multiply(const Number &a, const Number &b) {
-  std::vector<int> result(a.size() + b.size(), 0);
-  for (int i = 0; i < a.size(); i++) {
-    for (int j = 0; j < b.size(); j++) {
-      result[i + j] += a[i] * b[j];
-    }
-  }
-  for (int i = 0; i < result.size() - 1; i++) {
-    result[i + 1] += result[i] / 10;
-    result[i] %= 10;
-  }
-  while (result.size() > 1 && result.back() == 0) result.pop_back();
-  return Number(result, a.is_negative() ^ b.is_negative());
 }
