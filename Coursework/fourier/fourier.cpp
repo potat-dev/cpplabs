@@ -9,6 +9,8 @@
 
 using namespace std;
 
+constexpr double M_2PI = 2 * M_PI;
+
 void fft(vector<base> &a, bool invert) {
   int n = a.size();
   for (int i = 1, j = 0; i < n; i++) {
@@ -18,7 +20,7 @@ void fft(vector<base> &a, bool invert) {
     if (i < j) swap(a[i], a[j]);
   }
   for (int len = 2; len <= n; len <<= 1) {
-    double ang = M_2_PI / len * (invert ? -1 : 1);
+    double ang = M_2PI / len * (invert ? -1 : 1);
     base wlen(cos(ang), sin(ang));
     for (int i = 0; i < n; i += len) {
       base w(1);

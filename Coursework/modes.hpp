@@ -67,7 +67,8 @@ void file_mode(string &file_1, string &file_2, string &file_out, size_t iters,
   } else {
     fin >> s;
     fin.close();
-    cout << "Number 1 size: " << s.size() << endl;
+    cout << "Number 1 size: " << s.size()
+         << endl;  // TODO: print only if verbose
     n1.set(s);
   }
 

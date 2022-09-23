@@ -7,7 +7,7 @@
 using namespace std;
 
 #define EXEC "multiplier.exe"
-#define TITLE "\nBig Number Multiplier - v0.4"
+#define TITLE "\nBig Number Multiplier - v0.5 beta"
 #define FOOTER \
   "Created with <3 by Cyber Potato (Denis Churilov) at SUAI University"
 
@@ -35,12 +35,18 @@ int main(int argc, char **argv) {
 
   CLI11_PARSE(app, argc, argv);
 
+  if (file_1.empty() && file_2.empty() && !interactive) {
+    cout << "No files or interactive mode specified" << endl;
+    cout << "Use -h or --help to see usage" << endl;
+    return 0;
+  }
+
   if (verbose) {
+    cout << "Verbode info:" << endl;
     cout << "File 1: " << file_1 << endl;
     cout << "File 2: " << file_2 << endl;
     cout << "Output: " << file_out << endl;
     cout << "Interactive: " << interactive << endl;
-    cout << "Verbose: " << verbose << endl;
     cout << "Iterations: " << iters << endl;
     cout << (use_column ? "Using column multiplication"
                         : "Using FFT multiplication");
