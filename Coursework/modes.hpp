@@ -6,6 +6,7 @@
 #include <string>
 
 #include "number/number.h"
+#include "settings.hpp"
 
 using namespace std;
 
@@ -17,7 +18,9 @@ double measure_time(int N, function<void()> func) {
   return (double)duration.count() / N / 1000;  // ms
 }
 
-void interactive_mode(size_t iters, bool use_column) {
+void interactive_mode(const Settings &settings) {
+  size_t iters = settings.iters;
+  bool use_column = settings.use_column;
   Number (*multiply)(const Number &, const Number &) =
       use_column ? column_multiply : fft_multiply;
   cout << "Enter two big numbers to multiply them" << endl;
@@ -53,8 +56,12 @@ void interactive_mode(size_t iters, bool use_column) {
   }
 }
 
-void file_mode(string &file_1, string &file_2, string &file_out, size_t iters,
-               bool use_column) {
+void file_mode(const Settings &settings) {
+  string file_1 = settings.file_1;
+  string file_2 = settings.file_2;
+  string file_out = settings.file_out;
+  size_t iters = settings.iters;
+  bool use_column = settings.use_column;
   Number (*multiply)(const Number &, const Number &) =
       use_column ? column_multiply : fft_multiply;
   Number n1, n2, res;

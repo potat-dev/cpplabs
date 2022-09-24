@@ -3,6 +3,7 @@
 #include <string>
 
 #include "modes.hpp"
+#include "settings.hpp"
 
 using namespace std;
 
@@ -13,51 +14,46 @@ using namespace std;
 
 int main(int argc, char **argv) {
   CLI::App app(TITLE, EXEC);
+  Settings settings;
   app.footer(FOOTER);
 
-  string file_1, file_2;
-  string file_out = "out.txt";
-  bool interactive = false;
-  bool verbose = false;
-  bool use_column = false;
-  size_t iters = 0;
-
-  app.add_option("file 1", file_1, "First file")->option_text("FILE");
-  app.add_option("file 2", file_2, "Second file")->option_text("FILE");
-  app.add_option("output", file_out, "Output file")->option_text("FILE");
-  app.add_flag("-i, --interactive", interactive,
+  app.add_option("file 1", settings.file_1, "First file")->option_text("FILE");
+  app.add_option("file 2", settings.file_2, "Second file")->option_text("FILE");
+  app.add_option("output", settings.file_out, "Output file")
+      ->option_text("FILE");
+  app.add_flag("-i, --interactive", settings.interactive,
                "Interactive mode (manual input)");
-  app.add_flag("-v, --verbose", verbose,
+  app.add_flag("-v, --verbose", settings.verbose,
                "Verbose output (digits count, time stats, etc.)");
-  app.add_flag("-c, --column", use_column, "Use column multiplication");
-  app.add_option("-b, --benchmark", iters, "Benchmark mode (iterations count)")
+  app.add_flag("-c, --column", settings.use_column,
+               "Use column multiplication");
+  app.add_option("-b, --benchmark", settings.iters,
+                 "Benchmark mode (iterations count)")
       ->option_text("N");
 
   CLI11_PARSE(app, argc, argv);
 
-  if (file_1.empty() && file_2.empty() && !interactive) {
+  if (settings.file_1.empty() && settings.file_2.empty() &&
+      !settings.interactive) {
     cout << "No files or interactive mode specified" << endl;
     cout << "Use -h or --help to see usage" << endl;
     return 0;
   }
 
-  if (verbose) {
+  if (settings.verbose) {
     cout << "Verbode info:" << endl;
-    cout << "File 1: " << file_1 << endl;
-    cout << "File 2: " << file_2 << endl;
-    cout << "Output: " << file_out << endl;
-    cout << "Interactive: " << interactive << endl;
-    cout << "Iterations: " << iters << endl;
-    cout << (use_column ? "Using column multiplication"
-                        : "Using FFT multiplication");
+    cout << "File 1: " << settings.file_1 << endl;
+    cout << "File 2: " << settings.file_2 << endl;
+    cout << "Output: " << settings.file_out << endl;
+    cout << "Interactive: " << settings.interactive << endl;
+    cout << "Iterations: " << settings.iters << endl;
+    cout << (settings.use_column ? "Using column multiplication"
+                                 : "Using FFT multiplication");
     cout << endl;
   }
 
-  if (interactive) {
-    interactive_mode(iters, use_column);
-  } else {
-    file_mode(file_1, file_2, file_out, iters, use_column);
-  }
+  void (*mode)(const Settings &) =
+      settings.interactive ? interactive_mode : file_mode;
 
-  return 0;
+  mode(settings);
 }
