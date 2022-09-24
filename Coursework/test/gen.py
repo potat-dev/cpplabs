@@ -2,8 +2,8 @@ from random import randint
 from os.path import join
 
 folder = 'test'
-digits_1 = 1000
-digits_2 = 1000
+digits_1 = 1000000
+digits_2 = 1000000
 
 def generate_num(digits):
   return ''.join([str(randint(0 if i else 1, 9)) for i in range(digits)])

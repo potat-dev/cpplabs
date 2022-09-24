@@ -1,12 +1,13 @@
-#pragma once
+#include "modes.h"
 
 #include <chrono>
+#include <fstream>
 #include <functional>
 #include <iostream>
 #include <string>
 
-#include "number/number.h"
-#include "settings.hpp"
+#include "../number/number.h"
+#include "settings.h"
 
 using namespace std;
 
