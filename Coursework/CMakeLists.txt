@@ -1,19 +1,26 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(coursework) # Название проекта
+# Название проекта
+project(coursework)
 
-set(SOURCE_EXE main.cpp) # Установка переменной со списком исходников
+# Установка переменной со списком исходников
+set(SOURCE_EXE main.cpp)
 
-include_directories(modes) # Расположение заголовочных файлов
-include_directories(number) # Расположение заголовочных файлов
-include_directories(fourier) # Расположение заголовочных файлов
+# Расположение заголовочных файлов
+include_directories(modes)
+include_directories(number)
+include_directories(fourier)
 
-find_package(CLI11 CONFIG REQUIRED) # Поиск библиотеки CLI11
+# Поиск библиотеки CLI11
+find_package(CLI11 CONFIG REQUIRED)
 
-add_executable(main ${SOURCE_EXE}) # Создает исполняемый файл с именем main
+# Создает исполняемый файл с именем main
+add_executable(main ${SOURCE_EXE})
 
-add_subdirectory(modes) # Добавление подпроекта, указывается имя дирректории
-add_subdirectory(number) # Добавление подпроекта, указывается имя дирректории
-add_subdirectory(fourier) # Добавление подпроекта, указывается имя дирректории
+# Добавление подпроектов, указывается имя дирректории
+add_subdirectory(modes)
+add_subdirectory(number)
+add_subdirectory(fourier)
 
-target_link_libraries(main modes number fourier CLI11::CLI11) # Линковка программы с библиотекой
+# Линковка программы с библиотекой
+target_link_libraries(main modes number fourier CLI11::CLI11)

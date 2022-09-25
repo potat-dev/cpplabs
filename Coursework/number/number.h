@@ -22,6 +22,7 @@ class Number {
   void load(const std::string &filename);
   void save(const std::string &filename);
 
+  friend std::istream &operator>>(std::istream &in, Number &n);
   friend std::ostream &operator<<(std::ostream &out, const Number &n);
 
   friend Number fft_multiply(const Number &a, const Number &b);

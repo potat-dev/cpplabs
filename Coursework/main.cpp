@@ -8,7 +8,7 @@
 using namespace std;
 
 #define EXEC "multiplier.exe"
-#define TITLE "\nBig Number Multiplier - v0.5 beta"
+#define TITLE "\nBig Number Multiplier - v0.6 beta"
 #define FOOTER \
   "Created with <3 by Cyber Potato (Denis Churilov) at SUAI University"
 
@@ -17,10 +17,12 @@ int main(int argc, char **argv) {
   Settings config;
   app.footer(FOOTER);
 
+  // input and output files
   app.add_option("file 1", config.file_1, "First file")->option_text("FILE");
   app.add_option("file 2", config.file_2, "Second file")->option_text("FILE");
   app.add_option("output", config.file_out, "Output file")->option_text("FILE");
 
+  // flags
   app.add_flag("-i, --interactive", config.interactive,
                "Interactive mode (manual input)");
   app.add_flag("-v, --verbose", config.verbose,
@@ -38,20 +40,6 @@ int main(int argc, char **argv) {
     return 0;
   }
 
-  if (config.verbose) {
-    cout << "Verbode info:" << endl;
-    cout << "File 1: " << config.file_1 << endl;
-    cout << "File 2: " << config.file_2 << endl;
-    cout << "Output: " << config.file_out << endl;
-    cout << "Interactive: " << config.interactive << endl;
-    cout << "Iterations: " << config.iters << endl;
-    cout << (config.use_column ? "Using column multiplication"
-                               : "Using FFT multiplication");
-    cout << endl;
-  }
-
-  void (*mode)(const Settings &) =
-      config.interactive ? interactive_mode : file_mode;
-
-  mode(config);
+  // run selected mode
+  (config.interactive ? interactive_mode : file_mode)(config);
 }

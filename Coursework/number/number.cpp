@@ -69,6 +69,15 @@ void Number::save(const string &filename) {
   out << *this;
 }
 
+// >> operator
+
+istream &operator>>(istream &in, Number &n) {
+  string s;
+  in >> s;
+  n.set(s);
+  return in;
+}
+
 ostream &operator<<(ostream &out, const Number &n) {
   if (n.negative) out << '-';
   for (int i = n.digits.size() - 1; i >= 0; i--) out << n.digits[i];
