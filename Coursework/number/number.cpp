@@ -42,14 +42,10 @@ int Number::operator[](const size_t &i) const { return digits[i]; }
 
 void Number::set(const string &s) {
   digits.clear();
-  negative = false;
   if (s.empty()) throw invalid_argument("Invalid number");
+  negative = s.at(0) == '-';
 
-  for (int i = s.size() - 1; i >= 0; i--) {
-    if (s[i] == '-') {
-      negative = true;
-      break;
-    }
+  for (int i = s.size() - 1; i >= negative; i--) {
     if (s[i] >= '0' && s[i] <= '9') {
       digits.push_back(s[i] - '0');
     } else {
@@ -79,8 +75,8 @@ void Number::save(const string &filename) {
 
 istream &operator>>(istream &in, Number &n) {
   string buf;
-  getline(in, buf);
-  if (cin.fail() || cin.eof() || buf == "q" || buf == "quit") {
+  in >> buf;
+  if (buf == "q" || buf == "quit") {
     throw runtime_error("Program terminated");
   } else {
     n.set(buf);

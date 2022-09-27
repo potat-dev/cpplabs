@@ -19,18 +19,13 @@ double measure_time(int N, function<void()> func) {
   return (double)duration.count() / N / 1000;  // ms
 }
 
-void interrupt_handler(int s) {
-  cout << endl << "Interrupted" << endl;
-  exit(1);
-}
-
 // --- Interactive mode --- //
 
 void interactive_mode(const Settings &config) {
   signal(SIGINT, [](int) { /* empty handler */ });
 
-  cout << "Enter two big numbers to multiply them" << endl;
-  cout << "Press Ctrl + C or type 'q' to exit" << endl;
+  cout << "Enter two big nsumbers to multiply them" << endl;
+  cout << "Type 'q' to exit" << endl;
 
   if (config.iters) {
     cout << "Each operation will be repeated ";
@@ -41,11 +36,14 @@ void interactive_mode(const Settings &config) {
   Number (*mult)(const Number &, const Number &) =
       config.use_column ? column_multiply : fft_multiply;
 
+  string buf;
   while (true) {
     cout << endl << "Enter first number:" << endl << "> ";
+    cin >> buf;
+    if (buf == "q") break;
 
     try {
-      cin >> n1;
+      n1.set(buf);
     } catch (const invalid_argument &e) {
       cout << "Invalid number" << endl;
       continue;
@@ -53,9 +51,11 @@ void interactive_mode(const Settings &config) {
 
     if (config.verbose) cout << "Digits count: " << n1.size() << endl;
     cout << endl << "Enter second number:" << endl << "> ";
+    cin >> buf;
+    if (buf == "q") break;
 
     try {
-      cin >> n2;
+      n2.set(buf);
     } catch (const invalid_argument &e) {
       cout << "Invalid number" << endl;
       continue;
@@ -78,7 +78,11 @@ void interactive_mode(const Settings &config) {
 // --- File mode --- //
 
 void file_mode(const Settings &config) {
-  signal(SIGINT, interrupt_handler);
+  signal(SIGINT, [](int s) {
+    cout << "Program interrupted";
+    exit(s);
+  });
+
   Number n1, n2, res;
 
   try {
