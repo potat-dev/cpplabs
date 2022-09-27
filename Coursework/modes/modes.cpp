@@ -1,6 +1,7 @@
 #include "modes.h"
 
 #include <chrono>
+#include <csignal>
 #include <functional>
 #include <iostream>
 #include <string>
@@ -18,40 +19,49 @@ double measure_time(int N, function<void()> func) {
   return (double)duration.count() / N / 1000;  // ms
 }
 
+void interrupt_handler(int s) {
+  cout << endl << "Interrupted" << endl;
+  exit(1);
+}
+
 // --- Interactive mode --- //
 
 void interactive_mode(const Settings &config) {
-  Number n1, n2, res;
+  signal(SIGINT, [](int) { /* empty handler */ });
 
   cout << "Enter two big numbers to multiply them" << endl;
-  cout << "Press Ctrl + C to exit" << endl;
+  cout << "Press Ctrl + C or type 'q' to exit" << endl;
 
   if (config.iters) {
     cout << "Each operation will be repeated ";
     cout << config.iters << " times" << endl;
   }
 
+  Number n1, n2, res;
   Number (*mult)(const Number &, const Number &) =
       config.use_column ? column_multiply : fft_multiply;
 
   while (true) {
+    cout << endl << "Enter first number:" << endl << "> ";
+
     try {
-      cout << "\nEnter first number:\n> ";
       cin >> n1;
-      if (config.verbose) cout << "Digits count: " << n1.size() << endl;
-    } catch (const exception &e) {
+    } catch (const invalid_argument &e) {
       cout << "Invalid number" << endl;
       continue;
     }
 
+    if (config.verbose) cout << "Digits count: " << n1.size() << endl;
+    cout << endl << "Enter second number:" << endl << "> ";
+
     try {
-      cout << "\nEnter second number:\n> ";
       cin >> n2;
-      if (config.verbose) cout << "Digits count: " << n2.size() << endl;
-    } catch (const exception &e) {
+    } catch (const invalid_argument &e) {
       cout << "Invalid number" << endl;
       continue;
     }
+
+    if (config.verbose) cout << "Digits count: " << n2.size() << endl;
 
     if (config.iters) {
       double time = measure_time(config.iters, [&]() { res = mult(n1, n2); });
@@ -60,7 +70,7 @@ void interactive_mode(const Settings &config) {
       res = mult(n1, n2);
     }
 
-    cout << "\nResult:\n> " << res << endl;
+    cout << endl << "Result:" << endl << "> " << res << endl;
     if (config.verbose) cout << "Digits count: " << res.size() << endl;
   }
 }
@@ -68,6 +78,7 @@ void interactive_mode(const Settings &config) {
 // --- File mode --- //
 
 void file_mode(const Settings &config) {
+  signal(SIGINT, interrupt_handler);
   Number n1, n2, res;
 
   try {

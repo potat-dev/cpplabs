@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <string>
 #include <vector>
 
 #include "../fourier/fourier.h"
@@ -42,6 +43,8 @@ int Number::operator[](const size_t &i) const { return digits[i]; }
 void Number::set(const string &s) {
   digits.clear();
   negative = false;
+  if (s.empty()) throw invalid_argument("Invalid number");
+
   for (int i = s.size() - 1; i >= 0; i--) {
     if (s[i] == '-') {
       negative = true;
@@ -53,6 +56,9 @@ void Number::set(const string &s) {
       throw invalid_argument("Invalid number");
     }
   }
+
+  // remove leading zeros
+  while (digits.size() > 1 && digits.back() == 0) digits.pop_back();
 }
 
 void Number::load(const string &filename) {
@@ -72,9 +78,13 @@ void Number::save(const string &filename) {
 // >> operator
 
 istream &operator>>(istream &in, Number &n) {
-  string s;
-  in >> s;
-  n.set(s);
+  string buf;
+  getline(in, buf);
+  if (cin.fail() || cin.eof() || buf == "q" || buf == "quit") {
+    throw runtime_error("Program terminated");
+  } else {
+    n.set(buf);
+  }
   return in;
 }
 

@@ -13,6 +13,7 @@ using namespace std;
   "Created with <3 by Cyber Potato (Denis Churilov) at SUAI University"
 
 int main(int argc, char **argv) {
+  // create CLI app
   CLI::App app(TITLE, EXEC);
   Settings config;
   app.footer(FOOTER);
@@ -32,8 +33,10 @@ int main(int argc, char **argv) {
                  "Benchmark mode (iterations count)")
       ->option_text("ITERS");
 
+  // parse CLI arguments
   CLI11_PARSE(app, argc, argv);
 
+  // check if no files or interactive mode specified
   if (config.file_1.empty() && config.file_2.empty() && !config.interactive) {
     cout << "No files or interactive mode specified" << endl;
     cout << "Use -h or --help to see usage" << endl;
@@ -41,5 +44,12 @@ int main(int argc, char **argv) {
   }
 
   // run selected mode
-  (config.interactive ? interactive_mode : file_mode)(config);
+  try {
+    (config.interactive ? interactive_mode : file_mode)(config);
+  } catch (const runtime_error &e) {
+    cout << endl << e.what() << endl;
+    return 1;
+  }
+
+  return 0;
 }
