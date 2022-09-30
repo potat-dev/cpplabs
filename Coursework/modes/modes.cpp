@@ -1,7 +1,6 @@
 #include "modes.h"
 
 #include <chrono>
-#include <csignal>
 #include <functional>
 #include <iostream>
 #include <string>
@@ -16,63 +15,73 @@ double measure_time(int N, function<void()> func) {
   for (int i = 0; i < N; i++) func();
   auto end = chrono::high_resolution_clock::now();
   auto duration = chrono::duration_cast<chrono::microseconds>(end - start);
-  return (double)duration.count() / N / 1000;  // ms
+  return (double)duration.count() / N / 1000;  // return in milliseconds
 }
 
 // --- Interactive mode --- //
 
 void interactive_mode(const Settings &config) {
-  signal(SIGINT, [](int) { /* empty handler */ });
-
   cout << "Enter two big nsumbers to multiply them" << endl;
-  cout << "Type 'q' to exit" << endl;
+  cout << "Press Ctrl + C or leave input empty to exit" << endl;
 
   if (config.iters) {
-    cout << "Each operation will be repeated ";
+    cout << endl << "[!] Each operation will be repeated ";
     cout << config.iters << " times" << endl;
   }
 
+  string buf;
+  double time = 0;
   Number n1, n2, res;
   Number (*mult)(const Number &, const Number &) =
       config.use_column ? column_multiply : fft_multiply;
 
-  string buf;
   while (true) {
+    signal(SIGINT, [](int) { /* empty handler */ });
+
     cout << endl << "Enter first number:" << endl << "> ";
-    cin >> buf;
-    if (buf == "q") break;
+    getline(cin, buf);
+    if (cin.fail() || buf.empty() || buf == "q") break;
 
     try {
       n1.set(buf);
+      if (config.verbose) cout << "Digits count: " << n1.size() << endl;
     } catch (const invalid_argument &e) {
       cout << "Invalid number" << endl;
       continue;
     }
 
-    if (config.verbose) cout << "Digits count: " << n1.size() << endl;
     cout << endl << "Enter second number:" << endl << "> ";
-    cin >> buf;
-    if (buf == "q") break;
+    getline(cin, buf);
+    if (cin.fail() || buf.empty() || buf == "q") break;
 
     try {
       n2.set(buf);
+      if (config.verbose) cout << "Digits count: " << n2.size() << endl;
     } catch (const invalid_argument &e) {
       cout << "Invalid number" << endl;
       continue;
     }
 
-    if (config.verbose) cout << "Digits count: " << n2.size() << endl;
+    signal(SIGINT, [](int s) {  // interrupt too long operations
+      cout << endl << "Operation interrupted" << endl;
+      exit(s);
+    });
 
     if (config.iters) {
-      double time = measure_time(config.iters, [&]() { res = mult(n1, n2); });
-      cout << "Average time: " << time << " ms / iter" << endl;
+      time = measure_time(config.iters, [&]() { res = mult(n1, n2); });
     } else {
       res = mult(n1, n2);
     }
 
     cout << endl << "Result:" << endl << "> " << res << endl;
-    if (config.verbose) cout << "Digits count: " << res.size() << endl;
+    cout << "Digits count: " << res.size() << endl;
+    if (config.iters)
+      cout << endl
+           << "Average time:" << endl
+           << "> " << time << " ms / iter" << endl;
   }
+
+  cout << (cin.fail() ? "\n" : "") << endl << "Bye! Have a nice day :)" << endl;
 }
 
 // --- File mode --- //
@@ -108,11 +117,12 @@ void file_mode(const Settings &config) {
 
   if (config.iters) {
     double time = measure_time(config.iters, [&]() { res = mult(n1, n2); });
+    if (config.verbose) cout << "Result size: " << res.size() << endl;
     cout << "Average time: " << time << " ms / iter" << endl;
   } else {
     res = mult(n1, n2);
+    if (config.verbose) cout << "Result size: " << res.size() << endl;
   }
 
-  if (config.verbose) cout << "Result size: " << res.size() << endl;
   res.save(config.file_out);
 }

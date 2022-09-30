@@ -43,8 +43,7 @@ int main(int argc, char **argv) {
     return 0;
   }
 
-  // run selected mode
-  try {
+  try {  // run selected mode
     (config.interactive ? interactive_mode : file_mode)(config);
   } catch (const exception &e) {
     cout << endl << e.what() << endl;
