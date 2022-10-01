@@ -45,7 +45,7 @@ class LfuCache {
 
     friend std::ostream &operator<<(std::ostream &out, const LfuCache &cache) {
         for (auto it = cache.freq.begin(); it != cache.freq.end(); ++it) {
-            out << it->second << " - " << it->first << " ";
+            out << it->second << " - " << it->first << (it == --cache.freq.end() ? "" : ", ");
         }
         return out;
     }
