@@ -17,12 +17,12 @@ Number::Number(const int64_t &n) {
   if (n < 0) negative = true;
   int64_t m = n < 0 ? -n : n;
   while (m > 0) {
-    digits.push_back(m % 10);
-    m /= 10;
+    digits.push_back(m % BASE);
+    m /= BASE;
   }
 }
 
-Number::Number(const vector<int> &v, bool n) : digits(v), negative(n) {}
+Number::Number(const vector<long> &v, bool n) : digits(v), negative(n) {}
 
 size_t Number::size() const { return digits.size(); }
 bool Number::is_negative() const { return negative; }
@@ -33,13 +33,21 @@ void Number::set(const string &s) {
   if (s.empty()) throw invalid_argument("Invalid number");
   negative = s.at(0) == '-';
 
+  size_t base_len = to_string(BASE - 1).size();
+  string temp(base_len, ' ');
   for (int i = s.size() - 1; i >= negative; i--) {
+    int j = (s.size() - i - 1) % base_len;
     if (s[i] >= '0' && s[i] <= '9') {
-      digits.push_back(s[i] - '0');
+      temp[base_len - j - 1] = s[i];
+      if (j == base_len - 1) {
+        digits.push_back(stol(temp));
+        temp = string(base_len, ' ');
+      }
     } else {
       throw invalid_argument("Invalid number");
     }
   }
+  if (!temp.empty()) digits.push_back(stol(temp));
 
   // remove leading zeros
   while (digits.size() > 1 && digits.back() == 0) digits.pop_back();
@@ -73,16 +81,19 @@ Number fft_multiply(const Number &a, const Number &b) {
 }
 
 Number column_multiply(const Number &a, const Number &b) {
-  vector<int> result(a.size() + b.size(), 0);
+  vector<long> result(a.size() + b.size(), 0);
+  long long temp = 0;
+
   for (int i = 0; i < a.size(); i++) {
     for (int j = 0; j < b.size(); j++) {
-      result[i + j] += a[i] * b[j];
+      temp = result[i + j] + a[i] * b[j];
+      result[i + j] = temp % BASE;
+      if (i + j + 1 < result.size()) {
+        result[i + j + 1] += temp / BASE;
+      }
     }
   }
-  for (int i = 0; i < result.size() - 1; i++) {
-    result[i + 1] += result[i] / 10;
-    result[i] %= 10;
-  }
+
   while (result.size() > 1 && result.back() == 0) result.pop_back();
   return Number(result, a.is_negative() ^ b.is_negative());
 }

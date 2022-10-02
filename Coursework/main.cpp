@@ -40,11 +40,12 @@ int main(int argc, char **argv) {
   if (config.file_1.empty() && config.file_2.empty() && !config.interactive) {
     cout << "No files or interactive mode specified" << endl;
     cout << "Use -h or --help to see usage" << endl;
-    return 0;
+    // return 0;
   }
 
   try {  // run selected mode
-    (config.interactive ? interactive_mode : file_mode)(config);
+    // (config.interactive ? interactive_mode : file_mode)(config);
+    interactive_mode(config);
   } catch (const exception &e) {
     cout << endl << e.what() << endl;
     return 1;

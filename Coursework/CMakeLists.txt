@@ -6,6 +6,11 @@ project(coursework)
 # Установка переменной со списком исходников
 set(SOURCE_EXE main.cpp)
 
+# Настройки параметров
+set(BASE 1000000000)
+message(STATUS "Using base: ${BASE}")
+# не будет работать по причине: http://disq.us/p/d9r28h
+
 # Расположение заголовочных файлов
 include_directories(modes)
 include_directories(number)
