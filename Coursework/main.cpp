@@ -8,7 +8,7 @@
 using namespace std;
 
 #define EXEC "multiplier.exe"
-#define TITLE "\nBig Number Multiplier - v0.6 beta"
+#define TITLE "\nBig Number Multiplier - v0.7 beta"
 #define FOOTER \
   "Created with <3 by Cyber Potato (Denis Churilov) at SUAI University"
 
@@ -43,13 +43,10 @@ int main(int argc, char **argv) {
     return 0;
   }
 
-  // run selected mode
-  try {
+  try {  // run selected mode
     (config.interactive ? interactive_mode : file_mode)(config);
-  } catch (const runtime_error &e) {
+  } catch (const exception &e) {
     cout << endl << e.what() << endl;
     return 1;
   }
-
-  return 0;
 }

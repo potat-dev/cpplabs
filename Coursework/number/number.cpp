@@ -9,21 +9,9 @@
 
 using namespace std;
 
-Number::Number() : Number(0) {}
+Number::Number() : digits(1, 0), negative(false) {}
 
-Number::Number(const string &s) {
-  for (int i = s.size() - 1; i >= 0; i--) {
-    if (s[i] == '-') {
-      negative = true;
-      break;
-    }
-    if (s[i] >= '0' && s[i] <= '9') {
-      digits.push_back(s[i] - '0');
-    } else {
-      throw invalid_argument("Invalid number");
-    }
-  }
-}
+Number::Number(const string &s) { set(s); }
 
 Number::Number(const int64_t &n) {
   if (n < 0) negative = true;
@@ -42,14 +30,10 @@ int Number::operator[](const size_t &i) const { return digits[i]; }
 
 void Number::set(const string &s) {
   digits.clear();
-  negative = false;
   if (s.empty()) throw invalid_argument("Invalid number");
+  negative = s.at(0) == '-';
 
-  for (int i = s.size() - 1; i >= 0; i--) {
-    if (s[i] == '-') {
-      negative = true;
-      break;
-    }
+  for (int i = s.size() - 1; i >= negative; i--) {
     if (s[i] >= '0' && s[i] <= '9') {
       digits.push_back(s[i] - '0');
     } else {
@@ -75,19 +59,6 @@ void Number::save(const string &filename) {
   out << *this;
 }
 
-// >> operator
-
-istream &operator>>(istream &in, Number &n) {
-  string buf;
-  getline(in, buf);
-  if (cin.fail() || cin.eof() || buf == "q" || buf == "quit") {
-    throw runtime_error("Program terminated");
-  } else {
-    n.set(buf);
-  }
-  return in;
-}
-
 ostream &operator<<(ostream &out, const Number &n) {
   if (n.negative) out << '-';
   for (int i = n.digits.size() - 1; i >= 0; i--) out << n.digits[i];
@@ -97,8 +68,8 @@ ostream &operator<<(ostream &out, const Number &n) {
 // multiplication algorithms
 
 Number fft_multiply(const Number &a, const Number &b) {
-  vector<int> result = multiply(a.digits, b.digits);
-  return Number(result, a.is_negative() ^ b.is_negative());
+  return Number(multiply(a.digits, b.digits),
+                a.is_negative() ^ b.is_negative());
 }
 
 Number column_multiply(const Number &a, const Number &b) {
