@@ -10,7 +10,7 @@ set(SOURCE_EXE main.cpp)
 find_package(nlohmann_json 3.2.0 REQUIRED)
 
 # Создает исполняемый файл с именем main
-add_executable(lab17 ${SOURCE_EXE})
+add_executable(Lab_17 ${SOURCE_EXE})
 
 # Линковка программы с библиотекой
-target_link_libraries(lab17 nlohmann_json::nlohmann_json)
+target_link_libraries(Lab_17 nlohmann_json::nlohmann_json)
