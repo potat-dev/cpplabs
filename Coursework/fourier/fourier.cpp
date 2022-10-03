@@ -36,7 +36,8 @@ void fft(vector<base> &a, bool invert) {
     for (base &x : a) x /= n;
 }
 
-vector<int> multiply(vector<int> const &a, vector<int> const &b) {
+vector<uint16_t> multiply(vector<uint16_t> const &a,
+                          vector<uint16_t> const &b) {
   vector<base> fa(a.begin(), a.end()), fb(b.begin(), b.end());
   int n = 1;
   while (n < a.size() + b.size()) n <<= 1;
@@ -46,8 +47,8 @@ vector<int> multiply(vector<int> const &a, vector<int> const &b) {
   for (int i = 0; i < n; i++) fa[i] *= fb[i];
   fft(fa, true);
 
-  vector<int> result(n);
-  for (int i = 0; i < n; i++) result[i] = int(fa[i].real() + 0.5);
+  vector<uint16_t> result(n);
+  for (int i = 0; i < n; i++) result[i] = uint16_t(fa[i].real() + 0.5);
 
   for (int i = 0; i < n - 1; i++) {
     result[i + 1] += result[i] / 10;

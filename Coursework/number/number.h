@@ -5,18 +5,18 @@
 
 class Number {
  private:
-  std::vector<int> digits;
+  std::vector<uint16_t> digits;
   bool negative = false;
 
  public:
   Number();
   Number(const std::string &s);
   Number(const int64_t &n);
-  Number(const std::vector<int> &v, bool n = false);
+  Number(const std::vector<uint16_t> &v, bool n = false);
 
   size_t size() const;
   bool is_negative() const;
-  int operator[](const size_t &i) const;
+  uint16_t operator[](const size_t &i) const;
 
   void set(const std::string &s);
   void load(const std::string &filename);

@@ -9,4 +9,5 @@
 typedef std::complex<double> base;
 
 void fft(std::vector<base> &a, bool invert);
-std::vector<int> multiply(std::vector<int> const &a, std::vector<int> const &b);
+std::vector<uint16_t> multiply(std::vector<uint16_t> const &a,
+                               std::vector<uint16_t> const &b);

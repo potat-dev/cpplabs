@@ -22,11 +22,11 @@ Number::Number(const int64_t &n) {
   }
 }
 
-Number::Number(const vector<int> &v, bool n) : digits(v), negative(n) {}
+Number::Number(const vector<uint16_t> &v, bool n) : digits(v), negative(n) {}
 
 size_t Number::size() const { return digits.size(); }
 bool Number::is_negative() const { return negative; }
-int Number::operator[](const size_t &i) const { return digits[i]; }
+uint16_t Number::operator[](const size_t &i) const { return digits[i]; }
 
 void Number::set(const string &s) {
   digits.clear();
@@ -61,7 +61,7 @@ void Number::save(const string &filename) {
 
 ostream &operator<<(ostream &out, const Number &n) {
   if (n.negative) out << '-';
-  for (int i = n.digits.size() - 1; i >= 0; i--) out << n.digits[i];
+  for (int i = n.digits.size() - 1; i >= 0; i--) out << (int)n.digits[i];
   return out;
 }
 
@@ -73,7 +73,7 @@ Number fft_multiply(const Number &a, const Number &b) {
 }
 
 Number column_multiply(const Number &a, const Number &b) {
-  vector<int> result(a.size() + b.size(), 0);
+  vector<uint16_t> result(a.size() + b.size(), 0);
   for (int i = 0; i < a.size(); i++) {
     for (int j = 0; j < b.size(); j++) {
       result[i + j] += a[i] * b[j];
