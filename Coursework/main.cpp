@@ -2,56 +2,51 @@
 #include <iostream>
 #include <string>
 
-#include "modes.hpp"
+#include "modes/modes.h"
+#include "modes/settings.h"
 
 using namespace std;
 
 #define EXEC "multiplier.exe"
-#define TITLE "\nBig Number Multiplier - v0.3"
+#define TITLE "\nBig Number Multiplier - v0.7 beta"
 #define FOOTER \
   "Created with <3 by Cyber Potato (Denis Churilov) at SUAI University"
 
 int main(int argc, char **argv) {
+  // create CLI app
   CLI::App app(TITLE, EXEC);
+  Settings config;
   app.footer(FOOTER);
 
-  string file_1, file_2;
-  string file_out = "out.txt";
-  bool interactive = false;
-  bool verbose = false;
-  bool use_column = false;
-  size_t iters = 0;
+  // input and output files
+  app.add_option("file 1", config.file_1, "First file")->option_text("FILE");
+  app.add_option("file 2", config.file_2, "Second file")->option_text("FILE");
+  app.add_option("output", config.file_out, "Output file")->option_text("FILE");
 
-  app.add_option("file 1", file_1, "First file")->option_text("FILE");
-  app.add_option("file 2", file_2, "Second file")->option_text("FILE");
-  app.add_option("output", file_out, "Output file")->option_text("FILE");
-  app.add_flag("-i, --interactive", interactive,
+  // flags
+  app.add_flag("-i, --interactive", config.interactive,
                "Interactive mode (manual input)");
-  app.add_flag("-v, --verbose", verbose,
+  app.add_flag("-v, --verbose", config.verbose,
                "Verbose output (digits count, time stats, etc.)");
-  app.add_flag("-c, --column", use_column, "Use column multiplication");
-  app.add_option("-b, --benchmark", iters, "Benchmark mode (iterations count)")
-      ->option_text("N");
+  app.add_flag("-c, --column", config.use_column, "Use column multiplication");
+  app.add_option("-b, --benchmark", config.iters,
+                 "Benchmark mode (iterations count)")
+      ->option_text("ITERS");
 
+  // parse CLI arguments
   CLI11_PARSE(app, argc, argv);
 
-  if (verbose) {
-    cout << "File 1: " << file_1 << endl;
-    cout << "File 2: " << file_2 << endl;
-    cout << "Output: " << file_out << endl;
-    cout << "Interactive: " << interactive << endl;
-    cout << "Verbose: " << verbose << endl;
-    cout << "Iterations: " << iters << endl;
-    cout << (use_column ? "Using column multiplication"
-                        : "Using FFT multiplication");
-    cout << endl;
+  // check if no files or interactive mode specified
+  if (config.file_1.empty() && config.file_2.empty() && !config.interactive) {
+    cout << "No files or interactive mode specified" << endl;
+    cout << "Use -h or --help to see usage" << endl;
+    return 0;
   }
 
-  if (interactive) {
-    interactive_mode(iters, use_column);
-  } else {
-    file_mode(file_1, file_2, file_out, iters, use_column);
+  try {  // run selected mode
+    (config.interactive ? interactive_mode : file_mode)(config);
+  } catch (const exception &e) {
+    cout << endl << e.what() << endl;
+    return 1;
   }
-
-  return 0;
 }
