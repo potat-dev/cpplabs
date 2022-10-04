@@ -22,7 +22,7 @@ Number::Number(const int64_t &n) {
   }
 }
 
-Number::Number(const vector<uint16_t> &v, bool n) : digits(v), negative(n) {}
+Number::Number(const vector<int> &v, bool n) : digits(v), negative(n) {}
 
 size_t Number::size() const { return digits.size(); }
 bool Number::is_negative() const { return negative; }
@@ -68,12 +68,32 @@ ostream &operator<<(ostream &out, const Number &n) {
 // multiplication algorithms
 
 Number fft_multiply(const Number &a, const Number &b) {
-  return Number(multiply(a.digits, b.digits),
-                a.is_negative() ^ b.is_negative());
+  vector<base> fa(a.digits.begin(), a.digits.end());
+  vector<base> fb(b.digits.begin(), b.digits.end());
+  int n = 1;
+  while (n < a.size() + b.size()) n <<= 1;
+  fa.resize(n), fb.resize(n);
+  
+  fft(fa, false), fft(fb, false);
+  for (int i = 0; i < n; i++) fa[i] *= fb[i];
+  fft(fa, true);
+
+  vector<int> result(n);
+  for (int i = 0; i < n; i++) {
+    result[i] = int(fa[i].real() + 0.5);
+  }
+
+  for (int i = 0; i < n - 1; i++) {
+    result[i + 1] += result[i] / 10;
+    result[i] %= 10;
+  }
+
+  while (result.size() > 1 && result.back() == 0) result.pop_back();
+  return Number(result, a.negative != b.negative);
 }
 
 Number column_multiply(const Number &a, const Number &b) {
-  vector<uint16_t> result(a.size() + b.size(), 0);
+  vector<int> result(a.size() + b.size(), 0);
   for (int i = 0; i < a.size(); i++) {
     for (int j = 0; j < b.size(); j++) {
       result[i + j] += a[i] * b[j];
