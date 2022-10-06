@@ -15,7 +15,7 @@ include_directories(fourier)
 find_package(CLI11 CONFIG REQUIRED)
 
 # Создает исполняемый файл с именем main
-add_executable(main ${SOURCE_EXE})
+add_executable(Coursework ${SOURCE_EXE})
 
 # Добавление подпроектов, указывается имя дирректории
 add_subdirectory(modes)
@@ -23,4 +23,4 @@ add_subdirectory(number)
 add_subdirectory(fourier)
 
 # Линковка программы с библиотекой
-target_link_libraries(main modes number fourier CLI11::CLI11)
+target_link_libraries(Coursework modes number fourier CLI11::CLI11)

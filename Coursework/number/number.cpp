@@ -41,8 +41,9 @@ void Number::set(const string &s) {
     }
   }
 
-  // remove leading zeros
+  if (digits.empty()) throw invalid_argument("Invalid number");
   while (digits.size() > 1 && digits.back() == 0) digits.pop_back();
+  if (digits.size() == 1 && digits[0] == 0) negative = false;
 }
 
 void Number::load(const string &filename) {
@@ -73,7 +74,7 @@ Number fft_multiply(const Number &a, const Number &b) {
   int n = 1;
   while (n < a.size() + b.size()) n <<= 1;
   fa.resize(n), fb.resize(n);
-  
+
   fft(fa, false), fft(fb, false);
   for (int i = 0; i < n; i++) fa[i] *= fb[i];
   fft(fa, true);
