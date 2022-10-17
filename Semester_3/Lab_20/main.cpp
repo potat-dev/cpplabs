@@ -1,7 +1,29 @@
-// Ориентированный граф задан и хранится списком смежности
-// В файле задается вершина, с которой начинается обход
-// Выписать прямые (ребра дерева обхода bfs),
-// обратные ребра и поперечные ребра (не связывают предков и потомков).
+// graph edge classification in bfs
+// breadth first edge classification
+
+// example graph represented as an adjacency list:
+// 0: 1 4 7
+// 1: 2
+// 2: 3
+// 3: 1
+// 4: 5
+// 5: 2 5 7
+// 6: -
+// 7: -
+
+// start vertex: 0
+
+// edge classification:
+// 0 -> 1: tree edge
+// 0 -> 4: tree edge
+// 0 -> 7: forward edge
+// 1 -> 2: tree edge
+// 2 -> 3: tree edge
+// 3 -> 1: back edge
+// 4 -> 5: tree edge
+// 5 -> 2: cross edge
+// 5 -> 6: tree edge
+// 5 -> 7: tree edge
 
 #include <fstream>
 #include <iostream>
@@ -12,23 +34,28 @@ using namespace std;
 
 class Graph {
  private:
+  // Список смежности
+  // Изначально пустой
   vector<vector<int>> adj;
 
  public:
   // load from file
   Graph(const string &filename) {
     ifstream fin(filename);
+    if (!fin.is_open()) {
+      throw runtime_error("File not found: " + filename);
+    }
     // until the end of file
     while (!fin.eof()) {
       vector<int> row;
+      row.resize(0);
       int n;
       // read vector
       while (fin >> n) {
+        if (n == -1) break;
         row.push_back(n);
         // if the end of line
-        if (fin.peek() == '\n') {
-          break;
-        }
+        if (fin.peek() == '\n') break;
       }
       // add vector to matrix
       adj.push_back(row);
@@ -39,40 +66,69 @@ class Graph {
   void print() {
     for (int i = 0; i < adj.size(); i++) {
       cout << i << ": ";
-      for (int j = 0; j < adj[i].size(); j++) {
-        cout << adj[i][j] << " ";
-      }
+      for (int n : adj[i]) cout << n << " ";
       cout << endl;
     }
   }
 
-  // bfs
+  // breadth first edge classification
   void bfs(int start) {
+    // initialize
+    vector<int> color(adj.size(), 0);
+    vector<int> parent(adj.size(), -1);
+    vector<int> distance(adj.size(), -1);
     queue<int> q;
-    vector<bool> visited(adj.size(), false);
+    // start vertex
+    color[start] = 1;
+    distance[start] = 0;
     q.push(start);
-    visited[start] = true;
     // until queue is empty
     while (!q.empty()) {
-      int v = q.front();  // get first
+      // get vertex
+      int u = q.front();
       q.pop();
-      // for each neighbour
-      for (int i = 0; i < adj[v].size(); i++) {
-        int u = adj[v][i];
-        if (!visited[u]) {  // if not visited!
-          q.push(u);
-          visited[u] = true;
-          cout << v << " -> " << u << endl;
+      // for each neighbor
+      for (int v : adj[u]) {
+        // if not visited
+        if (color[v] == 0) {
+          // mark as visited
+          color[v] = 1;
+          // set parent
+          parent[v] = u;
+          // set distance
+          distance[v] = distance[u] + 1;
+          // add to queue
+          q.push(v);
+          // print edge
+          cout << u << " -> " << v << ": tree edge" << endl;
+        } else {
+          // if parent
+          if (parent[u] == v) {
+            // print edge
+            cout << u << " -> " << v << ": back edge" << endl;
+          } else {
+            // if distance
+            if (distance[u] < distance[v]) {
+              // print edge
+              cout << u << " -> " << v << ": forward edge" << endl;
+            } else {
+              // print edge
+              cout << u << " -> " << v << ": cross edge" << endl;
+            }
+          }
         }
       }
+      // mark as visited
+      color[u] = 2;
     }
   }
 };
 
 int main() {
-  Graph g("graph.txt");
+  Graph g("D:\\Projects\\SUAI-Labs\\Semester_3\\Lab_20\\graph.txt");
+  cout << endl << "example graph:" << endl;
   g.print();
-  cout << endl;
+  cout << endl << "edge classification:" << endl;
   g.bfs(0);
   return 0;
 }
