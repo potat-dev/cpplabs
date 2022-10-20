@@ -8,3 +8,7 @@ set(SOURCE_EXE main.cpp)
 
 # Создает исполняемый файл с именем main
 add_executable(Lab_20 ${SOURCE_EXE})
+add_executable(Lab_20_dop ${SOURCE_EXE})
+
+# Установка define DOP для компиляции
+target_compile_definitions(Lab_20_dop PRIVATE DOP)

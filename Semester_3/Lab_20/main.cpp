@@ -3,6 +3,10 @@
 // Построить дерево обхода с помощью bfs
 // Определить типы ребер графа и вывести их на экран
 
+// доп:
+// сгенерировать изображение графа с помощью graphviz
+// раскрасить вершины в зависимости от типа ребер
+
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -45,8 +49,8 @@ class Graph {
     parent.resize(adj.size());
   }
 
-  void bfs() {     // обход в ширину
-    queue<int> q;  // очередь для хранения вершин
+  void getEdgesBFS() {  // обход в ширину
+    queue<int> q;       // очередь для хранения вершин
     vector<bool> visited(adj.size(), false);
 
     q.push(root);
@@ -70,13 +74,11 @@ class Graph {
         }
       }
     }
-  }
 
-  void printEdgeTypes() {
+    // определяем типы остальных ребер
     // использован алгоритм из ответа на StackOverflow
     // https://stackoverflow.com/a/29710587/15301038
 
-    // проходим по всем ребрам
     for (int i = 0; i < adj.size(); i++) {
       for (int j = 0; j < adj[i].size(); j++) {
         // если ребро существует и его тип не определен
@@ -94,7 +96,9 @@ class Graph {
         }
       }
     }
+  }
 
+  void printEdges() {
     for (auto edge : edges) {
       int a = edge.first.first, b = edge.first.second;
       switch (edge.second) {
@@ -102,7 +106,7 @@ class Graph {
           cout << a << " --> " << b << " tree" << endl;
           break;
         case EdgeType::BACK:
-          cout << a << " <-- " << b << " back" << endl;
+          cout << b << " <-- " << a << " back" << endl;
           break;
         case EdgeType::CROSS:
           cout << a << " --- " << b << " cross" << endl;
@@ -110,16 +114,45 @@ class Graph {
       }
     }
   }
+
+#ifdef DOP
+  void exportGraphviz(string filename) {
+    ofstream fout(filename);
+    if (!fout.is_open()) throw runtime_error("File not found");
+    fout << "digraph G {" << endl;
+    for (auto edge : edges) {
+      int a = edge.first.first, b = edge.first.second;
+      switch (edge.second) {
+        case EdgeType::TREE:
+          fout << "  " << a << " -> " << b << " [color=green]" << endl;
+          break;
+        case EdgeType::BACK:
+          fout << "  " << b << " -> " << a << " [color=red]" << endl;
+          break;
+        case EdgeType::CROSS:
+          fout << "  " << a << " -> " << b << " [color=blue]" << endl;
+          break;
+      }
+    }
+    fout << "}";
+  }
+#endif
 };
 
 // получаем имя файла из аргументов командной строки
+// в допе еще и сохраняем граф в формате Graphviz
 int main(int argc, char* argv[]) {
-  if (argc < 2) {
-    cout << "Usage: " << argv[0] << " <filename>" << endl;
-    return 1;
-  } else {
+#ifndef DOP
+  if (argc != 2) cout << "Usage: " << argv[0] << " <filename>" << endl;
+#else
+  if (argc != 3) cout << "Usage: " << argv[0] << " <filename> <output>" << endl;
+#endif
+  else {
     Graph g(argv[1]);
-    g.bfs();
-    g.printEdgeTypes();
+    g.getEdgesBFS();
+    g.printEdges();
+#ifdef DOP
+    g.exportGraphviz(argv[2]);
+#endif
   }
 }
