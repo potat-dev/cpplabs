@@ -12,7 +12,13 @@
 
 // Вывести на экран типы ребер.
 
-// pseudocode from https://stackoverflow.com/a/29710587/15301038
+// As you already established, seeing a node for the first time creates a tree edge. The problem with BFS instead of DFS, as David Eisenstat said before me, is that back edges cannot be distinguished from cross ones just based on traversal order.
+// Instead, you need to do a bit of extra work to distinguish them. The key, as you'll see, is to use the definition of a cross edge.
+// The simplest (but memory-intensive) way is to associate every node with the set of its predecessors. This can be done trivially when you visit nodes. When finding a non-tree edge between nodes a and b, consider their predecessor sets. If one is a proper subset of the other, then you have a back edge. Otherwise, it's a cross edge. This comes directly from the definition of a cross edge: it's an edge between nodes where neither is the ancestor nor the descendant of the other on the tree.
+// A better way is to associate only a "depth" number with each node instead of a set. Again, this is readily done as you visit nodes. Now when you find a non-tree edge between a and b, start from the deeper of the two nodes and follow the tree edges backwards until you go back to the same depth as the other. So for example suppose a was deeper. Then you repeatedly compute a=parent(a) until depth(a)=depth(b).
+// If at this point a=b then you can classify the edge as a back edge because, as per the definition, one of the nodes is an ancestor of the other on the tree. Otherwise you can classify it as a cross edge because we know that neither node is an ancestor or descendant of the other.
+
+// pseudocode:
 
 //   foreach edge(a,b) in BFS order:
 //     if !b.known then:
@@ -32,7 +38,6 @@
 #include <queue>
 #include <stdexcept>
 #include <vector>
-#include <map>
 
 using namespace std;
 
@@ -48,13 +53,12 @@ class Graph {
   vector<int> parent;
 
   // список ребер
-  // ((начало, конец), тип)
+  // (начало, конец, тип)
   // типы ребер:
   // 0 - дерево
   // 1 - обратное
   // 2 - кросс
-  // vector<vector<int>> edges;
-  map<pair<int, int>, int> edges;
+  vector<vector<int>> edges;
 
  public:
   // Конструктор
@@ -107,8 +111,7 @@ class Graph {
           depth[i] = depth[v] + 1;
           parent[i] = v;
           // Выводим ребро
-          // cout << v << " " << i << " TREE" << endl;
-          edges.insert({{v, i}, 0});
+          cout << v << " " << i << " TREE" << endl;
         }
       }
     }
@@ -117,7 +120,7 @@ class Graph {
   void printEdgeTypes() {
     for (int i = 0; i < adj.size(); i++) {
       for (int j = 0; j < adj[i].size(); j++) {
-        if (adj[i][j] == 1 && edges.find({i, j}) == edges.end()) {
+        if (adj[i][j] == 1) {
           // copy of i and j
           int a = i;
           int b = j;
@@ -132,29 +135,12 @@ class Graph {
           // if a==b then:
           //   edge type is BACK
           if (a == b) {
-            edges.insert({{i, j}, 1});
-            // cout << i << " " << j << " BACK" << endl;
+            cout << i << " " << j << " BACK" << endl;
           } else {
             //   edge type is CROSS
-            edges.insert({{i, j}, 2});
-            // cout << i << " " << j << " CROSS" << endl;
+            cout << i << " " << j << " CROSS" << endl;
           }
         }
-      }
-    }
-
-    for (auto edge : edges) {
-      cout << edge.first.first << " " << edge.first.second << " ";
-      switch (edge.second) {
-        case 0:
-          cout << "TREE" << endl;
-          break;
-        case 1:
-          cout << "BACK" << endl;
-          break;
-        case 2:
-          cout << "CROSS" << endl;
-          break;
       }
     }
   }
@@ -167,6 +153,6 @@ int main() {
   g.bfs();
   g.printEdgeTypes();
   // cout << "test" << endl;
-
+  
   return 0;
 }
