@@ -1,70 +1,35 @@
-// Ориентированный граф задан и хранится матрицей смежности.
-// В файле задается вершина, с которой начинается обход.
-
-// Построить дерево обхода с помощью bfs.
-// После того, как известно дерево обхода, необходимо определить типы ребер
-// направленного графа.
-
-// Ребра древа обхода - это ребра, которые входят в дерево обхода.
-// Прямые ребра - это ребра, которые ведут из родительской вершины в дочернюю.
-// Обратные ребра - ребра, ведущие от потомка к предку.
-// Поперечные ребра - ребра, не связывающие предков и потомков.
-
-// Вывести на экран типы ребер.
-
-// pseudocode from https://stackoverflow.com/a/29710587/15301038
-
-//   foreach edge(a,b) in BFS order:
-//     if !b.known then:
-//       b.known = true
-//       b.depth = a.depth+1
-//       edge type is TREE
-//       continue to next edge
-//     while (b.depth > a.depth): b=parent(b)
-//     while (a.depth > b.depth): a=parent(a)
-//     if a==b then:
-//       edge type is BACK
-//     else:
-//       edge type is CROSS
+// Ориентированный граф задан и хранится матрицей смежности
+// В файле также задается вершина, с которой начинается обход
+// Построить дерево обхода с помощью bfs
+// Определить типы ребер графа и вывести их на экран
 
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <queue>
 #include <stdexcept>
 #include <vector>
-#include <map>
 
 using namespace std;
 
+enum class EdgeType { TREE, BACK, CROSS };
+
 class Graph {
  private:
-  // Матрица смежности
-  vector<vector<int>> adj;
-  // Номер вершины, с которой начинается обход
-  int root;
-  // глубина вершины
-  vector<int> depth;
-  // родитель вершины
-  vector<int> parent;
+  vector<vector<int>> adj;  // матрица смежности
+  vector<int> depth;        // глубина вершины
+  vector<int> parent;       // родитель вершины
+  int root;                 // корень дерева обхода
 
-  // список ребер
-  // ((начало, конец), тип)
-  // типы ребер:
-  // 0 - дерево
-  // 1 - обратное
-  // 2 - кросс
-  // vector<vector<int>> edges;
-  map<pair<int, int>, int> edges;
+  // список ребер {(начало, конец): тип}
+  // типы ребер: 0 - дерево, 1 - обратное, 2 - кросс
+  map<pair<int, int>, EdgeType> edges;
 
  public:
-  // Конструктор
   Graph(string filename) {
     ifstream fin(filename);
-    if (!fin.is_open()) {
-      throw runtime_error("File not found");
-    }
+    if (!fin.is_open()) throw runtime_error("File not found");
     fin >> root;
-    // Инициализируем матрицу смежности
     adj.resize(0);
     // Считываем матрицу смежности
     while (!fin.eof()) {
@@ -76,97 +41,85 @@ class Graph {
       }
       adj.push_back(row);
     }
-
     depth.resize(adj.size());
     parent.resize(adj.size());
   }
 
-  // Обход в ширину
-  void bfs() {
-    // Очередь для хранения вершин
-    queue<int> q;
-    // Вектор для хранения информации о посещении вершины
+  void bfs() {     // обход в ширину
+    queue<int> q;  // очередь для хранения вершин
     vector<bool> visited(adj.size(), false);
-    // Начинаем с корня
+
     q.push(root);
     visited[root] = true;
     depth[root] = 0;
     parent[root] = -1;
-    // Пока очередь не пуста
+
     while (!q.empty()) {
-      // Извлекаем вершину
-      int v = q.front();
-      q.pop();
-      // Просматриваем все вершины, смежные с v
+      int v = q.front();  // извлекаем последнюю вершину
+      q.pop();            // удаляем ее из очереди
+      // просматриваем все вершины, смежные с текущей
       for (int i = 0; i < adj[v].size(); i++) {
-        // Если есть ребро и вершина еще не посещена
+        // если ребро существует и вершина не посещена
         if (adj[v][i] == 1 && !visited[i]) {
-          // Добавляем ее в очередь
           q.push(i);
-          visited[i] = true;
-          depth[i] = depth[v] + 1;
-          parent[i] = v;
-          // Выводим ребро
-          // cout << v << " " << i << " TREE" << endl;
-          edges.insert({{v, i}, 0});
+          visited[i] = true;  // помечаем вершину как посещенную
+          depth[i] = depth[v] + 1;  // увеличиваем глубину
+          parent[i] = v;            // запоминаем родителя
+          // добавляем ребро в список ребер
+          edges.insert({{v, i}, EdgeType::TREE});
         }
       }
     }
   }
 
   void printEdgeTypes() {
+    // использован алгоритм из ответа на StackOverflow
+    // https://stackoverflow.com/a/29710587/15301038
+
+    // проходим по всем ребрам
     for (int i = 0; i < adj.size(); i++) {
       for (int j = 0; j < adj[i].size(); j++) {
+        // если ребро существует и его тип не определен
         if (adj[i][j] == 1 && edges.find({i, j}) == edges.end()) {
-          // copy of i and j
-          int a = i;
-          int b = j;
-          // while (b.depth > a.depth): b=parent(b)
-          while (depth[b] > depth[a]) {
-            b = parent[b];
-          }
-          // while (a.depth > b.depth): a=parent(a)
-          while (depth[a] > depth[b]) {
-            a = parent[a];
-          }
-          // if a==b then:
-          //   edge type is BACK
+          int a = i, b = j;
+          // ищем общего предка
+          while (depth[b] > depth[a]) b = parent[b];
+          while (depth[a] > depth[b]) a = parent[a];
+          // если общий предок найден
           if (a == b) {
-            edges.insert({{i, j}, 1});
-            // cout << i << " " << j << " BACK" << endl;
+            edges.insert({{i, j}, EdgeType::BACK});
           } else {
-            //   edge type is CROSS
-            edges.insert({{i, j}, 2});
-            // cout << i << " " << j << " CROSS" << endl;
+            edges.insert({{i, j}, EdgeType::CROSS});
           }
         }
       }
     }
 
     for (auto edge : edges) {
-      cout << edge.first.first << " " << edge.first.second << " ";
+      int a = edge.first.first, b = edge.first.second;
       switch (edge.second) {
-        case 0:
-          cout << "TREE" << endl;
+        case EdgeType::TREE:
+          cout << a << " --> " << b << " tree" << endl;
           break;
-        case 1:
-          cout << "BACK" << endl;
+        case EdgeType::BACK:
+          cout << a << " <-- " << b << " back" << endl;
           break;
-        case 2:
-          cout << "CROSS" << endl;
+        case EdgeType::CROSS:
+          cout << a << " --- " << b << " cross" << endl;
           break;
       }
     }
   }
 };
 
-int main() {
-  // cout << "test" << endl;
-  Graph g("D:/Projects/SUAI-Labs/Semester_3/Lab_20/graph.txt");
-  // cout << "test" << endl;
-  g.bfs();
-  g.printEdgeTypes();
-  // cout << "test" << endl;
-
-  return 0;
+// получаем имя файла из аргументов командной строки
+int main(int argc, char* argv[]) {
+  if (argc < 2) {
+    cout << "Usage: " << argv[0] << " <filename>" << endl;
+    return 1;
+  } else {
+    Graph g(argv[1]);
+    g.bfs();
+    g.printEdgeTypes();
+  }
 }

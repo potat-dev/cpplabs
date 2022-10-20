@@ -51,16 +51,15 @@ Labs now ready: <code>8 / 8</code>
 ## Semester 3
 <details open>
 <summary>
-Labs now ready: <code>2 / 4</code>
+Labs now ready: <code>3 / 3</code>
 </summary>
 <p></p>
 
 | Lab   | Dev | Ready | Pass | Dop |
 | :---- | :-: | :-: | :-: | :-: |
 | Lab 17 | ✅ | ✅ | ✅ | ✅ |
-| Lab 18 | ✅ | ✅ | ✅ |  |
-| Lab 19 |  |  |  |  |
-| Lab 20 |  |  |  |  |
+| Lab 18 | ✅ | ✅ | ✅ | ✅ |
+| Lab 20 | ✅ | ✅ |  |  |
 
 </details>
 
