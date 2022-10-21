@@ -12,3 +12,6 @@ add_executable(Lab_20_dop ${SOURCE_EXE})
 
 # Установка define DOP для компиляции
 target_compile_definitions(Lab_20_dop PRIVATE DOP)
+
+# Скопировать файлы в папку с билдом
+configure_file(graph.txt graph.txt COPYONLY)

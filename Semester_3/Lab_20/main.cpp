@@ -98,23 +98,6 @@ class Graph {
     }
   }
 
-  void printEdges() {
-    for (auto edge : edges) {
-      int a = edge.first.first, b = edge.first.second;
-      switch (edge.second) {
-        case EdgeType::TREE:
-          cout << a << " --> " << b << " tree" << endl;
-          break;
-        case EdgeType::BACK:
-          cout << b << " <-- " << a << " back" << endl;
-          break;
-        case EdgeType::CROSS:
-          cout << a << " --- " << b << " cross" << endl;
-          break;
-      }
-    }
-  }
-
 #ifdef DOP
   void exportGraphviz(string filename) {
     ofstream fout(filename);
@@ -137,22 +120,32 @@ class Graph {
     fout << "}";
   }
 #endif
+
+  void printEdges() {
+    for (auto edge : edges) {
+      int a = edge.first.first, b = edge.first.second;
+      switch (edge.second) {
+        case EdgeType::TREE:
+          cout << a << " --> " << b << " tree" << endl;
+          break;
+        case EdgeType::BACK:
+          cout << b << " <-- " << a << " back" << endl;
+          break;
+        case EdgeType::CROSS:
+          cout << a << " --- " << b << " cross" << endl;
+          break;
+      }
+    }
+  }
 };
 
-// получаем имя файла из аргументов командной строки
-// в допе еще и сохраняем граф в формате Graphviz
-int main(int argc, char* argv[]) {
-#ifndef DOP
-  if (argc != 2) cout << "Usage: " << argv[0] << " <filename>" << endl;
-#else
-  if (argc != 3) cout << "Usage: " << argv[0] << " <filename> <output>" << endl;
-#endif
-  else {
-    Graph g(argv[1]);
-    g.getEdgesBFS();
-    g.printEdges();
+int main() {
+  Graph g("graph.txt");
+  g.getEdgesBFS();
+  g.printEdges();
+
 #ifdef DOP
-    g.exportGraphviz(argv[2]);
+  // сохраняем граф в формате Graphviz
+  g.exportGraphviz("graph.dot");
 #endif
-  }
 }
