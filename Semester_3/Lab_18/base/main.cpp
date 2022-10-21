@@ -11,7 +11,7 @@
 #include <iostream>
 #include <string>
 
-#include "LFU_cache.h"
+#include "cache.h"
 
 using namespace std;
 
