@@ -2,10 +2,15 @@
 // с которой начинается обход. Выполнить нерекурсивный алгоритм dfs и выписать
 // количество связей для каждой вершины в порядке обхода (d-номер вершины)
 
+// доп: выводить весь стек на каждой итерации
+
 #include <fstream>
+#include <iomanip>
 #include <iostream>
 #include <stack>
 #include <vector>
+
+#define DOP
 
 using namespace std;
 
@@ -17,10 +22,9 @@ class Graph {
  public:
   Graph(const string &filename) {  // Считывание графа из файла
     ifstream fin(filename);
-    if (!fin.is_open())
-      throw runtime_error("File not found: " + filename);
+    if (!fin.is_open()) throw runtime_error("File not found: " + filename);
 
-    fin >> root; // Считываем корень
+    fin >> root;  // Считываем корень
     // Пока не дошли до конца файла
     while (!fin.eof()) {
       vector<int> row(0, 0);
@@ -36,17 +40,33 @@ class Graph {
     }
   }
 
+#ifdef DOP
+  void printStack(stack<int> s) {
+    cout << "[";
+    while (!s.empty()) {
+      cout << s.top();
+      s.pop();
+      if (!s.empty()) cout << ", ";
+    }
+    cout << "]" << endl;
+  }
+#endif
+
   void dfs() {
+    int iter = 0;
     vector<bool> visited(adj.size(), false);
     stack<int> st;
-
     st.push(root);
     while (!st.empty()) {
+      ++iter;
+#ifdef DOP
+      cout << "(iter " << iter << ") stack: ";
+      printStack(st);
+#endif
       int top = st.top();
       st.pop();
       if (!visited[top]) {
         visited[top] = true;
-        cout << "(vertex " << top << ") - ";
         // Добавление в стек соседних вершин
         int count = 0;
         for (int i = 0; i < adj[top].size(); i++) {
@@ -55,7 +75,8 @@ class Graph {
             count++;
           }
         }
-        cout << count << endl;
+        cout << "(iter " << iter << ") vertex " << top;
+        cout << ": d = " << count << endl;
       }
     }
   }
