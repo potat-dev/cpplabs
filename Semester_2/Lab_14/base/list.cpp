@@ -1,13 +1,12 @@
-#include "shape.h"
 #include "list.h"
+
+#include "shape.h"
 
 using namespace std;
 
 // class Node
 
-Node::Node(Shape* s, Node* next):
-  shape(s), next(next) {
-}
+Node::Node(Shape* s, Node* next) : shape(s), next(next) {}
 
 // class FigureList
 
@@ -17,7 +16,7 @@ FigureList::FigureList() {
 }
 
 void FigureList::push_front(Shape* s) {
-  Node *temp = new Node(s);
+  Node* temp = new Node(s);
   if (size) {
     temp->next = head;
     head = temp;
@@ -28,11 +27,10 @@ void FigureList::push_front(Shape* s) {
 }
 
 void FigureList::push_back(Shape* s) {
-  Node *temp = new Node(s);
+  Node* temp = new Node(s);
   if (size) {
-    Node *last = head;
-    while (last->next)
-      last = last->next;
+    Node* last = head;
+    while (last->next) last = last->next;
     last->next = temp;
   } else {
     head = temp;
@@ -41,10 +39,9 @@ void FigureList::push_back(Shape* s) {
 }
 
 Shape& FigureList::get(int id) {
-  Node *curr = head;
+  Node* curr = head;
   while (curr) {
-    if (curr->shape->get_id() == id)
-      return *(curr->shape);
+    if (curr->shape->get_id() == id) return *(curr->shape);
     curr = curr->next;
   }
   return *(curr->shape);
@@ -54,11 +51,11 @@ void FigureList::erase(int id) {
   Node *curr = head, *prev = NULL;
   while (curr) {
     if (curr->shape->get_id() == id) {
-      if (curr == head) { // первый элемент
+      if (curr == head) {  // первый элемент
         head = head->next;
-      } else if (curr->next) { // элемент посередине
+      } else if (curr->next) {  // элемент посередине
         prev->next = curr->next;
-      } else { // последний элемент
+      } else {  // последний элемент
         prev->next = NULL;
       }
       delete curr->shape;

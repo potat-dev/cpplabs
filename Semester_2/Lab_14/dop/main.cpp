@@ -13,23 +13,22 @@
 // Node (элемент списка) и List (сам список)
 
 // TODO:
-//* связный список (List) элементов (Node)
-//* вывод параметров фигуры через метод print()
-//* Circle: радиус, надпись произвольной длины
-//* Segment: координаты начала и коодинаты конца
+// связный список (List) элементов (Node)
+// вывод параметров фигуры через метод print()
+// Circle: радиус, надпись произвольной длины
+// Segment: координаты начала и коодинаты конца
 
-//? исправить: сделать чтобы айдишники задавались по умолчанию автоматически
-//? доп: написать функцию сравнения длин контуров(!) двух фигур
-//? (круг сравнивать с отрезком -> длина окружности сравнивается с длиной отрезка)
+// исправить: сделать чтобы айдишники задавались по умолчанию автоматически
+// доп: написать функцию сравнения длин контуров(!) двух фигур
+// (круг == отрезок -> длина окружности сравнивается с длиной отрезка)
 
-#include "shape.h"
 #include "list.h"
+#include "shape.h"
 
 int main() {
   FigureList list;
 
   cout << endl << "---- id_2 id_1 id_0 -> [] ----" << endl;
-
   Circle *c1 = new Circle({0, 0}, 1, "lol kek");
   Circle *c2 = new Circle({4, 2}, 7, "cheburek");
   Segment *s1 = new Segment({0, 0}, {42, 42});
@@ -37,41 +36,34 @@ int main() {
   list.push_front(c1);
   list.push_front(c2);
   list.push_front(s1);
-
-  list.print_all(); // list now: [id_2, id_1, id_0]
+  list.print_all();  // list now: [id_2, id_1, id_0]
 
   cout << endl << "---- id_4 -> [] <- id_3 ----" << endl;
-
   list.push_back(new Segment({6, 18}, {4, 2}));
   list.push_front(new Circle({7, 7}, 7, "kek"));
-
-  list.print_all(); // list now: [id_4, id_2, id_1, id_0, id_3]
+  list.print_all();  // list now: [id_4, id_2, id_1, id_0, id_3]
 
   cout << endl << "---- [] -> id_3 id_1 ----" << endl;
-
-  cout << endl; list.get(3).print();
-  cout << endl; list.get(1).print();
+  cout << endl;
+  list.get(3).print();
+  cout << endl;
+  list.get(1).print();
 
   cout << endl << "---- [] -x-> id_4 ----" << endl;
-
   list.erase(4);
-  list.print_all(); // list now: [id_2, id_1, id_0, id_3]
+  list.print_all();  // list now: [id_2, id_1, id_0, id_3]
 
   cout << endl << "---- [] -x-> id_0 ----" << endl;
-
   list.erase(0);
-  list.print_all(); // list now: [id_2, id_1, id_3]
+  list.print_all();  // list now: [id_2, id_1, id_3]
 
   cout << endl << "---- [] -x-> id_3 ----" << endl;
-
   list.erase(3);
-  list.print_all(); // list now: [id_2, id_1]
+  list.print_all();  // list now: [id_2, id_1]
 
   cout << endl << "---- id_5 -> [] ----" << endl;
-
   list.push_front(new Segment);
-
-  list.print_all(); // list now: [id_5, id_2, id_1]
+  list.print_all();  // list now: [id_5, id_2, id_1]
 
   cout << endl << "-------- dop --------" << endl;
 
@@ -91,8 +83,7 @@ int main() {
   // для теста нужно создать одинаковые Circle и Segment (например равные нулю)
 
   cout << endl << endl << "---- [] <- id_6 ----" << endl;
-
-  list.push_back(new Circle); // list now: [id_5, id_2, id_1, id_6]
+  list.push_back(new Circle);  // list now: [id_5, id_2, id_1, id_6]
 
   cout << endl << "contour id_6: " << list.get(6).get_contour_length();
 
@@ -108,5 +99,6 @@ int main() {
   }
 
   list2.print_all();
-  // list_2 now: [id_15, id_13, id_11, id_9, id_7, id_8, id_10, id_12, id_14, id_16]
+  // list_2 now:
+  // [id_15, id_13, id_11, id_9, id_7, id_8, id_10, id_12, id_14, id_16]
 }
