@@ -14,6 +14,9 @@ FetchContent_Declare(json
 # Добавляем библиотеку
 FetchContent_MakeAvailable(json)
 
+# Добавляем заголовочные файлы
+include_directories(include)
+
 # Создает исполняемый файл
 add_executable(Lab_18_dop main.cpp cache.cpp translate.cpp)
 
