@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 
+# Название проекта
 project(Lab_11)
 
-add_executable(Lab_11 main.cpp)
+# Добавляем подпроекты
+add_subdirectory(base)
+add_subdirectory(dop)

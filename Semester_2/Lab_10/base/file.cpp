@@ -1,8 +1,9 @@
-#include <stdio.h>
 #include "file.h"
 
+#include <stdio.h>
+
 // форматируем файл с отступами
-void parse_file(const char *in, const char *out, int start, int end, bool no_whitespace) {
+void parse_file(const char *in, const char *out, int start, int end) {
   FILE *input = fopen(in, "rt");
   FILE *output = fopen(out, "w");
   if (input == NULL) return;
@@ -15,14 +16,11 @@ void parse_file(const char *in, const char *out, int start, int end, bool no_whi
       counter++;
     }
 
-    while (counter == start && c == ' ')
-      c = fgetc(input);
+    while (counter == start && c == ' ') c = fgetc(input);
 
     if (counter <= end) {
       fprintf(output, "%c", c);
-      do {
-        c = fgetc(input);
-      } while ((c == ' ' || c == '\t') && no_whitespace);
+      c = fgetc(input);
       counter++;
     } else {
       fprintf(output, "\n");

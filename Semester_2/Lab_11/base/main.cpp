@@ -2,19 +2,10 @@
 // const char* strpbrk(const char *string, const char *strCharSet)
 // работающую так же, как библиотечная и тестирующую программу к ней
 
-// доп: написать strcmp
-
-#define DOP
-
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifndef DOP
-  #include "strpbrk.h"
-#else
-  #include "strcmp.h"
-#endif
-
+#include "strpbrk.h"
 
 int len = 0;
 char *readstr() {
@@ -34,19 +25,10 @@ char *readstr() {
   return s;
 }
 
-
 int main() {
-  #ifndef DOP
-    printf("Enter string: ");
-    char *str = readstr();
-    printf("Enter allowed chars: ");
-    char *chrs = readstr();
-    printf("The first character found: %c", *strpbrk(str, chrs));
-  #else
-    printf("Enter string 1: ");
-    char *str1 = readstr();
-    printf("Enter string 2: ");
-    char *str2 = readstr();
-    printf("Strcmp result: %d", strcmp(str1, str2));
-  #endif
+  printf("Enter string: ");
+  char *str = readstr();
+  printf("Enter allowed chars: ");
+  char *chrs = readstr();
+  printf("The first character found: %c", *strpbrk(str, chrs));
 }
