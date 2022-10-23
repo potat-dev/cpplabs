@@ -6,3 +6,4 @@ project(Lab_10)
 # Добавляем подпроекты
 add_subdirectory(base)
 add_subdirectory(dop)
+add_subdirectory(v2)

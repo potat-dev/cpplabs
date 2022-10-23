@@ -2,6 +2,9 @@
 
 A repository for learning C, C++ and the basics of Git in SUAI
 
+[![CMake](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/cmake.yml/badge.svg)](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/cmake.yml)
+[![CodeQL](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/codeql.yml/badge.svg)](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/codeql.yml)
+
 ## Useful links
 
 File with tasks for laboratory works: [Google Docs](https://docs.google.com/document/d/1xrpJrEPfF8pt5H5FsIfXumKFvwkoEy_wYpgZskR7_lA/)  
