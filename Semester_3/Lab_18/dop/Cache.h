@@ -22,52 +22,17 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 class LfuCache {
  private:
-  map<string, pair<string, size_t>> cache;  // {key, {value, count}}
-  multimap<size_t, string> freq;
+  // {key, {value, count}}
+  std::map<std::string, std::pair<std::string, size_t>> cache;
+  std::multimap<size_t, std::string> freq;
   size_t size;
 
  public:
-  LfuCache(size_t size) : size(size) {}
-
-  string get(const string &str) {
-    // if str is in cache, return value
-    // else return empty string
-    // if str is in cache, increase count
-    auto it = cache.find(str);
-    if (it != cache.end()) {
-      auto it2 = freq.find(it->second.second);
-      while (it2->second != str) it2++;  // search for str in freq
-      freq.erase(it2);
-      freq.insert({++it->second.second, str});
-      return it->second.first;
-    }
-    return "";
-  }
-
-  void add(const string &address, const string &value) {
-    // add address to cache
-    // if cache is full, delete least frequently used address
-    if (cache.size() == size) {
-      auto it2 = freq.begin();
-      cache.erase(it2->second);
-      freq.erase(it2);
-    }
-    cache.insert({address, {value, 1}});
-    freq.insert({1, address});
-  }
-
-  friend ostream &operator<<(ostream &out, const LfuCache &cache) {
-    cout << "Freq:" << endl;
-    for (auto it = cache.freq.begin(); it != cache.freq.end(); ++it) {
-      out << it->second << " - " << it->first << " " << endl;
-    }
-    return out;
-  }
-
-  // print
-  void print() { cout << *this << endl; }
+  LfuCache(size_t size);
+  std::string get(const std::string &str);
+  void add(const std::string &address, const std::string &value);
+  friend std::ostream &operator<<(std::ostream &out, const LfuCache &cache);
+  void print();
 };
