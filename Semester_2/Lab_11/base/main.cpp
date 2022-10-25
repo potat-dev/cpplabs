@@ -30,5 +30,5 @@ int main() {
   char *str = readstr();
   printf("Enter allowed chars: ");
   char *chrs = readstr();
-  printf("The first character found: %c", *strpbrk(str, chrs));
+  printf("The first character found: %c", *my_strpbrk(str, chrs));
 }

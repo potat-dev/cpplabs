@@ -32,5 +32,5 @@ int main() {
   char *str1 = readstr();
   printf("Enter string 2: ");
   char *str2 = readstr();
-  printf("Strcmp result: %d", strcmp(str1, str2));
+  printf("Strcmp result: %d", my_strcmp(str1, str2));
 }

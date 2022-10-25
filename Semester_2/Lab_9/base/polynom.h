@@ -2,8 +2,8 @@
 #include "fractions.h"
 
 struct polynom {
-  unsigned int n;   // количество коэффициентов
-  fraction *koeffs; // массив коэффициентов (дробей)
+  unsigned int n;    // количество коэффициентов
+  fraction *koeffs;  // массив коэффициентов (дробей)
 };
 
 polynom *new_polynom(long long *k, unsigned int n);
@@ -19,4 +19,3 @@ void destroy(polynom *p);
 
 polynom *multiply(polynom *a, polynom *b);
 void multiply(polynom *m, polynom *a, polynom *b);
-void integral(polynom *y, polynom *f);

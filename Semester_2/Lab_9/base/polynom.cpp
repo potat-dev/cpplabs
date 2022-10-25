@@ -1,10 +1,10 @@
-#include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "fractions.h"
 
-#define llabs(x) x > 0 ? x : -x  
+#define llabs(x) x > 0 ? x : -x
 
 // как хранится полином
 // на примере 3x^2 + 4x + 5:
@@ -15,8 +15,8 @@
 // n = 3 => кол-во коэффициентов (макс степень + 1)
 
 struct polynom {
-  unsigned int n;   // количество коэффициентов
-  fraction *koeffs; // массив коэффициентов (дробей)
+  unsigned int n;    // количество коэффициентов
+  fraction *koeffs;  // массив коэффициентов (дробей)
 };
 
 // очищает полином
@@ -27,10 +27,10 @@ void destroy(polynom *p) {
 
 // возвращает полином любой степени
 polynom *new_polynom(long long *k, unsigned int n) {
-  polynom *temp = (polynom*)malloc(sizeof(polynom));
-  fraction *fr = (fraction*)malloc(n * sizeof(fraction));
+  polynom *temp = (polynom *)malloc(sizeof(polynom));
+  fraction *fr = (fraction *)malloc(n * sizeof(fraction));
   for (int i = 0; i < n; i++) set_fraction(&fr[i], k[i]);
-  temp->koeffs = fr; // массив дробей
+  temp->koeffs = fr;  // массив дробей
   temp->n = n;
   return temp;
 }
@@ -38,8 +38,8 @@ polynom *new_polynom(long long *k, unsigned int n) {
 // возвращает полином любой степени
 // инициализируя его массивом дробей
 polynom *new_polynom(fraction *f, unsigned int n) {
-  polynom *temp = (polynom*)malloc(sizeof(polynom));
-  temp->koeffs = f; // массив дробей
+  polynom *temp = (polynom *)malloc(sizeof(polynom));
+  temp->koeffs = f;  // массив дробей
   temp->n = n;
   return temp;
 }
@@ -51,26 +51,25 @@ void upd_polynom(polynom *p, long long *k, unsigned int n) {
 
 // возвращает бином вида (x + a)
 polynom *new_binom(long long a) {
-  long long *koeffs = (long long*)malloc(2 * sizeof(long long));
-  koeffs[0] = a; koeffs[1] = 1;
+  long long *koeffs = (long long *)malloc(2 * sizeof(long long));
+  koeffs[0] = a;
+  koeffs[1] = 1;
   polynom *temp = new_polynom(koeffs, 2);
   return temp;
 }
 
 // обновляет существующий бином
-void upd_binom(polynom *p, long long a) {
-  set_fraction(&p->koeffs[0], a);
-}
+void upd_binom(polynom *p, long long a) { set_fraction(&p->koeffs[0], a); }
 
 // умножает два полинома и возвращает новый
 polynom *multiply(polynom *a, polynom *b) {
   unsigned int max_power = a->n + b->n - 1;
-  fraction *koeffs = (fraction*)malloc(max_power * sizeof(fraction));
+  fraction *koeffs = (fraction *)malloc(max_power * sizeof(fraction));
   for (int i = 0; i < max_power; i++) set_fraction(&koeffs[i], 0);
 
   for (int x = 0; x < a->n; x++)
     for (int y = 0; y < b->n; y++)
-      sum_multiply_fractions(&koeffs[x+y], &a->koeffs[x], &b->koeffs[y]);
+      sum_multiply_fractions(&koeffs[x + y], &a->koeffs[x], &b->koeffs[y]);
 
   polynom *temp = new_polynom(koeffs, max_power);
   return temp;
@@ -122,21 +121,9 @@ void print_koeffs(long long *arr, unsigned int n) {
       printf(arr[i] > 0 ? "(x - %lld)" : "(x + %lld)", llabs(arr[i]));
     else
       printf("x");
-    if (i < n-1) printf(" * ");
-    else printf("\n");
+    if (i < n - 1)
+      printf(" * ");
+    else
+      printf("\n");
   }
-}
-
-// вычисляет первообразную полинома (y = ∫f)
-void integral(polynom *y, polynom *f) {
-  fraction *fr = f->koeffs;
-  fraction *temp = (fraction*)malloc((f->n + 1) * sizeof(fraction));
-  set_fraction(&temp[0], 0);
-  for (long long i = 0; i < f->n; i++)
-    set_fraction(&temp[i + 1], (&fr[i])->koeff, (&fr[i])->divider * (i + 1));
-    // например: 3x^2 / 4 => 3x^3 / 12 => x^3 / 4
-
-  free(y->koeffs);
-  y->koeffs = temp;
-  y->n = f->n + 1;
 }

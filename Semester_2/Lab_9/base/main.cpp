@@ -3,13 +3,10 @@
 // p(x) = (x - a1) * (x - a2) * ... * (x - an)
 // (написать функцию для умножения двух многочленов)
 
-// доп: нахождение k-той первообразной полученного полинома
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "polynom.h"
 
-#define DOP
+#include "polynom.h"
 
 int main() {
   unsigned int n = 0;
@@ -21,11 +18,11 @@ int main() {
   }
 
   printf("Enter %d numbers: ", n);
-  long long *arr = (long long*) malloc(n * sizeof(long long));
+  long long *arr = (long long *)malloc(n * sizeof(long long));
   for (int i = 0; i < n; i++) scanf("%lld", &arr[i]);
   printf("\n");
   print_koeffs(arr, n);
-  
+
   polynom *p = new_binom(-arr[0]);
   if (n == 1) {
     print_polynom("\np(x) = ", p);
@@ -39,14 +36,4 @@ int main() {
   }
 
   print_polynom("\np(x) = ", p);
-
-#ifdef DOP
-
-  printf("\nEnter d (integral degree) = ");
-  scanf("%u", &n);
-  if (!n) printf("d must be >= 0\n");
-  for (int i = 0; i < n; i++) integral(p, p); // p = ∫ p
-  print_polynom("\ni(p) = ", p);
-
-#endif
 }
