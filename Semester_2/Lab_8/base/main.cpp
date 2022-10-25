@@ -4,13 +4,15 @@
 // Этот метод применяется при k от 1 до n-1
 
 #include "sort.h"
-#define N 15 // кол-во элементов
+#define N 15  // кол-во элементов
 
 int main() {
-  int arr[N] = {7,2,12,16,8,17,11,13,4,1,15,20,19,3,18};
-  printf("%-11s","original:"); print_arr(arr, N);
+  int arr[N] = {7, 2, 12, 16, 8, 17, 11, 13, 4, 1, 15, 20, 19, 3, 18};
+  printf("%-11s", "original:");
+  print_arr(arr, N);
 
   // сортируем массив
   sort(arr, N);
-  printf("%-11s","sorted:"); print_arr(arr, N);
+  printf("%-11s", "sorted:");
+  print_arr(arr, N);
 }

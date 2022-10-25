@@ -30,12 +30,11 @@ void qsort(int *arr, int n) {
 
   } while (i <= j);
 
-  if (j > 0) qsort(arr, j + 1); // левый кусок
-  if (i < n) qsort(&arr[i], n - i); // правый кусок
+  if (j > 0) qsort(arr, j + 1);      // левый кусок
+  if (i < n) qsort(&arr[i], n - i);  // правый кусок
 }
 
 void print_arr(int *arr, int n) {
-  for (int i = 0; i < n; i++)
-    printf("%d ", arr[i]);
+  for (int i = 0; i < n; i++) printf("%d ", arr[i]);
   printf("\n");
 }
