@@ -2,7 +2,7 @@
 // упорядоченных по алфавиту и по количеству гласных букв
 // вывести оба списка
 
-#include "snippets.c"
+#include "snippets.h"
 #define ORDER NORMAL 
 
 void main() {

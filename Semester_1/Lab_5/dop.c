@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "reducts.c"
+#include "reducts.h"
 
 char lower(int c) {
   return c > 64 && c < 91 ? c + 32 : c;

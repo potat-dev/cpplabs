@@ -5,7 +5,7 @@
 // доп: сделать управление функциями
 // (0 - выход из цикла, 1 - удаление элемента, 2 - вставка элемента)
 
-#include "snippets.c"
+#include "snippets.h"
 
 void main() {
   file *file = read_file("input/test.txt");

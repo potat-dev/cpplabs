@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "reducts.c"
+#include "reducts.h"
 
 #define length(x) (sizeof(x) / sizeof((x)[0]))
 

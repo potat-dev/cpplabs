@@ -115,7 +115,7 @@ char *read_str() {
   return s;
 }
 
-int strlen(char *str) {
+int my_strlen(char *str) {
   int count = 0;
   for (int i = 0; str[i] != 0; i++) count++;
   return count;
@@ -140,7 +140,7 @@ void upd_word(word *w) {
 struct word *make_word(char *str, int capacity) {
   word *temp = (word*)malloc(sizeof(word));
   temp -> arr = str;
-  temp -> size = strlen(str);
+  temp -> size = my_strlen(str);
   temp -> capacity = capacity;
   upd_word(temp);
   return temp;
@@ -231,7 +231,7 @@ void edit_word(list *list, int index, char *str, int cap) {
   node *temp = get_node(list, index);
   word *word = temp -> word;
   word -> arr = str;
-  word -> size = strlen(str);
+  word -> size = my_strlen(str);
   word -> capacity = cap;
   upd_word(word);
 }
@@ -289,7 +289,7 @@ int compare_words(word *w1, word *w2, int order) {
 void insert(list *list, node *curr, char *str) {
 
   node *temp_node = (node*) malloc(sizeof(node));
-  word *temp_word = make_word(str, strlen(str));
+  word *temp_word = make_word(str, my_strlen(str));
   temp_node -> word = temp_word;
   temp_node -> next = curr -> next;
   temp_node -> prev = curr;
