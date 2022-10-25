@@ -6,11 +6,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "reducts.h"
 
-char lower(int c) {
-  return c > 64 && c < 91 ? c + 32 : c;
-}
+char lower(int c) { return c > 64 && c < 91 ? c + 32 : c; }
 
 int len = 0;
 char *readstr() {
@@ -36,13 +35,12 @@ int lenght(const char *s) {
   return count;
 }
 
-
 void main() {
   printf("Input string:\n");
   char *str = readstr();
 
   printf("\nString after replace:\n");
-  
+
   for (int i = 0; i < len; i++) {
     int ch_flag = 1;
     for (int w = 0; w < W_COUNT; w++) {

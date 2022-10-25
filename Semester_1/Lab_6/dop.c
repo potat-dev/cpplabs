@@ -13,28 +13,29 @@ void main() {
 
   int running = 1;
   while (running) {
-
     int option, id, id2, order;
     printf("Enter option >> ");
     scanf("%d", &option);
 
     switch (option) {
-      case HELP: // working!
+      case HELP:  // working!
         printf("\nAvailable commands:\n");
-        printf("0 - EXIT\n1 - HELP\n2 - REMOVE\n3 - INSERT\n4 - SORT\n5 - SORTx2\n9 - PRINT\n\n");
+        printf(
+            "0 - EXIT\n1 - HELP\n2 - REMOVE\n3 - INSERT\n4 - SORT\n5 - "
+            "SORTx2\n9 - PRINT\n\n");
         break;
 
-      case EXIT: // working!
+      case EXIT:  // working!
         running = 0;
         break;
 
-      case REMOVE: // working!
+      case REMOVE:  // working!
         printf("Enter node index to delete: ");
         scanf("%d", &id);
         remove_node(words, id);
         break;
 
-      case INSERT: // working!
+      case INSERT:  // working!
         printf("Enter index: ");
         scanf("%d", &id);
         printf("Enter word: ");
@@ -43,19 +44,19 @@ void main() {
         insert(words, curr, str);
         break;
 
-      case SORT: // working!
-        printf("Enter sort type and order: "); // see type in snippets
+      case SORT:                                // working!
+        printf("Enter sort type and order: ");  // see type in snippets
         scanf("%d %d", &id, &order);
         sort_list(words, id, order);
         break;
 
-      case SORTx2: // working!
+      case SORTx2:  // working!
         printf("Enter sort types and order: ");
         scanf("%d %d %d", &id, &id2, &order);
         double_sort(words, id, id2, order);
         break;
-      
-      case PRINT: // working!
+
+      case PRINT:  // working!
         print_list(words);
         break;
 

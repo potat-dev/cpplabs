@@ -1,6 +1,7 @@
-// Ввести строку
-// Вывести различные слова вместе с количеством их появления в строке
-// * Вывести их по алфавиту
+// Ввести строку, вывести различные слова
+// вместе с количеством их появления в строке
+
+// доп: Вывести их по алфавиту
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,8 +15,7 @@
 int strcmp(const char *s1, const char *s2) {
   unsigned char c1, c2;
   while ((c1 = *s1++) == (c2 = *s2++))
-    if (c1 == '\0')
-      return 0;
+    if (c1 == '\0') return 0;
   return c1 - c2;
 }
 
@@ -37,9 +37,14 @@ void main() {
   int word = 0, k = 0;
   for (int i = 0; i <= len(str); i++)
     if (str[i] == ' ' || str[i] == '\0' || str[i] == '\n') {
-      words[word][k] = '\0'; word++; k = 0;
+      words[word][k] = '\0';
+      word++;
+      k = 0;
       if (str[i] == '\n') break;
-    } else { words[word][k] = str[i]; k++; }
+    } else {
+      words[word][k] = str[i];
+      k++;
+    }
 
   // counting words
   int curr_w = 0, flag = 0;
@@ -47,8 +52,11 @@ void main() {
   for (int w = 0; w < word; w++) {
     int count = 1;
     for (int i = 0; i < word; i++)
-      if (strcmp(words[i], words[w]) == 0 && w != i && strcmp(words[i], "\0") != 0)
-        { strcopy(words[i], "\0"); count++; }
+      if (strcmp(words[i], words[w]) == 0 && w != i &&
+          strcmp(words[i], "\0") != 0) {
+        strcopy(words[i], "\0");
+        count++;
+      }
     if (strcmp(words[w], "\0") != 0) counts[curr_w] = count;
     curr_w++;
   }
@@ -57,15 +65,15 @@ void main() {
   char temp[WORDS_LEN];
   int t = 0;
   for (int i = 0; i <= curr_w; i++)
-    for (int j = i+1; j <= curr_w; j++)
+    for (int j = i + 1; j <= curr_w; j++)
       if (strcmp(words[i], words[j]) > 0) {
-        strcopy(temp,words[i]);
-        strcopy(words[i],words[j]);
-        strcopy(words[j],temp);
+        strcopy(temp, words[i]);
+        strcopy(words[i], words[j]);
+        strcopy(words[j], temp);
         t = counts[i];
         counts[i] = counts[j];
         counts[j] = t;
-  }
+      }
 
   for (int i = 0; i <= curr_w; i++)
     if (strcmp(words[i], "\0") != 0)
