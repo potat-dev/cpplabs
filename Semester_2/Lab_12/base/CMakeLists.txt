@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.0)
+
+# Название проекта
+project(Lab_12_base)
+
+# Создает исполняемый файл
+add_executable(Lab_12_base main.cpp HugeInt.cpp)
+
+# Скопировать файлы в папку сборки
+configure_file(input.txt input.txt COPYONLY)

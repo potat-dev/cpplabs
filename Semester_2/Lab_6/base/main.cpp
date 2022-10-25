@@ -6,7 +6,7 @@
 #define ORDER NORMAL
 
 int main() {
-  file *file = read_file("input/medium.txt");
+  file *file = read_file("input.txt");
   list *words = parse_file(file);
 
   printf("\n---- NOT SORTED -----\n");
@@ -19,6 +19,6 @@ int main() {
   printf("\n---- VOWELS SORT ----\n");
   sort_list(words, VOWELS, ORDER);
   print_list(words);
-  
+
   destroy(words);
 }

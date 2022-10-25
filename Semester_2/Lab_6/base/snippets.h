@@ -7,21 +7,21 @@ struct list;
 struct word;
 
 // конфиги
-#define NORMAL   0
-#define REVERSE  1
+#define NORMAL 0
+#define REVERSE 1
 
 #define ALPHABET 0
-#define LENGTH   1
-#define VOWELS   2
-#define CONSNTS  3
+#define LENGTH 1
+#define VOWELS 2
+#define CONSNTS 3
 
-#define EXIT   0
-#define HELP   1
+#define EXIT 0
+#define HELP 1
 #define REMOVE 2
 #define INSERT 3
-#define SORT   4
+#define SORT 4
 #define SORTx2 5
-#define PRINT  9
+#define PRINT 9
 
 int file_size(FILE *file);
 file *read_file(const char *path);
@@ -55,4 +55,3 @@ int need_swap(word *w1, word *w2, int sort_type, int reverse);
 void sort_list(list *list, int sort_type, int reverse);
 void double_sort(list *list, int sort_1, int sort_2, int order);
 void double_sort_2(list *list, int sort_1, int sort_2, int order);
-// void remove_duplicates(list *list);
