@@ -5,13 +5,9 @@
 // файлы после обработки заголовков читать целиком в динамически выделенную
 // память
 
-#include <cstdlib>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
-#include <string>
-
-#include "stdio.h"
 
 using namespace std;
 
@@ -43,116 +39,77 @@ struct __attribute__((__packed__)) BGR {
   uint8_t Red;    // (1) Красный
 };
 
-// rgb brightness calculation
-uint8_t rgb_brightness(BGR rgb) {
-  return (uint8_t)(0.299 * rgb.Red + 0.587 * rgb.Green + 0.114 * rgb.Blue);
-}
-
-void pretty_print(BGR **pixels, int h, int w) {
-  for (int y = h - 1; y >= 0; y--) {
-    for (int x = 0; x < w; x++)
-      cout << (rgb_brightness(pixels[y][x]) > 128 ? " " : "#");
-      // printf("%02X %02X %02X | ", pixels[y][x].Red, pixels[y][x].Green,
-      //        pixels[y][x].Blue);
-    printf("\n");
+int main(int argc, char* argv[]) {
+  if (argc != 3) {
+    cout << "Usage: " << argv[0] << " <input file> <output file>" << endl;
+    return 1;
   }
-}
 
-int main() {
-  ifstream fin("kek2.bmp", ios::binary);
+  ifstream fin(argv[1], ios::binary);
   if (!fin.is_open()) {
-    cout << "Error opening file" << endl;
+    cout << "Error: can't open file " << argv[1] << endl;
     return 1;
   }
 
-  BitMapFileHeader file;
-  fin.read((char *)&file, sizeof(file));
-
-  BitMapInfoHeader image;
-  fin.read((char *)&image, sizeof(image));
-
-  cout << "Type:            " << hex << file.Type << endl;
-  cout << "Size:            " << dec << file.Size << endl;
-  cout << "Reserved1:       " << dec << file.Reserv1 << endl;
-  cout << "Reserved2:       " << dec << file.Reserv2 << endl;
-  cout << "OffsetBits:      " << dec << file.Offset << endl;
-  cout << "Size:            " << dec << image.Size << endl;
-  cout << "Width:           " << dec << image.Width << endl;
-  cout << "Height:          " << dec << image.Height << endl;
-  cout << "Planes:          " << dec << image.Planes << endl;
-  cout << "BitCount:        " << dec << image.BitCount << endl;
-  cout << "Compression:     " << dec << image.Compress << endl;
-  cout << "SizeImage:       " << dec << image.SizeImage << endl;
-  cout << "XpelsPerMeter:   " << dec << image.XpelsPerM << endl;
-  cout << "YpelsPerMeter:   " << dec << image.YpelsPerM << endl;
-  cout << "ColorsUsed:      " << dec << image.Colors << endl;
-  cout << "ColorsImportant: " << dec << image.Palette << endl;
-
-  // go to the start of the image data
-  fin.seekg(file.Offset, ios::beg);
-
-  BGR **pixels = new BGR *[image.Height];
-  for (int i = 0; i < image.Height; i++) pixels[i] = new BGR[image.Width];
-
-  for (int y = 0; y < image.Height; y++) {
-    for (int x = 0; x < image.Width; x++) {
-      fin.read((char *)&pixels[y][x], sizeof(BGR));
-    }
-    // skip padding
-    fin.seekg((4 - (image.Width * 3) % 4) % 4, ios::cur);
-  }
-
-  pretty_print(pixels, image.Height, image.Width);
-
-  BGR **rotated = new BGR *[image.Width];
-  for (int i = 0; i < image.Width; i++) rotated[i] = new BGR[image.Height];
-
-  // rotate 90 degrees ccw
-  BitMapFileHeader rotated_file = file;
-  BitMapInfoHeader rotated_image = image;
-  rotated_image.Width = image.Height;
-  rotated_image.Height = image.Width;
-
-  // rotate 90 degrees ccw
-  for (int y = 0; y < rotated_image.Height; y++)
-    for (int x = 0; x < rotated_image.Width; x++)
-      rotated[rotated_image.Height - y - 1][x] = pixels[x][y];
-
-  cout << "\n\n\nROTATED\n\n\n";
-  pretty_print(rotated, rotated_image.Height, rotated_image.Width);
-
-  // rotate 90 degrees cw
-  // for (int y = 0; y < image.Height; y++)
-  // for (int x = 0; x < image.Width; x++)
-  //   rotated2[image.Width - x - 1][y] = pixels[y][x];
-
-  // write to file
-  ofstream fout("output.bmp", ios::binary);
+  ofstream fout(argv[2], ios::binary);
   if (!fout.is_open()) {
-    cout << "Error opening file" << endl;
+    cout << "Error: can't open file " << argv[2] << endl;
     return 1;
   }
 
-  // image.Width = image.Height;
-  // image.Height = image.Width;
+  BitMapFileHeader fileHeader;
+  BitMapInfoHeader infoHeader;
 
-  fout.write((char *)&rotated_file, sizeof(file));
-  cout << "Done!" << endl;
-  fout.write((char *)&rotated_image, sizeof(image));
-  cout << "Done!" << endl;
+  fin.read(reinterpret_cast<char*>(&fileHeader), sizeof(fileHeader));
+  fin.read(reinterpret_cast<char*>(&infoHeader), sizeof(infoHeader));
 
-  // go to the start of the image data
-  fout.seekp(rotated_file.Offset, ios::beg);
-  cout << "Done!" << endl;
-
-  // write image data
-  for (int y = 0; y < rotated_image.Height; y++) {
-    for (int x = 0; x < rotated_image.Width; x++) {
-      fout.write((char *)&rotated[y][x], sizeof(BGR));
-    }
-    // add padding
-    fout.seekp((4 - (rotated_image.Width * 3) % 4) % 4, ios::cur);
+  if (fileHeader.Type != 0x4D42) {
+    cout << "Error: file " << argv[1] << " is not BMP file" << endl;
+    return 1;
   }
 
-  cout << "Done!" << endl;
+  if (infoHeader.BitCount != 24) {
+    cout << "Error: file " << argv[1] << " is not 24-bit BMP file" << endl;
+    return 1;
+  }
+
+  BGR** pixels = new BGR*[infoHeader.Height];
+  uint32_t padding = (4 - (infoHeader.Width * 3) % 4) % 4;
+
+  // read pixels
+  fin.seekg(fileHeader.Offset, ios::beg);
+  for (int y = 0; y < infoHeader.Height; ++y) {
+    pixels[y] = new BGR[infoHeader.Width];
+    for (int x = 0; x < infoHeader.Width; ++x) {
+      fin.read(reinterpret_cast<char*>(&pixels[y][x]), sizeof(BGR));
+    }
+    fin.seekg(padding, ios::cur);
+  }
+
+  BitMapInfoHeader newInfoHeader = infoHeader;
+  newInfoHeader.Width = infoHeader.Height;
+  newInfoHeader.Height = infoHeader.Width;
+
+  BGR** newPixels = new BGR*[newInfoHeader.Height];
+  for (int y = 0; y < newInfoHeader.Height; ++y) {
+    newPixels[newInfoHeader.Height - y - 1] = new BGR[newInfoHeader.Width];
+    for (int x = 0; x < newInfoHeader.Width; ++x) {
+      newPixels[newInfoHeader.Height - y - 1][x] = pixels[x][y];
+    }
+  }
+
+  fout.write(reinterpret_cast<char*>(&fileHeader), sizeof(fileHeader));
+  fout.write(reinterpret_cast<char*>(&newInfoHeader), sizeof(newInfoHeader));
+
+  fout.seekp(fileHeader.Offset, ios::beg);
+  padding = (4 - (newInfoHeader.Width * 3) % 4) % 4;
+
+  for (int y = 0; y < newInfoHeader.Height; ++y) {
+    for (int x = 0; x < newInfoHeader.Width; ++x) {
+      fout.write(reinterpret_cast<char*>(&newPixels[y][x]), sizeof(BGR));
+    }
+    fout.seekp(padding, ios::cur);
+  }
+
+  return 0;
 }
