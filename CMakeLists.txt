@@ -4,4 +4,5 @@ project(SUAI-Labs)
 
 add_subdirectory(Semester_1)
 add_subdirectory(Semester_2)
+add_subdirectory(Practice)
 add_subdirectory(Semester_3)
