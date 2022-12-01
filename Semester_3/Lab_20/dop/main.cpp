@@ -110,7 +110,7 @@ class Graph {
           fout << "  " << a << " -> " << b << " [color=green]" << endl;
           break;
         case EdgeType::BACK:
-          fout << "  " << b << " -> " << a << " [color=red]" << endl;
+          fout << "  " << a << " -> " << b << " [color=red]" << endl;
           break;
         case EdgeType::CROSS:
           fout << "  " << a << " -> " << b << " [color=blue]" << endl;
@@ -146,6 +146,6 @@ int main() {
 
 #ifdef DOP
   // сохраняем граф в формате Graphviz
-  g.exportGraphviz("graph.dot");
+  g.exportGraphviz("../../../../Semester_3/Lab_20/dop/graph.dot");
 #endif
 }
