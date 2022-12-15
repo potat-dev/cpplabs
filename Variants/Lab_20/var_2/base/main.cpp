@@ -22,11 +22,11 @@ class Graph {
   vector<int> parent;       // родитель вершины
   int root;                 // корень дерева обхода
 
-  // список ребер {(начало, конец): тип}
+  // список ребер {{начало, конец}: тип}
   map<pair<int, int>, EdgeType> edges;
 
  public:
-  Graph(string filename) { // конструктор
+  Graph(string filename) {  // конструктор
     ifstream fin(filename);
     if (!fin.is_open()) throw runtime_error("File not found");
     fin >> root;
@@ -90,9 +90,9 @@ class Graph {
   }
 
   void printEdges() {
-    for (auto edge : edges) {
-      int a = edge.first.first, b = edge.first.second;
-      switch (edge.second) {
+    for (auto [key, value] : edges) {
+      int a = key.first, b = key.second;
+      switch (value) {
         case EdgeType::TREE:
           cout << a << " --> " << b << " tree" << endl;
           break;
