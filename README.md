@@ -1,6 +1,6 @@
-# `SUAI` Programming Labs
+# `SUAI` C++ Labs
 
-A repository for learning C, C++ and the basics of Git in SUAI
+A repository for learning C/C++, CMake and the basics of Git in SUAI
 
 [![CMake](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/cmake.yml/badge.svg)](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/cmake.yml)
 [![CodeQL](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/codeql.yml/badge.svg)](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/codeql.yml)
@@ -14,66 +14,26 @@ The report with the lab results: [Google Sheets](https://docs.google.com/spreads
 
 ## Status and links
 
-Click on the ✅ to go to the lab folder
-
-<!-- TODO: merge all tables into one -->
-
 <details>
 <summary>
-Semester 1
+Labs ready: <code>20 / 20</code>  
 </summary>
 <p></p>
 
-Labs now ready: <code>7 / 7</code>
+| Lab         |            Base             |            Dop             | Lab          |             Base             |             Dop             |
+| :---------- | :-------------------------: | :------------------------: | :----------- | :--------------------------: | :-------------------------: |
+| Sem 1 lab 0 |   [✔️](Semester_1/Lab_0)    |   [✔️](Semester_1/Lab_0)   | Sem 2 lab 10 | [✔️](Semester_2/Lab_10/base) | [✔️](Semester_2/Lab_10/dop) |
+| Sem 1 lab 1 |   [✔️](Semester_1/Lab_1)    |   [✔️](Semester_1/Lab_1)   | Sem 2 lab 11 | [✔️](Semester_2/Lab_11/base) | [✔️](Semester_2/Lab_11/dop) |
+| Sem 1 lab 2 |   [✔️](Semester_1/Lab_2)    |   [✔️](Semester_1/Lab_2)   | Sem 2 lab 12 | [✔️](Semester_2/Lab_12/base) | [✔️](Semester_2/Lab_12/dop) |
+| Sem 1 lab 3 |   [✔️](Semester_1/Lab_3)    |   [✔️](Semester_1/Lab_3)   | Sem 2 lab 13 | [✔️](Semester_2/Lab_13/base) | [⚠](Semester_2/Lab_13/dop)  |
+| Sem 1 lab 4 |   [✔️](Semester_1/Lab_4)    |   [✔️](Semester_1/Lab_4)   | Sem 2 lab 14 | [✔️](Semester_2/Lab_14/base) | [✔️](Semester_2/Lab_14/dop) |
+| Sem 1 lab 5 |   [✔️](Semester_1/Lab_5)    |   [✔️](Semester_1/Lab_5)   | Sem 2 lab 15 |  [✔️](Practice/Lab_15/base)  |  [✔️](Practice/Lab_15/dop)  |
+| Sem 1 lab 6 |   [✔️](Semester_1/Lab_6)    |   [✔️](Semester_1/Lab_6)   | Sem 2 lab 16 |  [✔️](Practice/Lab_16/base)  |  [✔️](Practice/Lab_16/dop)  |
+| Sem 2 lab 7 | [✔️](Semester_2/Lab_7/base) | [✔️](Semester_2/Lab_7/dop) | Sem 3 lab 17 | [✔️](Semester_3/Lab_17/base) | [✔️](Semester_3/Lab_17/dop) |
+| Sem 2 lab 8 | [✔️](Semester_2/Lab_8/base) | [✔️](Semester_2/Lab_8/dop) | Sem 3 lab 18 | [✔️](Semester_3/Lab_18/base) | [✔️](Semester_3/Lab_18/dop) |
+| Sem 2 lab 9 | [✔️](Semester_2/Lab_9/base) | [✔️](Semester_2/Lab_9/dop) | Sem 3 lab 20 | [✔️](Semester_3/Lab_20/base) | [✔️](Semester_3/Lab_20/dop) |
 
-| Lab   |          Base          |          Dop           |
-| :---- | :--------------------: | :--------------------: |
-| Lab 0 | [✅](Semester_1/Lab_0) | [✅](Semester_1/Lab_0) |
-| Lab 1 | [✅](Semester_1/Lab_1) | [✅](Semester_1/Lab_1) |
-| Lab 2 | [✅](Semester_1/Lab_2) | [✅](Semester_1/Lab_2) |
-| Lab 3 | [✅](Semester_1/Lab_3) | [✅](Semester_1/Lab_3) |
-| Lab 4 | [✅](Semester_1/Lab_4) | [✅](Semester_1/Lab_4) |
-| Lab 5 | [✅](Semester_1/Lab_5) | [✅](Semester_1/Lab_5) |
-| Lab 6 | [✅](Semester_1/Lab_6) | [✅](Semester_1/Lab_6) |
-
-</details>
-
-<details>
-<summary>
-Semester 2
-</summary>
-<p></p>
-
-Labs now ready: <code>8 / 8</code>
-
-| Lab    |             Base             |             Dop             |
-| :----- | :--------------------------: | :-------------------------: |
-| Lab 7  | [✅](Semester_2/Lab_7/base)  | [✅](Semester_2/Lab_7/dop)  |
-| Lab 8  | [✅](Semester_2/Lab_8/base)  | [✅](Semester_2/Lab_8/dop)  |
-| Lab 9  | [✅](Semester_2/Lab_9/base)  | [✅](Semester_2/Lab_9/dop)  |
-| Lab 10 | [✅](Semester_2/Lab_10/base) | [✅](Semester_2/Lab_10/dop) |
-| Lab 11 | [✅](Semester_2/Lab_11/base) | [✅](Semester_2/Lab_11/dop) |
-| Lab 12 | [✅](Semester_2/Lab_12/base) | [✅](Semester_2/Lab_12/dop) |
-| Lab 13 | [✅](Semester_2/Lab_13/base) | [⚠](Semester_2/Lab_13/dop)  |
-| Lab 14 | [✅](Semester_2/Lab_14/base) | [✅](Semester_2/Lab_14/dop) |
-
-<!-- TODO: Lab 13 dop -->
-
-</details>
-
-<details>
-<summary>
-Semester 3
-</summary>
-<p></p>
-
-Labs now ready: <code>3 / 3</code>
-
-| Lab    |             Base             |             Dop             |
-| :----- | :--------------------------: | :-------------------------: |
-| Lab 17 | [✅](Semester_3/Lab_17/base) | [✅](Semester_3/Lab_17/dop) |
-| Lab 18 | [✅](Semester_3/Lab_18/base) | [✅](Semester_3/Lab_18/dop) |
-| Lab 20 | [✅](Semester_3/Lab_20/base) | [✅](Semester_3/Lab_20/dop) |
+> Click on the check to go to the lab folder
 
 </details>
 
