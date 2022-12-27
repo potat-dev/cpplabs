@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.12)
 
+# Название проекта
 project(Semester_2)
 
+# Добавление подпроектов
 add_subdirectory(Lab_6)
 add_subdirectory(Lab_7)
 add_subdirectory(Lab_8)

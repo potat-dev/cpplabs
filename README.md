@@ -1,6 +1,6 @@
 # `SUAI` C++ Labs
 
-A repository for learning C/C++, CMake and the basics of Git in SUAI
+A repository for learning Git, C/C++ and CMake in SUAI
 
 [![CMake](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/cmake.yml/badge.svg)](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/cmake.yml)
 [![CodeQL](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/codeql.yml/badge.svg)](https://github.com/cyberpotat42/SUAI-Labs/actions/workflows/codeql.yml)
@@ -10,35 +10,57 @@ A repository for learning C/C++, CMake and the basics of Git in SUAI
 File with tasks for laboratory works: [Google Docs](https://docs.google.com/document/d/1xrpJrEPfF8pt5H5FsIfXumKFvwkoEy_wYpgZskR7_lA/)  
 My formatted Lab tasks: [TASKS.md](TASKS.md)
 
-<!-- TODO: Backup Google Sheets with labs -->
-<!-- The report with the lab results: [Google Sheets](https://docs.google.com/spreadsheets/d/1lntWU4vhTECSaRqylbBAyvFPDyTe_JTkbdczJ-7RJFQ/) -->
-<!-- Ready-made variants are listed here: [STATUS.md](STATUS.md)   -->
+## Build
 
-## Ready status
+### Requirements
 
-<details>
-<summary>
-Labs ready: <code>20 / 20</code>  
-</summary>
-<p></p>
+- CMake 3.12+ (3.20+ recommended)
+- C++17 compiler (GCC, Clang, MSVC)
 
-| Lab         |            Base             |            Dop             | Lab          |             Base             |              Dop               |
-| :---------- | :-------------------------: | :------------------------: | :----------- | :--------------------------: | :----------------------------: |
-| Sem 1 lab 0 |   [✔️](Semester_1/Lab_0)    |   [✔️](Semester_1/Lab_0)   | Sem 2 lab 10 | [✔️](Semester_2/Lab_10/base) |  [✔️](Semester_2/Lab_10/dop)   |
-| Sem 1 lab 1 |   [✔️](Semester_1/Lab_1)    |   [✔️](Semester_1/Lab_1)   | Sem 2 lab 11 | [✔️](Semester_2/Lab_11/base) |  [✔️](Semester_2/Lab_11/dop)   |
-| Sem 1 lab 2 |   [✔️](Semester_1/Lab_2)    |   [✔️](Semester_1/Lab_2)   | Sem 2 lab 12 | [✔️](Semester_2/Lab_12/base) |  [✔️](Semester_2/Lab_12/dop)   |
-| Sem 1 lab 3 |   [✔️](Semester_1/Lab_3)    |   [✔️](Semester_1/Lab_3)   | Sem 2 lab 13 | [✔️](Semester_2/Lab_13/base) |   [⚠](Semester_2/Lab_13/dop)   |
-| Sem 1 lab 4 |   [✔️](Semester_1/Lab_4)    |   [✔️](Semester_1/Lab_4)   | Sem 2 lab 14 | [✔️](Semester_2/Lab_14/base) |  [✔️](Semester_2/Lab_14/dop)   |
-| Sem 1 lab 5 |   [✔️](Semester_1/Lab_5)    |   [✔️](Semester_1/Lab_5)   | Sem 2 lab 15 |  [✔️](Practice/Lab_15/base)  | [✔️](Practice/Lab_15/extended) |
-| Sem 1 lab 6 |   [✔️](Semester_1/Lab_6)    |   [✔️](Semester_1/Lab_6)   | Sem 2 lab 16 |  [⚠](Practice/Lab_16/base)   | [⚠](Practice/Lab_16/extended)  |
-| Sem 2 lab 7 | [✔️](Semester_2/Lab_7/base) | [✔️](Semester_2/Lab_7/dop) | Sem 3 lab 17 | [✔️](Semester_3/Lab_17/base) |  [✔️](Semester_3/Lab_17/dop)   |
-| Sem 2 lab 8 | [✔️](Semester_2/Lab_8/base) | [✔️](Semester_2/Lab_8/dop) | Sem 3 lab 18 | [✔️](Semester_3/Lab_18/base) |  [✔️](Semester_3/Lab_18/dop)   |
-| Sem 2 lab 9 | [✔️](Semester_2/Lab_9/base) | [✔️](Semester_2/Lab_9/dop) | Sem 3 lab 20 | [✔️](Semester_3/Lab_20/base) |  [✔️](Semester_3/Lab_20/dop)   |
+Tested on:
 
-> Click on the icon to go to the lab folder
+- GCC 12.2.0 (MinGW-w64, Windows 10)
+- GCC 9.4.0 (Ubuntu 20.04, WSL2)
 
-</details>
+Some labs may require additional libraries / tools:
 
-## Total time spent on labs
+- [nlohmann/json](https://github.com/nlohmann/json) (for Lab 17 dop)
+- [Graphviz](https://graphviz.org/) (for Lab 20 dop)
+
+### Build steps
+
+1. Clone the repository
+
+   ```bash
+   git clone https://github.com/cypotat/SUAI-Labs.git
+   cd SUAI-Labs
+   ```
+
+2. Create a build directory
+
+   ```bash
+   mkdir build
+   cd build
+   ```
+
+3. Generate build files
+
+   ```bash
+   cmake ..
+   ```
+
+4. Build the project
+
+   ```bash
+   cmake --build .
+   ```
+
+   If you want to build a specific lab, you can specify the target name
+
+   ```bash
+    cmake --build . --target Lab_20_base
+   ```
+
+## Time spent on labs
 
 [![wakatime](https://wakatime.com/badge/user/44ab2413-c50e-4335-a9cd-7990b8ed9c8b/project/40f4ff13-1639-42ba-a9dd-a503aca9302c.svg)](https://wakatime.com/@CyberPotat42)
