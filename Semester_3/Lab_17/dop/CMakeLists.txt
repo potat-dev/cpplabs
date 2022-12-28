@@ -1,20 +1,24 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.12)
+
 include(FetchContent)
 
 # Название проекта
 project(Lab_17_dop)
 
-# Отображаем процесс скачивания библиотеки
+# Отображает сообщение
+message(STATUS "Downloading json")
+
+# Отображает прогресс скачивания
 set(FETCHCONTENT_QUIET OFF)
 
-# Скачиваем библиотеку
-FetchContent_Declare(json
-    URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
-    DOWNLOAD_EXTRACT_TIMESTAMP 0
-)
+# Скачивает библиотеку
+FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
 
-# Добавляем библиотеку
+# Устанавливает библиотеку
 FetchContent_MakeAvailable(json)
+
+# Отображает сообщение
+message(STATUS "Downloading json done")
 
 # Создает исполняемый файл
 add_executable(Lab_17_dop main.cpp)
