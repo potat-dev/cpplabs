@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.12)
 
-# Project name
+# Название проекта
 project(SUAI-Labs)
 
-# Set C++ standard
+# Настройка CMake
 set(CMAKE_CXX_STANDARD 17)
 
-# Semester Labs
+# Подключение лабораторных работ
 add_subdirectory(Semester_1)
 add_subdirectory(Semester_2)
 add_subdirectory(Semester_3)
 
-# Practice Labs
+# Подключение практических работ
 add_subdirectory(Practice)
