@@ -8,7 +8,7 @@ void main() {
   int arr[10] = {0};
 
   printf("Input 10 integers:\n");
-  for (int i = 0; i < 10; i++) scanf("%ld", &arr[i]);
+  for (int i = 0; i < 10; i++) scanf("%d", &arr[i]);
 
   for (int i = 1; i < 9; i++)
     if (arr[i] > arr[i + 1] && arr[i] > arr[i - 1]) {

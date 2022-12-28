@@ -30,7 +30,7 @@ int main() {
   sort(arr, N);  // сортировка вставками
   auto end = chrono::steady_clock::now();
   auto time = chrono::duration_cast<chrono::milliseconds>(end - begin);
-  printf("Sort time elapsed: %lld ms\n", time.count());
+  printf("Sort time elapsed: %ld ms\n", time.count());
 
   // измряем время быстрой сортировки
   for (int i = 0; i < N; i++) temp[i] = arr[i];
@@ -38,7 +38,7 @@ int main() {
   qsort(arr, N);  // быстрая сортировка
   end = chrono::steady_clock::now();
   time = chrono::duration_cast<chrono::milliseconds>(end - begin);
-  printf("qSort time elapsed: %lld ms\n", time.count());
+  printf("qSort time elapsed: %ld ms\n", time.count());
 
 #ifdef OUTPUT
   printf("%-11s", "sorted:");

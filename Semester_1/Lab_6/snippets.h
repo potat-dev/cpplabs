@@ -198,7 +198,7 @@ void print_list(list *list) {
   printf("---------------------\n");
   for (size_t i = 0; i < list->size; i++) {
     word *temp = get_word(list, i);
-    printf("%d -- %s\n", i, temp->arr);
+    printf("%ld -- %s\n", i, temp->arr);
     printf("---------------------\n");
   }
 }
