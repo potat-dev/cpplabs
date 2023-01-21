@@ -8,7 +8,7 @@ using namespace std;
 
 #if VERSION == 0
 
-  #include "binom_koeff_v0.h"
+  #include "binom_v0.h"
 
   int main() {
     for (int i = 0; i <= 8; i++)
@@ -17,7 +17,7 @@ using namespace std;
 
 #elif VERSION == 1 
 
-  #include "binom_koeff_v1.h"
+  #include "binom_v1.h"
 
   int main() {
     cout << "c(9,  7) = " << c(9,  7) << endl; // 36
@@ -32,7 +32,7 @@ using namespace std;
 
 #elif VERSION == 2
 
-  #include "optimal_binom.h"
+  #include "binom_optimal.h"
 
   int main() {
     uint64_t arr[5][3] = {

@@ -7,15 +7,16 @@ A repository for learning Git, C/C++ and CMake in SUAI
 
 ## Useful links
 
-File with tasks for laboratory works: [Google Docs](https://docs.google.com/document/d/1xrpJrEPfF8pt5H5FsIfXumKFvwkoEy_wYpgZskR7_lA/)  
-My formatted Lab tasks: [TASKS.md](TASKS.md)
+Tasks for laboratory works: [Google Docs](https://docs.google.com/document/d/1xrpJrEPfF8pt5H5FsIfXumKFvwkoEy_wYpgZskR7_lA/)  
+My formatted Lab tasks: [TASKS.md](TASKS.md)  
+Formatted reports: [Google Drive](https://drive.google.com/drive/folders/1gj9lEsKWZlvJXa8zt8tXn1vKMhPW0Kju)
 
 ## Build
 
 ### Requirements
 
-- CMake 3.12+ (3.20+ recommended)
 - C++17 compiler (GCC, Clang, MSVC)
+- CMake 3.12+ (3.20+ recommended)
 
 Tested on:
 
@@ -32,8 +33,7 @@ Some labs may require additional libraries / tools:
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/cypotat/SUAI-Labs.git
-   cd SUAI-Labs
+   git clone https://github.com/cypotat/cpplabs.git
    ```
 
 2. Create a build directory
@@ -58,7 +58,13 @@ Some labs may require additional libraries / tools:
    If you want to build a specific lab, you can specify the target name
 
    ```bash
-    cmake --build . --target Lab_20_base
+    cmake --build . --target Lab_20_dop
+   ```
+
+   If you want to build a debug version, you can specify the build type
+
+   ```bash
+   cmake --build . --config Debug
    ```
 
 ## Time spent on labs
